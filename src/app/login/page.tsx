@@ -9,23 +9,27 @@ import { ArrowRight } from "lucide-react";
 import { useUserlogin } from "@/hooks/auth.hook";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+
+import { getCurrentUser } from "@/services/authService";
 import { AuthContext } from "@/providers/AuthProvider";
 
 const LoginPage = () => {
-  const userdata = useContext(AuthContext);
+  const authData = useContext(AuthContext);
 
-  console.log(userdata?.user, "gg");
   const router = useRouter();
-  const { mutate, isPending, error } = useUserlogin();
-  console.log(isPending, error);
+  const { mutate } = useUserlogin();
+
   const onFromSubmit = async (data: FieldValues) => {
-    console.log(data);
     mutate(data, {
-      onSuccess: (data) => {
-        console.log(data);
+      onSuccess: async () => {
+        const user = await getCurrentUser();
+        if (user && user?.role === "VENDOR") {
+          router.push(`/${(user?.role as string).toLowerCase()}/dashboard`);
+        } else {
+          router.push(`/`);
+        }
+        authData?.setIsLoading(true);
         toast.success("Welcome Back.");
-        router.push("/");
-        userdata?.setIsLoading(true);
       },
       onError: (error: Error) => {
         toast.error(error.message || "Something Went Wrong!! Try again.");
@@ -33,6 +37,7 @@ const LoginPage = () => {
       },
     });
   };
+
   return (
     <div className="w-full h-screen flex justify-center items-center ">
       <div className="w-96 ">
