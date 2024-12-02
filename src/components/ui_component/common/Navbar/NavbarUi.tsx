@@ -26,9 +26,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { FaBars } from "react-icons/fa";
 import { AuthContext } from "@/providers/AuthProvider";
+import { logout } from "@/services/authService";
 
 const NavbarUi = () => {
-  const data = useContext(AuthContext);
+  const userData = useContext(AuthContext);
 
   const navLinkList = [
     {
@@ -61,10 +62,14 @@ const NavbarUi = () => {
       name: "Home",
       link: "#",
     },
-    {
-      name: "Dashboard",
-      link: `/${data?.user?.role.toLowerCase()}/dashboard`,
-    },
+    ...(userData?.user
+      ? [
+          {
+            name: "Dashboard",
+            link: `/${userData.user?.role?.toLowerCase()}/dashboard`,
+          },
+        ]
+      : []),
   ];
 
   return (
@@ -145,11 +150,21 @@ const NavbarUi = () => {
 export default NavbarUi;
 
 const Login = () => {
+  const userData = useContext(AuthContext);
+  const logoutUser = async () => {
+    await logout();
+    userData?.setIsLoading(true);
+  };
+
   return (
     <>
       <Link href={"/login"}>
         {" "}
-        <Button>Login</Button>
+        {!userData?.user ? (
+          <Button>Login</Button>
+        ) : (
+          <Button onClick={logoutUser}>Logout</Button>
+        )}
       </Link>
     </>
   );

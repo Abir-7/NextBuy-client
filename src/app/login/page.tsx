@@ -12,9 +12,9 @@ import { useRouter } from "next/navigation";
 import { AuthContext } from "@/providers/AuthProvider";
 
 const LoginPage = () => {
-  const data = useContext(AuthContext);
+  const userdata = useContext(AuthContext);
 
-  console.log(data?.user, "gg");
+  console.log(userdata?.user, "gg");
   const router = useRouter();
   const { mutate, isPending, error } = useUserlogin();
   console.log(isPending, error);
@@ -25,6 +25,7 @@ const LoginPage = () => {
         console.log(data);
         toast.success("Welcome Back.");
         router.push("/");
+        userdata?.setIsLoading(true);
       },
       onError: (error: Error) => {
         toast.error(error.message || "Something Went Wrong!! Try again.");
