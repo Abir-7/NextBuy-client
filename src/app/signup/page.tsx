@@ -2,6 +2,7 @@
 import CButton from "@/components/ui_component/common/Form/CButton";
 import CForm from "@/components/ui_component/common/Form/CForm";
 import CInput from "@/components/ui_component/common/Form/CInput";
+import CSelect from "@/components/ui_component/common/Form/CSelect";
 import { useUserRegistration } from "@/hooks/auth.hook";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
@@ -12,9 +13,9 @@ import { toast } from "sonner";
 
 const SignupPage = () => {
   const router = useRouter();
-  const { mutate, isPending, error } = useUserRegistration();
-  console.log(error, "error");
-  console.log(isPending);
+  const { mutate, data } = useUserRegistration();
+  console.log(data, "data");
+
   const onFromSubmit = async (data: FieldValues) => {
     console.log(data);
     mutate(data, {
@@ -39,6 +40,15 @@ const SignupPage = () => {
             <CInput name="address" label="Address" type="text"></CInput>
             <CInput name="mobile" label="Mobile" type="number"></CInput>
             <CInput name="password" label="Password" type="password"></CInput>
+            <CSelect
+              text="Select Account Type"
+              options={[
+                { value: "CUSTOMER", label: "Customer" },
+                { value: "VENDOR", label: "Seller" },
+              ]}
+              name="accountType"
+              label="Open account as:"
+            ></CSelect>
             <CButton text="Submit" type="submit"></CButton>
           </div>
         </CForm>{" "}
