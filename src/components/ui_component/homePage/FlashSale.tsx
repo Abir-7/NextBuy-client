@@ -20,7 +20,7 @@ const FlashSale = () => {
   const dataToDisplay = isMobile ? array.slice(0, 6) : array;
   return (
     <div>
-      <div className="w-full justify-between py-3 flex items-center bg-black text-white px-4">
+      <div className="w-full justify-between h-10 flex items-center bg-black text-white px-4">
         <p> Flash Sale</p>
         <Button className="text-white" variant={"link"}>
           View all <ArrowRight></ArrowRight>
@@ -30,7 +30,7 @@ const FlashSale = () => {
         {dataToDisplay.map((k, i) => (
           <Card key={i} className="w-32 h-fit m-0 p-0">
             <CardHeader className=" mb-0 pb-0  px-0 py-0">
-              <div className="flex justify-center items-center  rounded-lg overflow-hidden">
+              <div className="flex justify-center items-center rounded-2xl overflow-hidden">
                 <Image
                   className=""
                   width={200}
