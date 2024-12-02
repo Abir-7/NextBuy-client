@@ -3,23 +3,32 @@ import CButton from "@/components/ui_component/common/Form/CButton";
 import CForm from "@/components/ui_component/common/Form/CForm";
 import CInput from "@/components/ui_component/common/Form/CInput";
 import Link from "next/link";
-import React from "react";
+import React, { useContext } from "react";
 import { FieldValues } from "react-hook-form";
 import { ArrowRight } from "lucide-react";
-import { useUserRegistration } from "@/hooks/auth.hook";
+import { useUserlogin } from "@/hooks/auth.hook";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { AuthContext } from "@/providers/AuthProvider";
 
 const LoginPage = () => {
-  const { mutate, isPending } = useUserRegistration();
-  console.log(isPending);
+  const data = useContext(AuthContext);
+
+  console.log(data?.user, "gg");
+  const router = useRouter();
+  const { mutate, isPending, error } = useUserlogin();
+  console.log(isPending, error);
   const onFromSubmit = async (data: FieldValues) => {
     console.log(data);
     mutate(data, {
-      onSuccess: () => {
-        toast.success("User has been created");
+      onSuccess: (data) => {
+        console.log(data);
+        toast.success("Welcome Back.");
+        router.push("/");
       },
       onError: (error: Error) => {
-        console.log(error);
+        toast.error(error.message || "Something Went Wrong!! Try again.");
+        console.log(error, "gg");
       },
     });
   };

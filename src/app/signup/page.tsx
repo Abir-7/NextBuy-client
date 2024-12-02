@@ -5,11 +5,13 @@ import CInput from "@/components/ui_component/common/Form/CInput";
 import { useUserRegistration } from "@/hooks/auth.hook";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 
 const SignupPage = () => {
+  const router = useRouter();
   const { mutate, isPending, error } = useUserRegistration();
   console.log(error, "error");
   console.log(isPending);
@@ -18,6 +20,7 @@ const SignupPage = () => {
     mutate(data, {
       onSuccess: () => {
         toast.success("User has been created");
+        router.push("/login");
       },
       onError: (error: Error) => {
         toast.success("Something Went Wrong");

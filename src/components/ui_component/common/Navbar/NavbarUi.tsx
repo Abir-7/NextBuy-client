@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useContext } from "react";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -24,45 +25,48 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { FaBars } from "react-icons/fa";
-
-const navLinkList = [
-  {
-    name: "Items",
-    child: [
-      {
-        name: "Item One",
-        link: "#",
-      },
-      {
-        name: "Item Two",
-        link: "#",
-      },
-    ],
-  },
-  {
-    name: "Itemss",
-    child: [
-      {
-        name: "Item Three",
-        link: "#",
-      },
-      {
-        name: "Item Four",
-        link: "#",
-      },
-    ],
-  },
-  {
-    name: "Home",
-    link: "#",
-  },
-  {
-    name: "Dashboard",
-    link: "/admin/dashboard",
-  },
-];
+import { AuthContext } from "@/providers/AuthProvider";
 
 const NavbarUi = () => {
+  const data = useContext(AuthContext);
+
+  const navLinkList = [
+    {
+      name: "Items",
+      child: [
+        {
+          name: "Item One",
+          link: "#",
+        },
+        {
+          name: "Item Two",
+          link: "#",
+        },
+      ],
+    },
+    {
+      name: "Itemss",
+      child: [
+        {
+          name: "Item Three",
+          link: "#",
+        },
+        {
+          name: "Item Four",
+          link: "#",
+        },
+      ],
+    },
+    {
+      name: "Home",
+      link: "#",
+    },
+    {
+      name: "Dashboard",
+      link: `/${data?.user?.role.toLowerCase()}/dashboard`,
+    },
+  ];
+
   return (
     <div className="flex justify-between w-full px-2">
       <div className="text-xl font-bold">Logo</div>
