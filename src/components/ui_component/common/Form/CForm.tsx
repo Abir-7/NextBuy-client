@@ -12,7 +12,7 @@ const CForm = ({ children, onFromSubmit }: FormProps) => {
   const onSubmit = async (data: FieldValues) => {
     await onFromSubmit(data);
     console.log(data);
-    methods.reset();
+    // methods.reset();
   };
   return (
     <FormProvider {...methods}>
