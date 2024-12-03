@@ -1,9 +1,17 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { IApiResponse } from "@/interface/apiResponse.interface";
 
 import { IShop } from "@/interface/shop.interface";
 
-import { getVendorShop } from "@/services/shopService";
-import { useQuery } from "@tanstack/react-query";
+import { addVendorShop, getVendorShop } from "@/services/shopService";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { FieldValues } from "react-hook-form";
+
+export const useAddShop = () => {
+  return useMutation<any, Error, FieldValues, unknown>({
+    mutationFn: async (data: any) => await addVendorShop(data),
+  });
+};
 
 export const useVendorShop = () => {
   return useQuery<IApiResponse<IShop[]>>({
