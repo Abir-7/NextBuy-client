@@ -21,15 +21,19 @@ interface SelectProps {
 }
 
 const CSelect = ({ name, label, text, options }: SelectProps) => {
-  const { control } = useFormContext();
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext();
 
   return (
-    <div className="grid w-full  items-center gap-1.5">
+    <div className="grid w-full items-center gap-1.5">
       <Label htmlFor={name}>{label}</Label>
       <Controller
         name={name}
         control={control}
         defaultValue=""
+        rules={{ required: `This field is required.` }}
         render={({ field }) => (
           <Select
             disabled={options.length <= 0}
@@ -41,8 +45,7 @@ const CSelect = ({ name, label, text, options }: SelectProps) => {
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                {/* <SelectLabel>Fruits</SelectLabel> */}
-                {options?.map((option, i) => (
+                {options.map((option, i) => (
                   <SelectItem key={i} value={option.value}>
                     {option.label}
                   </SelectItem>
@@ -52,6 +55,11 @@ const CSelect = ({ name, label, text, options }: SelectProps) => {
           </Select>
         )}
       />
+      {errors[name] && (
+        <p className="text-red-500 text-sm ">
+          {errors[name]?.message?.toString()}
+        </p>
+      )}
     </div>
   );
 };

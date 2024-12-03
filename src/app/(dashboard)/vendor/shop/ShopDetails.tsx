@@ -4,10 +4,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+
 import { IShop } from "@/interface/shop.interface";
+
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import EditProduct from "./EditProduct";
+import DeleteModal from "./DeleteModal";
 
 const ShopDetails = ({ shop }: { shop: IShop }) => {
   return (
@@ -36,7 +40,14 @@ const ShopDetails = ({ shop }: { shop: IShop }) => {
       <div className="text-2xl font-medium text-center mt-5">Product List</div>
       <div className="mt-6">
         {shop?.products?.map((data) => (
-          <Card key={data.productId} className="w-44">
+          <Card
+            key={data.productId}
+            className="w-44 relative overflow-hidden group  "
+          >
+            <div className="absolute w-full h-full  flex-col  gap-2 justify-center hidden group-hover:flex items-center bg-opacity-60  bg-black ">
+              <EditProduct product={data}></EditProduct>
+              <DeleteModal id={data.productId}></DeleteModal>
+            </div>
             <CardHeader className="pb-3">
               <div className="flex justify-center items-center">
                 <div className="w-32 h-32   mb-2">

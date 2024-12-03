@@ -14,12 +14,13 @@ import { FieldValues } from "react-hook-form";
 import CButton from "@/components/ui_component/common/Form/CButton";
 import CInput from "@/components/ui_component/common/Form/CInput";
 import CSelect from "@/components/ui_component/common/Form/CSelect";
-import CImage from "@/components/ui_component/common/Form/CImage";
+
 import { useAllCategory } from "@/hooks/category.hook";
 import { useVendorShop } from "@/hooks/shop.hook";
 import { uploadImagesToCloudinary } from "@/lib/utils/uploadImageArray";
 import { toast } from "sonner";
 import { useAddProduct } from "@/hooks/product.hook";
+import CImageInput from "@/components/ui_component/common/Form/CImage";
 
 const AddProduct = () => {
   const { data } = useAllCategory();
@@ -58,13 +59,14 @@ const AddProduct = () => {
       <CardContent className="">
         <CForm onFromSubmit={onFromSubmit}>
           <div className="grid gap-3">
-            <CImage name="images" label="Product Image"></CImage>
+            <CImageInput name="images" label="Product Image"></CImageInput>
 
             <CInput name="name" label="Product Name" type="text"></CInput>
             <CInput name="description" label="Description" type="text"></CInput>
             <CInput name="discounts" label="Discounts" type="number"></CInput>
             <CInput name="price" label="Price" type="number"></CInput>
             <CInput name="stock" label="Quantity" type="number"></CInput>
+            <CGroupCheckbox></CGroupCheckbox>
             <CSelect
               options={
                 data?.data
@@ -89,7 +91,6 @@ const AddProduct = () => {
               text="Select Shop"
               name="shopId"
             ></CSelect>
-            <CGroupCheckbox></CGroupCheckbox>
 
             <CButton type="submit" text="Add Product"></CButton>
           </div>

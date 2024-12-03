@@ -8,17 +8,37 @@ interface InputProps {
   name: string;
   label: string;
   type?: "text" | "email" | "password" | "number" | "date" | "file";
+  placeHolder?: string;
+  required?: boolean;
 }
 
-const CInput = ({ type, name, label }: InputProps) => {
-  const { register } = useFormContext();
+const CInput = ({
+  type,
+  name,
+  label,
+  placeHolder,
+  required = true,
+}: InputProps) => {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
+
   return (
-    <div className="grid w-full  items-center gap-1.5">
+    <div className="grid w-full items-center gap-1.5">
       <Label htmlFor={name}>{label}</Label>
       <Input
+        placeholder={placeHolder}
         type={type}
-        {...register(name, { required: `${name} is required.` })}
+        {...register(name, {
+          required: required ? "This field is required." : false,
+        })}
       />
+      {errors[name] && (
+        <p className="text-red-500 text-sm ">
+          {errors[name]?.message?.toString()}
+        </p>
+      )}
     </div>
   );
 };

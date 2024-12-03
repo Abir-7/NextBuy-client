@@ -8,10 +8,14 @@ import { useFormContext } from "react-hook-form";
 interface InputProps {
   name: string;
   label: string;
+  required?: boolean;
 }
 
-const CInput = ({ name, label }: InputProps) => {
-  const { register } = useFormContext();
+const CImageInput = ({ name, label, required = true }: InputProps) => {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
   const [previews, setPreviews] = useState<string[]>([]);
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -34,17 +38,24 @@ const CInput = ({ name, label }: InputProps) => {
   };
 
   return (
-    <div className="grid w-full  items-center gap-1.5">
+    <div className="grid w-full items-center gap-1.5">
       <Label htmlFor={name}>{label}</Label>
       <Input
         type="file"
         multiple
-        {...register(name, { required: `${name} is required.` })}
+        {...register(name, {
+          required: required ? "This field is required." : false,
+        })}
         onChange={(event) => {
           register(name).onChange?.(event);
           handleImageChange(event);
         }}
       />
+      {errors[name] && (
+        <p className="text-red-500 text-sm">
+          {errors[name]?.message?.toString()}
+        </p>
+      )}
       <div className="mt-2 grid grid-cols-3 gap-2">
         {previews.map((preview, index) => (
           <Image
@@ -61,4 +72,4 @@ const CInput = ({ name, label }: InputProps) => {
   );
 };
 
-export default CInput;
+export default CImageInput;

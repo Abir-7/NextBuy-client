@@ -14,3 +14,17 @@ export const addProduct = async (data: FieldValues) => {
     throw new Error(error?.response?.data?.message || error?.message || error);
   }
 };
+
+export const updateProduct = async (pdata: {
+  data: FieldValues;
+  id: string;
+}) => {
+  try {
+    const res = await axiosInstance.patch(`/product/${pdata.id}`, pdata.data);
+
+    return res?.data;
+  } catch (error: any) {
+    console.log(error?.response.data);
+    throw new Error(error?.response?.data?.message || error?.message || error);
+  }
+};
