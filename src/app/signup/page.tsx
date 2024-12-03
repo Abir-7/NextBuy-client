@@ -4,6 +4,8 @@ import CForm from "@/components/ui_component/common/Form/CForm";
 import CInput from "@/components/ui_component/common/Form/CInput";
 import CSelect from "@/components/ui_component/common/Form/CSelect";
 import { useUserRegistration } from "@/hooks/auth.hook";
+import { IUserToken } from "@/interface/token.interface";
+import { jwtDecode } from "jwt-decode";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -13,15 +15,20 @@ import { toast } from "sonner";
 
 const SignupPage = () => {
   const router = useRouter();
-  const { mutate, data } = useUserRegistration();
-  console.log(data, "data");
+  const { mutate } = useUserRegistration();
 
   const onFromSubmit = async (data: FieldValues) => {
     console.log(data);
     mutate(data, {
-      onSuccess: () => {
+      onSuccess: async (data) => {
+        console.log(data?.data, "token");
+        const decode = (await jwtDecode(data?.data as string)) as IUserToken;
         toast.success("User has been created");
-        router.push("/login");
+        if (decode?.role === "VENDOR") {
+          router.push(`/${(decode?.role as string).toLowerCase()}/dashboard`);
+        } else {
+          router.push("/login");
+        }
       },
       onError: (error: Error) => {
         toast.success("Something Went Wrong");
@@ -30,7 +37,7 @@ const SignupPage = () => {
     });
   };
   return (
-    <div className="w-full h-screen flex justify-center items-center ">
+    <div className="w-full h-screen flex justify-center items-center px-4">
       <div className="w-96 ">
         <CForm onFromSubmit={onFromSubmit}>
           <div className="grid gap-3">

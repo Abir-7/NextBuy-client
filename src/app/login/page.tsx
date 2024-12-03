@@ -9,8 +9,6 @@ import { ArrowRight } from "lucide-react";
 import { useUserlogin } from "@/hooks/auth.hook";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-
-import { getCurrentUser } from "@/services/authService";
 import { AuthContext } from "@/providers/AuthProvider";
 
 const LoginPage = () => {
@@ -22,12 +20,8 @@ const LoginPage = () => {
   const onFromSubmit = async (data: FieldValues) => {
     mutate(data, {
       onSuccess: async () => {
-        const user = await getCurrentUser();
-        if (user && user?.role === "VENDOR") {
-          router.push(`/${(user?.role as string).toLowerCase()}/dashboard`);
-        } else {
-          router.push(`/`);
-        }
+        router.push(`/`);
+
         authData?.setIsLoading(true);
         toast.success("Welcome Back.");
       },

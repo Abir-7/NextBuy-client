@@ -5,6 +5,7 @@ import axiosInstance from "@/lib/axiosInstance/axiosInstance";
 import config from "@/config";
 
 import { cookies } from "next/headers";
+
 export const loginUser = async (userData: {
   email: string;
   password: string;
@@ -28,11 +29,18 @@ export const loginUser = async (userData: {
 
 export const createUser = async (userData: any) => {
   try {
-    const res = await axiosInstance.post(
+    const { data } = await axiosInstance.post(
       `${config.backendApi}/user/create-user`,
       userData
     );
-    return res.data;
+
+    (await cookies()).set("accessToken", data?.data?.token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 60 * 60 * 24 * 60, // 60 days
+    });
+
+    return data;
   } catch (error: any) {
     throw new Error(error?.response?.data?.message || error.message || error);
   }

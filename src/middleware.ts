@@ -35,6 +35,11 @@ export async function middleware(request: NextRequest) {
   }
 
   //protect product details page
+  if (request.nextUrl.pathname === "/product") {
+    console.log("ff");
+    return NextResponse.next();
+  }
+  console.log("fk");
   const productDetailsPattern = /^\/product\/[^/]+$/;
   console.log(
     productDetailsPattern.test(request.nextUrl.pathname),
@@ -47,10 +52,6 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  if (request.nextUrl.pathname === "/product") {
-    console.log("ff");
-    return NextResponse.next();
-  }
   //default
   return NextResponse.redirect(new URL("/", request.url));
 }

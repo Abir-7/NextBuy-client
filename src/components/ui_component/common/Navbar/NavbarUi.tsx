@@ -28,63 +28,75 @@ import { FaBars } from "react-icons/fa";
 import { AuthContext } from "@/providers/AuthProvider";
 import { logout } from "@/services/authService";
 
+interface INavLinkChild {
+  name: string;
+  link: string;
+}
+
+interface INavLink {
+  name: string;
+  link?: string;
+  child?: INavLinkChild[];
+}
+
 const NavbarUi = () => {
   const userData = useContext(AuthContext);
 
-  const navLinkList = [
+  const navLinkList: INavLink[] = [
+    // {
+    //   name: "Items",
+    //   child: [
+    //     {
+    //       name: "Item One",
+    //       link: "#",
+    //     },
+    //     {
+    //       name: "Item Two",
+    //       link: "#",
+    //     },
+    //   ],
+    // },
+    // {
+    //   name: "Itemss",
+    //   child: [
+    //     {
+    //       name: "Item Three",
+    //       link: "#",
+    //     },
+    //     {
+    //       name: "Item Four",
+    //       link: "#",
+    //     },
+    //   ],
+    // },
     {
-      name: "Items",
-      child: [
-        {
-          name: "Item One",
-          link: "#",
-        },
-        {
-          name: "Item Two",
-          link: "#",
-        },
-      ],
-    },
-    {
-      name: "Itemss",
-      child: [
-        {
-          name: "Item Three",
-          link: "#",
-        },
-        {
-          name: "Item Four",
-          link: "#",
-        },
-      ],
-    },
-    {
-      name: "Home",
-      link: "#",
+      name: "Products",
+      link: "/product",
     },
     ...(userData?.user
       ? [
           {
             name: "Dashboard",
-            link: `/${userData.user?.role?.toLowerCase()}/dashboard`,
+            link: `/${userData.user.role?.toLowerCase()}/dashboard`,
           },
         ]
       : []),
   ];
-
   return (
-    <div className="flex justify-between w-full px-2">
-      <div className="text-xl font-bold">Logo</div>
+    <div className="flex  justify-between w-full px-2">
+      <div className="text-xl text-white font-bold">
+        <Link href={"/"}>NextBuy</Link>
+      </div>
       <div className=" gap-6 hidden md:flex">
         <NavigationMenu>
           <NavigationMenuList>
             {navLinkList.map((item) => {
-              if (item.name && item.child) {
+              if (item.name && item?.child) {
                 return (
                   <NavigationMenuItem key={item.name}>
                     <NavigationMenuTrigger>{item.name}</NavigationMenuTrigger>
                     <NavigationMenuContent className="grid ">
-                      {item.child.map((childItem) => (
+                      {item?.child.map((childItem) => (
                         <Link
                           className="w-full"
                           key={childItem.name}
@@ -94,7 +106,10 @@ const NavbarUi = () => {
                         >
                           <NavigationMenuLink
                             style={{ justifyContent: "flex-start" }}
-                            className={`${navigationMenuTriggerStyle()}  w-44`}
+                            className={`${navigationMenuTriggerStyle({
+                              className:
+                                "bg-transparent text-white hover:bg-transparent hover:text-white hover:underline underline-offset-2 ",
+                            })}  w-44 `}
                           >
                             {childItem.name}
                           </NavigationMenuLink>
@@ -108,7 +123,10 @@ const NavbarUi = () => {
                   <NavigationMenuItem key={item.name}>
                     <Link href={item.link as string} legacyBehavior passHref>
                       <NavigationMenuLink
-                        className={navigationMenuTriggerStyle()}
+                        className={navigationMenuTriggerStyle({
+                          className:
+                            "bg-transparent text-white hover:bg-transparent hover:text-white hover:underline underline-offset-2 ",
+                        })}
                       >
                         {item.name}
                       </NavigationMenuLink>
@@ -125,21 +143,42 @@ const NavbarUi = () => {
       </div>
       <div className="md:hidden">
         <DropdownMenu>
-          <DropdownMenuTrigger className="outline-none ">
-            <FaBars />
+          <DropdownMenuTrigger className="outline-none flex h-full items-center ">
+            <FaBars className="text-white" />
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="mt-3 md:hidden">
-            <DropdownMenuSub>
-              <DropdownMenuSubTrigger>My Account</DropdownMenuSubTrigger>
-              <DropdownMenuSubContent>
-                <DropdownMenuItem>Profile Settings</DropdownMenuItem>
-                <DropdownMenuItem>Privacy</DropdownMenuItem>
-                <DropdownMenuItem>Notifications</DropdownMenuItem>
-              </DropdownMenuSubContent>
-            </DropdownMenuSub>
-            <DropdownMenuItem>Billing</DropdownMenuItem>
-            <DropdownMenuItem>Team</DropdownMenuItem>
-            <DropdownMenuItem>Subscription</DropdownMenuItem>
+          <DropdownMenuContent className="mt-2 md:hidden bg-black text-white ">
+            {navLinkList.map((navLink) => {
+              if (navLink?.name && navLink?.child) {
+                return (
+                  <DropdownMenuSub key={navLink.name}>
+                    <DropdownMenuSubTrigger>
+                      {navLink.name}
+                    </DropdownMenuSubTrigger>
+                    <DropdownMenuSubContent>
+                      {navLink.child.map((child) => (
+                        <DropdownMenuItem key={child.name}>
+                          <Link href={child.link}>{child.name}</Link>
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuSubContent>
+                  </DropdownMenuSub>
+                );
+              }
+              if (navLink?.name && navLink?.link) {
+                return (
+                  <DropdownMenuItem
+                    key={navLink.name}
+                    className="hover:bg-white hover:text-black"
+                  >
+                    <Link href={navLink.link}>{navLink.name}</Link>
+                  </DropdownMenuItem>
+                );
+              }
+            })}
+
+            <div className="px-2 pb-1 mt-2  ">
+              <Login></Login>
+            </div>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
@@ -158,14 +197,23 @@ const Login = () => {
 
   return (
     <>
-      <Link href={"/login"}>
-        {" "}
-        {!userData?.user ? (
-          <Button>Login</Button>
-        ) : (
-          <Button onClick={logoutUser}>Logout</Button>
-        )}
-      </Link>
+      {" "}
+      {!userData?.user ? (
+        <Link href={"/login"}>
+          {" "}
+          <Button className="bg-white  hover:bg-white text-black hover:scale-95 duration-1000">
+            {" "}
+            Login
+          </Button>
+        </Link>
+      ) : (
+        <Button
+          className="bg-white  hover:bg-white text-black hover:scale-95"
+          onClick={() => logoutUser()}
+        >
+          Logout
+        </Button>
+      )}
     </>
   );
 };

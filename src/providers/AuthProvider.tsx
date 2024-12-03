@@ -1,6 +1,7 @@
 "use client";
 
 import { getCurrentUser } from "@/services/authService";
+import { usePathname, useRouter } from "next/navigation";
 import React, {
   createContext,
   Dispatch,
@@ -27,6 +28,7 @@ export const AuthContext = createContext<IUserProviderValues | undefined>(
 );
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const router = useRouter();
   const [user, setUser] = useState<IAuthUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -45,6 +47,15 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     handleUser();
   }, [isLoading]);
+
+  const path = usePathname();
+  console.log(path);
+
+  useEffect(() => {
+    if (!isLoading && !user && path === "/product/sdad") {
+      router.push("/");
+    }
+  }, [isLoading, user, path, router]);
 
   const value = { user, isLoading, setUser, setIsLoading };
 
