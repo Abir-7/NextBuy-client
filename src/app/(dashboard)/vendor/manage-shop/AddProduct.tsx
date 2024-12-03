@@ -61,6 +61,8 @@ const AddProduct = () => {
             <CImage name="images" label="Product Image"></CImage>
 
             <CInput name="name" label="Product Name" type="text"></CInput>
+            <CInput name="description" label="Description" type="text"></CInput>
+            <CInput name="discounts" label="Discounts" type="number"></CInput>
             <CInput name="price" label="Price" type="number"></CInput>
             <CInput name="stock" label="Quantity" type="number"></CInput>
             <CSelect

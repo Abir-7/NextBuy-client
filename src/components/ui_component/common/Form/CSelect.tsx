@@ -32,7 +32,7 @@ const CSelect = ({ name, label, text, options }: SelectProps) => {
         defaultValue=""
         render={({ field }) => (
           <Select
-            disabled={!options}
+            disabled={options.length <= 0}
             onValueChange={field.onChange}
             value={field.value}
           >

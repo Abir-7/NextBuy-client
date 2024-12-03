@@ -14,6 +14,16 @@ export const getVendorShop = async () => {
     throw new Error(error?.response?.data?.message || error?.message || error);
   }
 };
+export const getVendorSingleShop = async (id: string) => {
+  try {
+    const res = await axiosInstance.get(`/shop/${id}`);
+
+    return res?.data;
+  } catch (error: any) {
+    console.log(error?.response.data);
+    throw new Error(error?.response?.data?.message || error?.message || error);
+  }
+};
 
 export const addVendorShop = async (data: FieldValues) => {
   try {
