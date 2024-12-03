@@ -25,7 +25,7 @@ const SignupPage = () => {
         const decode = (await jwtDecode(data?.data as string)) as IUserToken;
         toast.success("User has been created");
         if (decode?.role === "VENDOR") {
-          router.push(`/${(decode?.role as string).toLowerCase()}/dashboard`);
+          router.push(`/${(decode?.role as string).toLowerCase()}/manage-shop`);
         } else {
           router.push("/login");
         }
