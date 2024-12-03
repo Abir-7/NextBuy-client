@@ -1,11 +1,26 @@
+import { DialogClose } from "@/components/ui/dialog";
 import { Modalbox } from "@/components/ui_component/common/modal/Modalbox";
+import { useDeleteProduct } from "@/hooks/product.hook";
 import React from "react";
+import { toast } from "sonner";
 
 const DeleteModal = ({ id }: { id: string }) => {
+  const { mutate } = useDeleteProduct();
+
+  const deleteProductData = (id: string) => {
+    mutate(id, {
+      onSuccess: () => {
+        toast.success("Product deleted.");
+      },
+      onError: () => {
+        toast.error("Something went wrong! Try again.");
+      },
+    });
+  };
   return (
     <Modalbox
       btncss="hover:text-red-500"
-      title="Abcd"
+      title="Are you sure?"
       btnIcon={
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -23,7 +38,14 @@ const DeleteModal = ({ id }: { id: string }) => {
         </svg>
       }
     >
-      sd
+      <div className="flex justify-between">
+        <DialogClose onClick={() => deleteProductData(id)}>
+          <p className=" bg-red-500 text-white rounded-md w-20 py-2">Yes</p>
+        </DialogClose>
+        <DialogClose>
+          <p className="bg-gray-950 text-white rounded-md w-20 py-2">No</p>
+        </DialogClose>
+      </div>
     </Modalbox>
   );
 };

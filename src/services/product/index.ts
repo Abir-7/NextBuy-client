@@ -28,3 +28,14 @@ export const updateProduct = async (pdata: {
     throw new Error(error?.response?.data?.message || error?.message || error);
   }
 };
+
+export const deleteProduct = async (id: string) => {
+  try {
+    const res = await axiosInstance.delete(`/product/${id}`);
+
+    return res?.data;
+  } catch (error: any) {
+    console.log(error?.response.data);
+    throw new Error(error?.response?.data?.message || error?.message || error);
+  }
+};
