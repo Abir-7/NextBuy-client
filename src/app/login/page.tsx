@@ -27,7 +27,6 @@ const LoginPage = () => {
       },
       onError: (error: Error) => {
         toast.error(error.message || "Something Went Wrong!! Try again.");
-        console.log(error, "gg");
       },
     });
   };

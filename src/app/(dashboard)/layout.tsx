@@ -4,10 +4,10 @@ import AppSidebar from "@/components/ui_component/common/SideBar/SideBar";
 const layout = ({ children }: { children: ReactNode }) => {
   return (
     <div className="mx-auto max-w-screen-2xl relative overflow-hidden">
-      <SidebarProvider>
+      <SidebarProvider className="h-screen">
         <AppSidebar />
 
-        <main className="w-full h-full">
+        <main className="w-full  overflow-y-auto">
           <div className="">
             <SidebarTrigger />
           </div>

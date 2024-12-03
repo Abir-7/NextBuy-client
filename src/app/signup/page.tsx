@@ -18,10 +18,8 @@ const SignupPage = () => {
   const { mutate } = useUserRegistration();
 
   const onFromSubmit = async (data: FieldValues) => {
-    console.log(data);
     mutate(data, {
       onSuccess: async (data) => {
-        console.log(data?.data, "token");
         const decode = (await jwtDecode(data?.data as string)) as IUserToken;
         toast.success("User has been created");
         if (decode?.role === "VENDOR") {
@@ -31,8 +29,8 @@ const SignupPage = () => {
         }
       },
       onError: (error: Error) => {
-        toast.success("Something Went Wrong");
         console.log(error);
+        toast.success("Something Went Wrong");
       },
     });
   };

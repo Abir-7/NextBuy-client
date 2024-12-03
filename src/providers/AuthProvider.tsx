@@ -49,7 +49,6 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, [isLoading]);
 
   const path = usePathname();
-  console.log(path);
 
   useEffect(() => {
     if (!isLoading && !user && path === "/product/sdad") {

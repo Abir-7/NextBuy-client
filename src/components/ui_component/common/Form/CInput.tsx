@@ -13,7 +13,7 @@ interface InputProps {
 const CInput = ({ type, name, label }: InputProps) => {
   const { register } = useFormContext();
   return (
-    <div className="grid w-full max-w-sm items-center gap-1.5">
+    <div className="grid w-full  items-center gap-1.5">
       <Label htmlFor={name}>{label}</Label>
       <Input
         type={type}

@@ -24,7 +24,7 @@ const CSelect = ({ name, label, text, options }: SelectProps) => {
   const { control } = useFormContext();
 
   return (
-    <div className="grid w-full max-w-sm items-center gap-1.5">
+    <div className="grid w-full  items-center gap-1.5">
       <Label htmlFor={name}>{label}</Label>
       <Controller
         name={name}

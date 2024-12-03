@@ -12,7 +12,6 @@ export const loginUser = async (userData: {
 }) => {
   try {
     const { data } = await axiosInstance.post(`/auth/user-login`, userData);
-    console.log(data?.data?.token);
 
     // Set the token in a cookie
     (await cookies()).set("accessToken", data?.data?.token, {
@@ -54,7 +53,7 @@ export const getCurrentUser = async () => {
   if (token) {
     decode = await jwtDecode(token as string);
   }
-  console.log(decode);
+
   return await decode;
 };
 
