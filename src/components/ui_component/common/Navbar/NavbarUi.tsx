@@ -27,6 +27,8 @@ import {
 import { FaBars } from "react-icons/fa";
 import { AuthContext } from "@/providers/AuthProvider";
 import { logout } from "@/services/authService";
+import { ShoppingBasket } from "lucide-react";
+import { useAppSelector } from "@/redux/hooks";
 
 interface INavLinkChild {
   name: string;
@@ -137,11 +139,14 @@ const NavbarUi = () => {
             })}
           </NavigationMenuList>
         </NavigationMenu>
-        <div>
+
+        <div className="flex gap-9">
+          <Cart></Cart>
           <Login></Login>
         </div>
       </div>
-      <div className="md:hidden">
+      <div className="md:hidden flex gap-9">
+        <Cart></Cart>
         <DropdownMenu>
           <DropdownMenuTrigger className="outline-none flex h-full items-center ">
             <FaBars className="text-white" />
@@ -187,6 +192,19 @@ const NavbarUi = () => {
 };
 
 export default NavbarUi;
+
+const Cart = () => {
+  const { cartItems } = useAppSelector((state) => state.cartSlice);
+  console.log(cartItems);
+  return (
+    <Link href={"/cart"} className="text-white flex gap-1 items-center">
+      <ShoppingBasket />{" "}
+      <span className="text-green-500">
+        {cartItems.length > 0 && cartItems.length}
+      </span>
+    </Link>
+  );
+};
 
 const Login = () => {
   const userData = useContext(AuthContext);

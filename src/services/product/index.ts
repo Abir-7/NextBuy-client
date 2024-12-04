@@ -15,6 +15,28 @@ export const addProduct = async (data: FieldValues) => {
   }
 };
 
+export const allProduct = async () => {
+  try {
+    const res = await axiosInstance.get(`/product`);
+
+    return res?.data;
+  } catch (error: any) {
+    console.log(error?.response.data);
+    throw new Error(error?.response?.data?.message || error?.message || error);
+  }
+};
+
+export const singleProduct = async (id: string) => {
+  try {
+    const res = await axiosInstance.get(`/product/${id}`);
+
+    return res?.data;
+  } catch (error: any) {
+    console.log(error?.response.data);
+    throw new Error(error?.response?.data?.message || error?.message || error);
+  }
+};
+
 export const updateProduct = async (pdata: {
   data: FieldValues;
   id: string;

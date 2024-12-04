@@ -1,3 +1,11 @@
+import { IShop } from "./shop.interface";
+
+interface IProductCategory {
+  categoryId: string;
+  name: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
 export interface IProduct {
   productId: string;
   name: string;
@@ -6,9 +14,11 @@ export interface IProduct {
   images: string[];
   description: string;
   stock: number;
-  sizes: string[]; // Array for product sizes, e.g., ['S', 'M', 'L']
+  sizes: string[];
   shopId: string;
   discounts: number;
-  createdAt: string; // ISO date string
-  updatedAt: string; // ISO date string
+  createdAt: Date;
+  updatedAt: Date;
+  category: IProductCategory;
+  shop: IShop;
 }
