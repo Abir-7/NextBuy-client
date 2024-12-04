@@ -9,4 +9,18 @@ export interface IShop {
   createdAt: string; // ISO date string
   updatedAt: string; // ISO date string
   products?: IProduct[]; // Array of products
+  followers?: IFollower[];
+}
+
+export interface ICustomer {
+  email: string;
+}
+
+export interface IFollower {
+  id: string;
+  shopId: string;
+  customerId: string;
+  createdAt: Date;
+  updatedAt: Date;
+  customer: ICustomer;
 }

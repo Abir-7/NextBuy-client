@@ -16,7 +16,6 @@ import { toast } from "sonner";
 const EditProduct = ({ product }: { product: IProduct }) => {
   const { mutate } = useUpdateProduct();
   const onFromSubmit = async (data: FieldValues) => {
-    console.log(data);
     const fiterData = filterAndConvertFields(data, [
       "discounts",
       "price",
@@ -45,8 +44,6 @@ const EditProduct = ({ product }: { product: IProduct }) => {
     } else {
       toast.error("Something went wrong! Try again.");
     }
-
-    console.log(fiterData, "gg");
   };
   return (
     <Modalbox

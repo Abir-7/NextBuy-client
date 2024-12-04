@@ -19,11 +19,9 @@ import { useAddShop } from "@/hooks/shop.hook";
 const AddShop = () => {
   const { mutate } = useAddShop();
   const onFromSubmit = async (data: FieldValues) => {
-    console.log(data);
-    console.log(data);
     const { images: imageFiles, ...otherData } = data;
     const imageUrl = await uploadImagesToCloudinary(imageFiles);
-    console.log(imageUrl, "image url");
+
     if (imageUrl) {
       mutate(
         { ...otherData, images: imageUrl },

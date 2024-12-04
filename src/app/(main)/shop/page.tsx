@@ -4,6 +4,7 @@ import Image from "next/image";
 import { IShop } from "@/interface/shop.interface";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { User2 } from "lucide-react";
 
 const ShopList = async () => {
   const res = await fetch(`${config.backendApi}/shop/get-all-shop`, {
@@ -30,9 +31,19 @@ const ShopList = async () => {
                 priority
               />
             </div>
+
             <div className="p-4">
               <h2 className="text-lg font-semibold">{shop.name}</h2>
               <p className="text-sm text-gray-500">{shop.location}</p>
+              <div className="flex justify-end">
+                <p className="text-sm flex items-center font-medium">
+                  <span>0</span>
+                  <span>
+                    {" "}
+                    <User2 className="w-4 "></User2>
+                  </span>
+                </p>
+              </div>
               <Link href={`/shop/${shop.shopId}`}>
                 {" "}
                 <Button className="w-full mt-2 ">View Shop</Button>

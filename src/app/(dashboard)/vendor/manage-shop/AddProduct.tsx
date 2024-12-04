@@ -26,12 +26,11 @@ const AddProduct = () => {
   const { data } = useAllCategory();
   const { mutate } = useAddProduct();
   const { data: shopData } = useVendorShop();
-  console.log(shopData);
+
   const onFromSubmit = async (data: FieldValues) => {
-    console.log(data);
     const { images: imageFiles, ...otherData } = data;
     const imageUrl = await uploadImagesToCloudinary(imageFiles);
-    console.log(imageUrl, "image url");
+
     if (imageUrl) {
       mutate(
         { ...otherData, images: imageUrl },

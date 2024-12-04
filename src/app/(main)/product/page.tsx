@@ -7,7 +7,7 @@ const Products = async () => {
     cache: "no-store",
   });
   const { data } = await res.json();
-  console.log(data);
+
   return <div>{data && <AllProduct data={data}></AllProduct>}</div>;
 };
 

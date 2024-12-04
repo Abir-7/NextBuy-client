@@ -15,7 +15,7 @@ const Shop = () => {
   const { data } = useVendorShop();
   const [selected, setSelected] = useState(data?.data[0].shopId || "");
   const { data: { data: singleShop } = {} } = useVendorSingleShop(selected);
-  console.log(singleShop);
+
   useEffect(() => {
     if (data?.data[0]?.shopId) {
       setSelected(data?.data[0].shopId);

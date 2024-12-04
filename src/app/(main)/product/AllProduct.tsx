@@ -28,7 +28,6 @@ import { addItemToCart, ICartItem } from "@/redux/features/cartSlice/cartSlice";
 const AllProduct = ({ data }: { data: IProduct[] }) => {
   const dispatch = useAppDispatch();
   const handleAddToCart = (data: ICartItem) => {
-    console.log(data);
     dispatch(addItemToCart(data));
   };
 
@@ -64,11 +63,11 @@ const AllProduct = ({ data }: { data: IProduct[] }) => {
         </div>
       </div>
       {/* product section */}
-      <div className="grid gap-3 gap-y-5 justify-items-center  grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 mb-5  2xl:grid-cols-6">
+      <div className="grid gap-3 gap-y-5 justify-items-center  xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 mb-5  2xl:grid-cols-6">
         {data?.map((option) => (
           <Card key={option?.productId} className=" xs:w-48 sm:w-64 md:w-60">
             <CardHeader className="pb-0">
-              <div className="w-full h-48 overflow-hidden">
+              <div className="w-full h-fit md:h-48 overflow-hidden">
                 <Image
                   className="object-cover"
                   width={200}

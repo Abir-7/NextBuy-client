@@ -10,7 +10,6 @@ export const addProduct = async (data: FieldValues) => {
 
     return res?.data;
   } catch (error: any) {
-    console.log(error?.response.data);
     throw new Error(error?.response?.data?.message || error?.message || error);
   }
 };
@@ -21,7 +20,6 @@ export const allProduct = async () => {
 
     return res?.data;
   } catch (error: any) {
-    console.log(error?.response.data);
     throw new Error(error?.response?.data?.message || error?.message || error);
   }
 };
@@ -32,7 +30,6 @@ export const singleProduct = async (id: string) => {
 
     return res?.data;
   } catch (error: any) {
-    console.log(error?.response.data);
     throw new Error(error?.response?.data?.message || error?.message || error);
   }
 };
@@ -46,7 +43,6 @@ export const updateProduct = async (pdata: {
 
     return res?.data;
   } catch (error: any) {
-    console.log(error?.response.data);
     throw new Error(error?.response?.data?.message || error?.message || error);
   }
 };
@@ -57,7 +53,6 @@ export const deleteProduct = async (id: string) => {
 
     return res?.data;
   } catch (error: any) {
-    console.log(error?.response.data);
     throw new Error(error?.response?.data?.message || error?.message || error);
   }
 };

@@ -42,7 +42,6 @@ const ProductDetails = ({ id }: { id: string }) => {
   ];
   const dispatch = useAppDispatch();
   const handleAddToCart = (data: ICartItem) => {
-    console.log(data);
     dispatch(addItemToCart(data));
   };
 

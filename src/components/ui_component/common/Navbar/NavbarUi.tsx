@@ -199,7 +199,7 @@ export default NavbarUi;
 
 const Cart = () => {
   const { cartItems } = useAppSelector((state) => state.cartSlice);
-  console.log(cartItems);
+
   return (
     <Link href={"/cart"} className="text-white flex gap-1 items-center">
       <ShoppingBasket />{" "}

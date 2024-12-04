@@ -17,7 +17,6 @@ export const cartItemCalculation = (
   const additionalDiscountAmount = discountedPrice * (additionalDiscount / 100);
 
   const subTotal = discountedPrice - additionalDiscountAmount;
-  console.log(subTotal);
 
   return {
     totalPrice,

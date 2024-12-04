@@ -12,7 +12,7 @@ import React, {
 } from "react";
 
 interface IAuthUser {
-  email: string;
+  userEmail: string;
   role: string;
   userId: string;
 }
