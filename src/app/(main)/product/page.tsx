@@ -1,11 +1,12 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import AllProduct from "../../../components/ui_component/common/AllProduct/AllProduct";
 
 import { useAllProduct } from "@/hooks/product.hook";
 import { useAllCategory } from "@/hooks/category.hook";
 import { useFilterSortSearch } from "@/lib/utils/hook/useFilterSortSearch";
 import SearchSortFilter from "@/components/ui_component/common/searchSortFilter/SearchSortFilter";
+import { useSearchParams } from "next/navigation";
 
 const Products = () => {
   const {
@@ -21,6 +22,16 @@ const Products = () => {
   const { data: { data: category } = {} } = useAllCategory();
   const { data } = useAllProduct(debouncedSearchTerm, categoryId, sortCriteria);
 
+  const searchParams = useSearchParams(); // Access query parameters
+  const initialCategoryId = searchParams.get("categoryId");
+  console.log(initialCategoryId, "ff");
+
+  useEffect(() => {
+    if (initialCategoryId) {
+      console.log(initialCategoryId);
+      setCategoryId(initialCategoryId);
+    }
+  }, [initialCategoryId, setCategoryId]);
   return (
     <div>
       <div className="sm:mt-0 px-2">

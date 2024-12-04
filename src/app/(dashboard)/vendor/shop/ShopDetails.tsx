@@ -38,34 +38,34 @@ const ShopDetails = ({ shop }: { shop: IShop }) => {
         </div>
       )}
       <div className="text-2xl font-medium text-center mt-5">Product List</div>
-      <div className="mt-6">
+      <div className=" container justify-items-center mx-auto mt-6 grid gap-4 gap-y-5 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
         {shop?.products?.map((data) => (
           <Card
-            key={data.productId}
-            className="w-44 relative overflow-hidden group  "
+            key={data?.productId}
+            className=" w-36 xs:w-40 md:w-36  lg:w-40 relative overflow-hidden group  "
           >
             <div className="absolute w-full h-full  flex-col  gap-2 justify-center hidden group-hover:flex items-center bg-opacity-60  bg-black ">
               <EditProduct product={data}></EditProduct>
-              <DeleteModal id={data.productId}></DeleteModal>
+              <DeleteModal id={data?.productId}></DeleteModal>
             </div>
             <CardHeader className="pb-3">
               <div className="flex justify-center items-center">
-                <div className="w-32 h-32   mb-2">
+                <div className="w-24 h-28 lg:w-32 lg:h-32  mb-2">
                   <Image
-                    className="w-32 h-32 object-cover"
+                    className="w-24 h-28 lg:w-32 lg:h-32 object-cover"
                     width={200}
                     height={200}
-                    src={data.images[0]}
+                    src={data?.images[0]}
                     alt=""
                   ></Image>
                 </div>
               </div>
               <CardTitle>
-                <Link href={"/product/sdad"}>{data.name}</Link>
+                <Link href={"/product/sdad"}>{data?.name}</Link>
               </CardTitle>
               <CardDescription className="">Card Description</CardDescription>
               <div className="flex items-center justify-between">
-                <p className="font-medium text-sm ">{data.price}Tk</p>
+                <p className="font-medium text-sm ">{data?.price}Tk</p>
                 <p className="font-medium text-xs ">****</p>
               </div>
             </CardHeader>

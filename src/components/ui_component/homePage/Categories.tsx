@@ -5,8 +5,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 // Import Swiper styles
 import "swiper/css";
+import { useAllCategory } from "@/hooks/category.hook";
+import Link from "next/link";
 const Categories = () => {
-  const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+  const { data } = useAllCategory();
+
   return (
     <div className="my-5 px-1">
       <Swiper
@@ -40,13 +43,16 @@ const Categories = () => {
         }}
         modules={[Pagination]}
       >
-        {array.map((option) => (
-          <SwiperSlide key={option}>
-            <div className="w-full flex justify-center">
+        {data?.data?.map((option) => (
+          <SwiperSlide key={option.categoryId}>
+            <Link
+              href={`/product?categoryId=${option.categoryId}`}
+              className="w-full flex justify-center"
+            >
               <div className="min-w-40 flex  items-center justify-center rounded-full bg-black h-16 text-white font-medium">
-                Electronics
+                {option.name}
               </div>
-            </div>
+            </Link>
           </SwiperSlide>
         ))}
       </Swiper>

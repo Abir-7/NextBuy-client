@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import AllProduct from "../../../components/ui_component/common/AllProduct/AllProduct";
 
 import { useAllProduct } from "@/hooks/product.hook";
