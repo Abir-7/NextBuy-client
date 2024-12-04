@@ -1,13 +1,27 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppSelector, useAppDispatch } from "@/redux/hooks";
+import {
+  decreassItem,
+  increassItem,
+} from "@/redux/features/cartSlice/cartSlice";
+import { Button } from "@/components/ui/button";
 
 const CartPage: React.FC = () => {
+  const dispatch = useAppDispatch();
   const cartData = useAppSelector((state) => state.cartSlice);
 
   const { cartItems, discount, additionalDiscount, totalPrice, subTotal } =
     cartData;
+
+  const handleIncrement = (id: string, size: string) => {
+    dispatch(increassItem({ id, size }));
+  };
+
+  const handleDecrement = (id: string, size: string) => {
+    dispatch(decreassItem({ id, size }));
+  };
 
   return (
     <div className="container mx-auto px-4 py-6">
@@ -33,7 +47,25 @@ const CartPage: React.FC = () => {
                   <p className="text-sm text-gray-500">{item.category}</p>
                   {item.size && <p className="text-sm">Size: {item.size}</p>}
                   <p className="text-sm">Price: ${item.price}</p>
-                  <p className="text-sm">Quantity: {item.quantity}</p>
+                  <div className="flex items-center space-x-2">
+                    <button
+                      onClick={() =>
+                        handleDecrement(item.id, item.size ? item.size : "")
+                      }
+                      className="px-2 py-1 bg-gray-300 rounded hover:bg-gray-400"
+                    >
+                      -
+                    </button>
+                    <span className="px-2">{item.quantity}</span>
+                    <button
+                      onClick={() =>
+                        handleIncrement(item.id, item.size ? item.size : "")
+                      }
+                      className="px-2 py-1 bg-gray-300 rounded hover:bg-gray-400"
+                    >
+                      +
+                    </button>
+                  </div>
                 </div>
               </div>
               <div className="mt-4 md:mt-0">
@@ -64,9 +96,7 @@ const CartPage: React.FC = () => {
             <span>Total:</span>
             <span>${totalPrice}</span>
           </div>
-          <button className="w-full bg-blue-600 text-white py-2 px-4 rounded mt-4 hover:bg-blue-700">
-            Checkout
-          </button>
+          <Button className="mt-2 w-full">Checkout</Button>
         </div>
       </div>
     </div>

@@ -75,6 +75,10 @@ const NavbarUi = () => {
       name: "Products",
       link: "/product",
     },
+    {
+      name: "Shops",
+      link: "/shop",
+    },
     ...(userData?.user
       ? [
           {
@@ -110,7 +114,7 @@ const NavbarUi = () => {
                             style={{ justifyContent: "flex-start" }}
                             className={`${navigationMenuTriggerStyle({
                               className:
-                                "bg-transparent text-white hover:bg-transparent hover:text-white hover:underline underline-offset-2 ",
+                                "bg-transparent focus:bg-black focus:text-white text-white hover:bg-transparent hover:text-white hover:underline underline-offset-2 ",
                             })}  w-44 `}
                           >
                             {childItem.name}
@@ -127,7 +131,7 @@ const NavbarUi = () => {
                       <NavigationMenuLink
                         className={navigationMenuTriggerStyle({
                           className:
-                            "bg-transparent text-white hover:bg-transparent hover:text-white hover:underline underline-offset-2 ",
+                            "bg-transparent focus:bg-black focus:text-white text-white active:bg-transparent hover:bg-transparent hover:text-white  hover:underline underline-offset-2 ",
                         })}
                       >
                         {item.name}

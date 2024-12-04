@@ -4,6 +4,17 @@
 import axiosInstance from "@/lib/axiosInstance/axiosInstance";
 import { FieldValues } from "react-hook-form";
 
+export const getAllVendorShop = async () => {
+  try {
+    const res = await axiosInstance.get(`/shop/get-all-shop`);
+
+    return res?.data;
+  } catch (error: any) {
+    console.log(error?.response.data);
+    throw new Error(error?.response?.data?.message || error?.message || error);
+  }
+};
+
 export const getVendorShop = async () => {
   try {
     const res = await axiosInstance.get(`/shop`);
