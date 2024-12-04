@@ -14,9 +14,23 @@ export const addProduct = async (data: FieldValues) => {
   }
 };
 
-export const allProduct = async () => {
+export const allProduct = async ({
+  searchTerm,
+  categoryId,
+  sortCriteria: sort,
+}: {
+  searchTerm: string;
+  categoryId: string;
+  sortCriteria: string;
+}) => {
   try {
-    const res = await axiosInstance.get(`/product`);
+    const res = await axiosInstance.get(`/product`, {
+      params: {
+        searchTerm,
+        categoryId,
+        sort,
+      },
+    });
 
     return res?.data;
   } catch (error: any) {

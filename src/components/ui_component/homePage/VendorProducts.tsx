@@ -1,82 +1,43 @@
+"use client";
 import React from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import AllProduct from "../../../components/ui_component/common/AllProduct/AllProduct";
 
-const VendorProducts = () => {
-  const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+import { useAllProduct } from "@/hooks/product.hook";
+import { useAllCategory } from "@/hooks/category.hook";
+import { useFilterSortSearch } from "@/lib/utils/hook/useFilterSortSearch";
+import SearchSortFilter from "@/components/ui_component/common/searchSortFilter/SearchSortFilter";
+
+const Products = () => {
+  const {
+    searchTerm,
+    setSearchTerm,
+    sortCriteria,
+    setSortCriteria,
+    categoryId,
+    setCategoryId,
+    debouncedSearchTerm,
+  } = useFilterSortSearch();
+
+  const { data: { data: category } = {} } = useAllCategory();
+  const { data } = useAllProduct(debouncedSearchTerm, categoryId, sortCriteria);
+
   return (
-    <div className="container mx-auto">
-      {" "}
-      <div className="mt-4 sm:mt-0 px-2">
-        <div className=" mb-2 ">
-          <div className="text-2xl font-bold">Products For You </div>
-        </div>
-        {/* filter & search */}
-        <div className="flex flex-wrap justify-between">
-          {/* search */}
-          <div className="flex mb-3 w-full max-w-sm items-center space-x-2">
-            <Input type="text" placeholder="Search" />
-            <Button type="submit">Search</Button>
-          </div>
-          {/* filter */}
-          <div className="mb-3">
-            <Select>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select a fruit" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Fruits</SelectLabel>
-                  <SelectItem value="apple">Apple</SelectItem>
-                  <SelectItem value="banana">Banana</SelectItem>
-                  <SelectItem value="blueberry">Blueberry</SelectItem>
-                  <SelectItem value="grapes">Grapes</SelectItem>
-                  <SelectItem value="pineapple">Pineapple</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
+    <div>
+      <p className="text-2xl font-medium">Products For you</p>
+      <div className="sm:mt-0 px-2">
+        <SearchSortFilter
+          searchTerm={searchTerm}
+          onSearchChange={setSearchTerm}
+          sortCriteria={sortCriteria}
+          onSortChange={setSortCriteria}
+          categoryId={categoryId}
+          onCategoryChange={setCategoryId}
+          categoryOptions={category || []}
+        />
       </div>
-      {/* product section */}
-      <div className="grid gap-3 gap-y-5 justify-items-center  grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 mb-5  2xl:grid-cols-6">
-        {array.map((option) => (
-          <Card key={option} className=" xs:w-48 sm:w-64 md:w-60">
-            <CardHeader>
-              <CardTitle>Card Title</CardTitle>
-              <CardDescription>Card Description</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p>Card Content</p>
-            </CardContent>
-            <CardFooter>
-              <p>Card Footer</p>
-            </CardFooter>
-          </Card>
-        ))}
-      </div>
-      <div className="flex justify-center mb-5">
-        <Button type="button">Show More</Button>
-      </div>
+      {data?.data && <AllProduct data={data.data} />}
     </div>
   );
 };
 
-export default VendorProducts;
+export default Products;

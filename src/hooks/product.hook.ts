@@ -29,10 +29,16 @@ export const useDeleteProduct = () => {
   });
 };
 
-export const useAllProduct = () => {
+export const useAllProduct = (
+  searchTerm: string,
+  categoryId: string,
+  sortCriteria: string
+) => {
   return useQuery<IApiResponse<IProduct[]>>({
-    queryKey: ["all-product"],
-    queryFn: async () => await allProduct(),
+    queryKey: ["all-product", searchTerm, categoryId, sortCriteria],
+
+    queryFn: async () =>
+      await allProduct({ searchTerm, categoryId, sortCriteria }),
   });
 };
 

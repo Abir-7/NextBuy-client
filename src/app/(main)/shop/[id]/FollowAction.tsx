@@ -40,16 +40,20 @@ const FollowAction = ({ id, data }: { id: string; data: IShop }) => {
   };
   return (
     <div className="">
-      {isEmailMatched ? (
-        <Button className="" size={"sm"} onClick={() => removeFollow(id)}>
-          <span className="mb-0.5"> Unfollow</span>{" "}
-          <HeartCrackIcon className="text-yellow-500 " />
-        </Button>
-      ) : (
-        <Button size={"sm"} onClick={() => newFollow(id)}>
-          <span className="mb-0.5"> Follow</span>{" "}
-          <HeartIcon className="text-red-500" />
-        </Button>
+      {authData?.user?.role == "CUSTOMER" && (
+        <>
+          {isEmailMatched ? (
+            <Button className="" size={"sm"} onClick={() => removeFollow(id)}>
+              <span className="mb-0.5"> Unfollow</span>{" "}
+              <HeartCrackIcon className="text-yellow-500 " />
+            </Button>
+          ) : (
+            <Button size={"sm"} onClick={() => newFollow(id)}>
+              <span className="mb-0.5"> Follow</span>{" "}
+              <HeartIcon className="text-red-500" />
+            </Button>
+          )}
+        </>
       )}
     </div>
   );
