@@ -19,6 +19,9 @@ import {
   Database,
   Settings,
   ListOrderedIcon,
+  ListOrdered,
+  ShoppingCartIcon,
+  ChartNoAxesGanttIcon,
 } from "lucide-react";
 import Link from "next/link";
 import { useContext } from "react";
@@ -28,8 +31,52 @@ const items = [
     title: "Home",
     url: "/",
     icon: Home,
-    roles: ["ADMIN", "CUSTOMER", "VENDOR"],
+    roles: ["ADMIN", "SUPERADMIN", "CUSTOMER", "VENDOR"],
   },
+  //admin link
+  {
+    title: "Dashboard",
+    url: "/admin/dashboard",
+    icon: Database,
+    roles: ["ADMIN", "SUPERADMIN"],
+  },
+  {
+    title: "User Management",
+    roles: ["ADMIN", "SUPERADMIN"],
+    child: [
+      { url: "/admin/manage-user", title: "Manage User", icon: Settings },
+    ],
+  },
+  {
+    title: "Shop Management",
+    roles: ["ADMIN", "SUPERADMIN"],
+    child: [
+      {
+        url: "/admin/manage-shop",
+        title: "Manage Shop",
+        icon: ShoppingCartIcon,
+      },
+    ],
+  },
+  {
+    title: "Product-Category Management",
+    roles: ["ADMIN", "SUPERADMIN"],
+    child: [
+      {
+        url: "/admin/manage-category",
+        title: "Manage Category",
+        icon: ChartNoAxesGanttIcon,
+      },
+    ],
+  },
+  {
+    title: "Order Management",
+    roles: ["ADMIN", "SUPERADMIN"],
+    child: [
+      { url: "/admin/view-order", title: "All Order", icon: ListOrdered },
+    ],
+  },
+
   // vendor links
   {
     title: "Dashboard",

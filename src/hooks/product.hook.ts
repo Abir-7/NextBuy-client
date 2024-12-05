@@ -37,7 +37,6 @@ export const useAllProduct = (
 ) => {
   return useQuery<IApiResponse<IProduct[]>>({
     queryKey: ["all-product", searchTerm, categoryId, sortCriteria],
-
     queryFn: async () =>
       await allProduct({ searchTerm, categoryId, sortCriteria }),
   });

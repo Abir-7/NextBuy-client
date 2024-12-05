@@ -42,3 +42,12 @@ export const addVendorShop = async (data: FieldValues) => {
     throw new Error(error?.response?.data?.message || error?.message || error);
   }
 };
+
+export const blockVendorShop = async (id: string) => {
+  try {
+    const res = await axiosInstance.patch(`/shop/block-shop/${id}`);
+    return res?.data;
+  } catch (error: any) {
+    throw new Error(error?.response?.data?.message || error?.message || error);
+  }
+};

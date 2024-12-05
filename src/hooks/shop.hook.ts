@@ -2,9 +2,12 @@
 import { IApiResponse } from "@/interface/apiResponse.interface";
 
 import { IShop } from "@/interface/shop.interface";
+import { queryClient } from "@/providers/Provider";
 
 import {
   addVendorShop,
+  blockVendorShop,
+  getAllVendorShop,
   getVendorShop,
   getVendorSingleShop,
 } from "@/services/shopService";
@@ -29,5 +32,21 @@ export const useVendorSingleShop = (id: string | undefined) => {
     enabled: !!id,
     queryKey: ["vendorShopSingle", id],
     queryFn: async () => await getVendorSingleShop(id as string),
+  });
+};
+
+export const useAllVendorShop = () => {
+  return useQuery<IApiResponse<IShop[]>>({
+    queryKey: ["allVendorShop"],
+    queryFn: async () => await getAllVendorShop(),
+  });
+};
+
+export const useBlockShop = () => {
+  return useMutation<any, Error, string, unknown>({
+    mutationFn: async (id: any) => await blockVendorShop(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["allVendorShop"] });
+    },
   });
 };

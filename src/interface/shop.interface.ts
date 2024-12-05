@@ -1,8 +1,10 @@
 import { IProduct } from "./product.interface";
+import { IVendor } from "./user.interface";
 
 export interface IShop {
   shopId: string;
   name: string;
+  isBlackListed: boolean;
   location: string;
   images: string[];
   vendorId: string;
@@ -10,6 +12,7 @@ export interface IShop {
   updatedAt: string; // ISO date string
   products?: IProduct[]; // Array of products
   followers?: IFollower[];
+  vendor: IVendor;
 }
 
 export interface ICustomer {

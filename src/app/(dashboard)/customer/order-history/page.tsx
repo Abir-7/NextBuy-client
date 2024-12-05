@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import OrderTable from "./OrderTable";
+import OrderTable from "../../../../components/ui_component/common/Order/OrderTable";
 import { useSigleUserAllOrder } from "@/hooks/order.hook";
 import { DynamicPagination } from "@/components/ui_component/common/Pagination/DynamicPagination";
 

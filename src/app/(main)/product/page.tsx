@@ -22,8 +22,8 @@ const Products = () => {
   const { data: { data: category } = {} } = useAllCategory();
   const { data } = useAllProduct(debouncedSearchTerm, categoryId, sortCriteria);
 
-  const searchParams = useSearchParams(); // Access query parameters
-  const initialCategoryId = searchParams.get("categoryId");
+  const searchParams = useSearchParams() || ""; // Access query parameters
+  const initialCategoryId = searchParams?.get("categoryId") || "";
 
   useEffect(() => {
     if (initialCategoryId) {

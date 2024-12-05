@@ -42,6 +42,14 @@ interface INavLink {
 }
 
 const NavbarUi = () => {
+  const getDashboardLink = (role: string): string => {
+    // Handle ADMIN and SUPERADMIN roles explicitly
+    if (role === "ADMIN" || role === "SUPERADMIN") {
+      return "/admin/dashboard";
+    }
+    // For other roles, default to the lowercase role
+    return `/${role.toLowerCase()}/dashboard`;
+  };
   const userData = useContext(AuthContext);
 
   const navLinkList: INavLink[] = [
@@ -58,19 +66,7 @@ const NavbarUi = () => {
     //     },
     //   ],
     // },
-    // {
-    //   name: "Itemss",
-    //   child: [
-    //     {
-    //       name: "Item Three",
-    //       link: "#",
-    //     },
-    //     {
-    //       name: "Item Four",
-    //       link: "#",
-    //     },
-    //   ],
-    // },
+
     {
       name: "Products",
       link: "/product",
@@ -83,11 +79,12 @@ const NavbarUi = () => {
       ? [
           {
             name: "Dashboard",
-            link: `/${userData.user.role?.toLowerCase()}/dashboard`,
+            link: getDashboardLink(userData.user.role),
           },
         ]
       : []),
   ];
+
   return (
     <div className="flex  justify-between w-full px-2">
       <div className="text-xl text-white font-bold">

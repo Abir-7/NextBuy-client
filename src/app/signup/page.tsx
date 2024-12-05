@@ -28,8 +28,7 @@ const SignupPage = () => {
           router.push("/login");
         }
       },
-      onError: (error: Error) => {
-        console.log(error);
+      onError: () => {
         toast.success("Something Went Wrong");
       },
     });

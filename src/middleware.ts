@@ -16,9 +16,14 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
   //admin route
-  if (user?.role == "ADMIN" && request.nextUrl.pathname.startsWith("/admin")) {
+  if (
+    user?.role == "ADMIN" ||
+    (user?.role == "SUPERADMIN" &&
+      request.nextUrl.pathname.startsWith("/admin"))
+  ) {
     return NextResponse.next();
   }
+
   //customer route
   if (
     user?.role == "CUSTOMER" &&
