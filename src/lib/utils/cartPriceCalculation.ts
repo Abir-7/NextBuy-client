@@ -2,26 +2,48 @@ import { ICartItem } from "@/redux/features/cartSlice/cartSlice";
 
 export const cartItemCalculation = (
   cartItems: ICartItem[],
-  additionalDiscount: number = 0 // default to 0 if not provided
+  additionalDiscount: number = 0 // Default additional discount to 0
 ) => {
-  const totalPrice = cartItems.reduce(
+  // Helper function to round numbers to two decimal places
+  const roundToTwo = (value: number) => parseFloat(value.toFixed(2));
+
+  // Calculate total price before any discount
+  const totalPriceBeforeDiscount = cartItems.reduce(
     (acc, item) => acc + item.quantity * item.price,
     0
   );
 
-  // Calculate initial discount if totalPrice >= 600
-  const discount = totalPrice >= 600 ? totalPrice * 0.05 : 0;
+  // Calculate total item-level discounts
+  const itemLevelDiscount = cartItems.reduce(
+    (acc, item) => acc + item.quantity * (item.price * (item.discount / 100)),
+    0
+  );
 
-  // Apply additional discount on the total price after the initial discount
-  const discountedPrice = totalPrice - discount;
+  // Total price after item-level discounts
+  const totalPrice = totalPriceBeforeDiscount - itemLevelDiscount;
+
+  // Calculate initial discount (5% if totalPrice >= 600)
+  const initialDiscount = totalPrice >= 600 ? totalPrice * 0.05 : 0;
+
+  // Total price after initial discount
+  const discountedPrice = totalPrice - initialDiscount;
+
+  // Apply additional discount (percentage of the discounted price)
   const additionalDiscountAmount = discountedPrice * (additionalDiscount / 100);
 
+  // Final subtotal after all discounts
   const subTotal = discountedPrice - additionalDiscountAmount;
 
+  // Total discount = item-level discounts + initial discount + additional discount
+  const totalDiscount =
+    itemLevelDiscount + initialDiscount + additionalDiscountAmount;
+
   return {
-    totalPrice,
-    discount,
-    additionalDiscount: additionalDiscountAmount,
-    subTotal,
+    totalPriceBeforeDiscount: roundToTwo(totalPriceBeforeDiscount),
+    itemLevelDiscount: roundToTwo(itemLevelDiscount),
+    initialDiscount: roundToTwo(initialDiscount),
+    additionalDiscount: roundToTwo(additionalDiscountAmount),
+    totalDiscount: roundToTwo(totalDiscount),
+    subTotal: roundToTwo(subTotal),
   };
 };

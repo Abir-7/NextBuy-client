@@ -24,11 +24,9 @@ const Products = () => {
 
   const searchParams = useSearchParams(); // Access query parameters
   const initialCategoryId = searchParams.get("categoryId");
-  console.log(initialCategoryId, "ff");
 
   useEffect(() => {
     if (initialCategoryId) {
-      console.log(initialCategoryId);
       setCategoryId(initialCategoryId);
     }
   }, [initialCategoryId, setCategoryId]);

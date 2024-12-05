@@ -2,27 +2,72 @@
 import React from "react";
 import Image from "next/image";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
-import {
-  decreassItem,
-  increassItem,
-} from "@/redux/features/cartSlice/cartSlice";
+
 import { Button } from "@/components/ui/button";
+import {
+  decreaseItem,
+  increaseItem,
+} from "@/redux/features/cartSlice/cartSlice";
+import { useMakeOrder } from "@/hooks/order.hook";
+import { toast } from "sonner";
 
-const CartPage: React.FC = () => {
+const CartPage = () => {
   const dispatch = useAppDispatch();
-  const cartData = useAppSelector((state) => state.cartSlice);
+  const { mutate } = useMakeOrder();
 
-  const { cartItems, discount, additionalDiscount, totalPrice, subTotal } =
-    cartData;
+  const {
+    cartItems,
+    initialDiscount,
+
+    itemLevelDiscount,
+    subTotal,
+    totalDiscount,
+    additionalDiscount,
+    totalPriceBeforeDiscount,
+  } = useAppSelector((state) => state.cartSlice);
 
   const handleIncrement = (id: string, size: string) => {
-    dispatch(increassItem({ id, size }));
+    dispatch(increaseItem({ id, size }));
   };
 
   const handleDecrement = (id: string, size: string) => {
-    dispatch(decreassItem({ id, size }));
+    dispatch(decreaseItem({ id, size }));
   };
 
+  const handleCheckout = () => {
+    // Map cart items to IOrderItem format
+    const orderItems = cartItems.map((item) => ({
+      productId: item.id,
+      size: item.size || undefined,
+      quantity: item.quantity,
+      price: item.price,
+      discount: itemLevelDiscount || 0, // Use item-level discount if available
+      shopId: item.shopId,
+    }));
+
+    // Create the order request object
+    const orderRequest = {
+      items: orderItems,
+      total: totalPriceBeforeDiscount,
+      discounts: totalDiscount,
+      subTotal: subTotal,
+    };
+    mutate(orderRequest, {
+      onSuccess: (res) => {
+        toast.success("Redirecting to payment page...");
+        const payLink = res?.data?.payLink;
+
+        // If payLink exists, redirect the user to the payment page
+        if (payLink) {
+          window.location.href = payLink;
+        } else {
+          toast.error("Failed to retrieve payment link.");
+        }
+      },
+    });
+
+    // Send the orderRequest to your API or handle it as needed
+  };
   return (
     <div className="container mx-auto px-4 py-6">
       <h1 className="text-2xl font-bold mb-4">Shopping Cart</h1>
@@ -68,10 +113,11 @@ const CartPage: React.FC = () => {
                   </div>
                 </div>
               </div>
-              <div className="mt-4 md:mt-0">
+              <div className="mt-4 md:mt-0 flex flex-col  md:items-end">
                 <p className="text-lg font-bold">
-                  Subtotal: ${item.price * item.quantity}
+                  Total: ${item.price * item.quantity}
                 </p>
+                <p className=" font-bold">Discount: -${itemLevelDiscount}</p>
               </div>
             </div>
           ))}
@@ -80,23 +126,29 @@ const CartPage: React.FC = () => {
         <div className="bg-white p-4 rounded shadow">
           <h2 className="text-xl font-bold mb-4">Summary</h2>
           <div className="flex justify-between mb-2">
-            <span>Subtotal:</span>
-            <span>${subTotal}</span>
+            <span>Total:</span>
+            <span>${totalPriceBeforeDiscount}</span>
           </div>
           <div className="flex justify-between mb-2">
-            <span>Discount:</span>
-            <span>-${discount}</span>
+            <span>Regular Discount:</span>
+            <span>-${initialDiscount}</span>
           </div>
           <div className="flex justify-between mb-2">
             <span>Additional Discount:</span>
             <span>-${additionalDiscount}</span>
           </div>
+          <div className="flex justify-between mb-2">
+            <span>Total Discount:</span>
+            <span>-${totalDiscount}</span>
+          </div>
           <hr className="my-4" />
           <div className="flex justify-between text-lg font-bold">
             <span>Total:</span>
-            <span>${totalPrice}</span>
+            <span>${subTotal}</span>
           </div>
-          <Button className="mt-2 w-full">Checkout</Button>
+          <Button onClick={handleCheckout} className="mt-2 w-full">
+            Checkout
+          </Button>
         </div>
       </div>
     </div>

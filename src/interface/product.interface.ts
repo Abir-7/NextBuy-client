@@ -21,4 +21,16 @@ export interface IProduct {
   updatedAt: Date;
   category: IProductCategory;
   shop: IShop;
+  flashSale?: IDiscount[];
+}
+
+export interface IDiscount {
+  id: string;
+  productId: string;
+  discount: number;
+  startAt: string;
+  endAt: string;
+  createdAt: string;
+  updatedAt: string;
+  product: IProduct;
 }

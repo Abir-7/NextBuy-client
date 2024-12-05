@@ -70,3 +70,13 @@ export const deleteProduct = async (id: string) => {
     throw new Error(error?.response?.data?.message || error?.message || error);
   }
 };
+
+export const flashProduct = async () => {
+  try {
+    console.log("object");
+    const res = await axiosInstance.post(`/product/flash-sale`);
+    return res?.data;
+  } catch (error: any) {
+    throw new Error(error?.response?.data?.message || error?.message || error);
+  }
+};

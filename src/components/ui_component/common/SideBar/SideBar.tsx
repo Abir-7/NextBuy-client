@@ -13,7 +13,13 @@ import {
 } from "@/components/ui/sidebar";
 import { AuthContext } from "@/providers/AuthProvider";
 import { DialogContent } from "@radix-ui/react-dialog";
-import { ShoppingBag, Home, Database, Settings } from "lucide-react";
+import {
+  ShoppingBag,
+  Home,
+  Database,
+  Settings,
+  ListOrderedIcon,
+} from "lucide-react";
 import Link from "next/link";
 import { useContext } from "react";
 
@@ -39,7 +45,35 @@ const items = [
       { url: "/vendor/shop", title: "Your Shop", icon: ShoppingBag },
     ],
   },
+  {
+    title: "Order Management",
+    roles: ["VENDOR"],
+    child: [
+      {
+        url: "/vendor/order-history",
+        title: "All Order",
+        icon: ListOrderedIcon,
+      },
+    ],
+  },
   // customer
+  {
+    title: "Dashboard",
+    url: "/customer/dashboard",
+    icon: Database,
+    roles: ["CUSTOMER"],
+  },
+  {
+    title: "Order Management",
+    roles: ["CUSTOMER"],
+    child: [
+      {
+        url: "/customer/order-history",
+        title: "Order History",
+        icon: ListOrderedIcon,
+      },
+    ],
+  },
 ];
 
 export default function AppSidebar() {

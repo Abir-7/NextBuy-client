@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IApiResponse } from "@/interface/apiResponse.interface";
-import { IProduct } from "@/interface/product.interface";
+import { IDiscount, IProduct } from "@/interface/product.interface";
 import {
   addProduct,
   allProduct,
   deleteProduct,
+  flashProduct,
   singleProduct,
   updateProduct,
 } from "@/services/product";
@@ -47,5 +48,12 @@ export const useSingleProduct = (id: string) => {
     enabled: !!id,
     queryKey: ["single-product"],
     queryFn: async () => await singleProduct(id),
+  });
+};
+
+export const useFlashProduct = () => {
+  return useQuery<IApiResponse<IDiscount[]>>({
+    queryKey: ["flash-product"],
+    queryFn: async () => await flashProduct(),
   });
 };

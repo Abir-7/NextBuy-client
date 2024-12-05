@@ -64,6 +64,10 @@ const AllProduct = ({ data }: { data: IProduct[] }) => {
                       quantity: 1,
                       title: option.name,
                       size: option.sizes.length > 0 ? option.sizes[0] : "",
+                      discount: option.flashSale
+                        ? option.flashSale[0].discount + option.discounts
+                        : option.discounts,
+                      shopId: option.shopId,
                     })
                   }
                   className="hover:text-green-500"

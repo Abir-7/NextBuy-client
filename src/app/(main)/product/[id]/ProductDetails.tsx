@@ -51,11 +51,11 @@ const ProductDetails = ({ id }: { id: string }) => {
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Image Gallery */}
         <div className="flex flex-col gap-4 w-full lg:w-1/2">
-          <div className="flex justify-center w-full">
+          <div className="flex justify-center w-full md:px-5 lg:px-10">
             {product && (
               <Image
                 width={400}
-                height={200}
+                height={300}
                 src={product?.images[index]}
                 alt={"ddgdg"}
                 className=" lg:w-full h-80 sm:h-96 md:h-[400px] lg:h-[500px] object-cover rounded-lg border"
@@ -66,12 +66,12 @@ const ProductDetails = ({ id }: { id: string }) => {
             {product?.images.map((image, idx) => (
               <Image
                 onClick={() => setIndex(idx)}
-                width={100}
+                width={200}
                 height={100}
                 key={idx}
                 src={image}
                 alt={`Product ${idx + 1}`}
-                className="w-20 h-20 rounded-lg border cursor-pointer"
+                className="w-20 h-20 rounded-lg border object-cover cursor-pointer"
               />
             ))}
           </div>
@@ -82,8 +82,25 @@ const ProductDetails = ({ id }: { id: string }) => {
           <h1 className="text-3xl font-bold">{product?.name}</h1>
           <p className="text-gray-700 mt-4">{product?.description}</p>
           <p className="text-xl font-semibold text-green-600 mt-4">
-            ${product?.price}
+            $
+            {!!product?.flashSale?.length ? (
+              <>
+                {product.price -
+                  (product.price * product.flashSale[0].discount) / 100}
+              </>
+            ) : (
+              <>{product?.price}</>
+            )}
           </p>
+          {!!product?.flashSale?.length && (
+            <p className="text-sm font-semibold  mt-2">
+              <span> ${product?.price}</span>{" "}
+              <span className="text-xs ms-3  text-orange-500">
+                {" "}
+                {product?.flashSale[0].discount}%
+              </span>
+            </p>
+          )}
 
           {/* Size Selection */}
           <div className="mt-6">
@@ -133,6 +150,10 @@ const ProductDetails = ({ id }: { id: string }) => {
                   quantity,
                   title: product.name,
                   size: selectedSize,
+                  discount: product.flashSale
+                    ? product.flashSale[0].discount + product.discounts
+                    : product.discounts,
+                  shopId: product.shopId,
                 })
               }
               disabled={quantity <= 0}
