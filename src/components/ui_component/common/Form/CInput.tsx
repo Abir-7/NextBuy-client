@@ -26,7 +26,7 @@ const CInput = ({
 
   return (
     <div className="grid w-full items-center gap-1.5">
-      <Label htmlFor={name}>{label}</Label>
+      {label && <Label htmlFor={name}>{label}</Label>}
       <Input
         placeholder={placeHolder}
         type={type}
