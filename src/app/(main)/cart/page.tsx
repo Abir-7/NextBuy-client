@@ -16,7 +16,7 @@ import { useGetShopCupon } from "@/hooks/Cupon.hook";
 
 const CartPage = () => {
   const dispatch = useAppDispatch();
-  const { mutate } = useMakeOrder();
+  const { mutate, isPending } = useMakeOrder();
 
   const {
     cuponId,
@@ -155,7 +155,11 @@ const CartPage = () => {
               <span>Total:</span>
               <span>${subTotal}</span>
             </div>
-            <Button onClick={handleCheckout} className="mt-2 w-full">
+            <Button
+              disabled={isPending}
+              onClick={handleCheckout}
+              className="mt-2 w-full"
+            >
               Checkout
             </Button>
             <div className="mt-4 grid justify-items-center">

@@ -18,7 +18,7 @@ interface ICategory {
 }
 
 const CategorieAction = ({ categories }: { categories: ICategory[] }) => {
-  const { mutate } = useAddCategory();
+  const { mutate, isPending } = useAddCategory();
 
   const addCategory = async (data: FieldValues) => {
     mutate(data.name, {
@@ -47,7 +47,7 @@ const CategorieAction = ({ categories }: { categories: ICategory[] }) => {
               placeHolder="Name"
             ></CInput>
 
-            <CButton type="submit" text="Add"></CButton>
+            <CButton isPending={isPending} type="submit" text="Add"></CButton>
           </div>
         </CForm>
       </div>

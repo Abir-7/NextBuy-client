@@ -14,7 +14,7 @@ import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 
 const EditProduct = ({ product }: { product: IProduct }) => {
-  const { mutate } = useUpdateProduct();
+  const { mutate, isPending } = useUpdateProduct();
   const onFromSubmit = async (data: FieldValues) => {
     const fiterData = filterAndConvertFields(data, [
       "discounts",
@@ -111,7 +111,7 @@ const EditProduct = ({ product }: { product: IProduct }) => {
             type="number"
           ></CInput>
           <CGroupCheckbox></CGroupCheckbox>
-          <CButton text="Update" type="submit"></CButton>
+          <CButton isPending={isPending} text="Update" type="submit"></CButton>
         </div>
       </CForm>
     </Modalbox>

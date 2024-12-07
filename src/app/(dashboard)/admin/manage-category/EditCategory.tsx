@@ -8,7 +8,7 @@ import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 
 const EditCategory = ({ id }: { id: string }) => {
-  const { mutate: updateCategory } = useUpdateCategory();
+  const { mutate: updateCategory, isPending } = useUpdateCategory();
   const onFromSubmit = async (data: FieldValues) => {
     updateCategory(
       { id, name: data.name },
@@ -54,6 +54,7 @@ const EditCategory = ({ id }: { id: string }) => {
           ></CInput>
 
           <DialogClose
+            disabled={isPending}
             type="submit"
             className="flex bg-primary py-2 rounded-lg justify-center text-primary-foreground shadow hover:bg-primary/90"
           >

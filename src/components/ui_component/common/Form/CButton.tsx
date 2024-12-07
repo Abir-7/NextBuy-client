@@ -3,11 +3,14 @@ import React from "react";
 interface ButtonProps {
   type: "button" | "submit" | "reset";
   text: string;
+  isPending?: boolean;
 }
-const CButton = ({ type, text }: ButtonProps) => {
+const CButton = ({ type, text, isPending = false }: ButtonProps) => {
   return (
     <div>
-      <Button type={type}>{text}</Button>
+      <Button disabled={isPending} type={type}>
+        {isPending ? "Processing.." : text}
+      </Button>
     </div>
   );
 };

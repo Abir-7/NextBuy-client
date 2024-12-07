@@ -16,7 +16,7 @@ import { toast } from "sonner";
 
 const SignupPage = () => {
   const router = useRouter();
-  const { mutate } = useUserRegistration();
+  const { mutate, isPending } = useUserRegistration();
   const auth = useContext(AuthContext);
   const onFromSubmit = async (data: FieldValues) => {
     mutate(data, {
@@ -30,7 +30,8 @@ const SignupPage = () => {
           router.push("/login");
         }
       },
-      onError: () => {
+      onError: (error) => {
+        console.log(error);
         toast.success("Something Went Wrong");
       },
     });
@@ -55,7 +56,11 @@ const SignupPage = () => {
               name="accountType"
               label="Open account as:"
             ></CSelect>
-            <CButton text="Submit" type="submit"></CButton>
+            <CButton
+              isPending={isPending}
+              text="Submit"
+              type="submit"
+            ></CButton>
           </div>
         </CForm>{" "}
         <div className="flex justify-end">

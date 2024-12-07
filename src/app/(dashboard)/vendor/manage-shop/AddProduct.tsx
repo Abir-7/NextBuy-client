@@ -24,7 +24,7 @@ import CImageInput from "@/components/ui_component/common/Form/CImage";
 
 const AddProduct = () => {
   const { data } = useAllCategory();
-  const { mutate } = useAddProduct();
+  const { mutate, isPending } = useAddProduct();
   const { data: shopData } = useVendorShop();
 
   const onFromSubmit = async (data: FieldValues) => {
@@ -91,7 +91,11 @@ const AddProduct = () => {
               name="shopId"
             ></CSelect>
 
-            <CButton type="submit" text="Add Product"></CButton>
+            <CButton
+              isPending={isPending}
+              type="submit"
+              text="Add Product"
+            ></CButton>
           </div>
         </CForm>
       </CardContent>

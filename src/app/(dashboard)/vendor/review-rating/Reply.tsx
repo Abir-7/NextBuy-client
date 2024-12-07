@@ -8,7 +8,7 @@ import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 
 const Reply = ({ id }: { id: string }) => {
-  const { mutate } = useReplyRating();
+  const { mutate, isPending } = useReplyRating();
   const onFormSubmit = async (data: FieldValues) => {
     mutate(
       { id, vendorReply: data.vendorReply },
@@ -28,7 +28,7 @@ const Reply = ({ id }: { id: string }) => {
         <CForm onFromSubmit={onFormSubmit}>
           <div className="grid gap-2">
             <CInput name="vendorReply" label="Reply"></CInput>
-            <CButton type="submit" text="Reply"></CButton>
+            <CButton type="submit" isPending={isPending} text="Reply"></CButton>
           </div>
         </CForm>
       </Modalbox>

@@ -17,7 +17,7 @@ const LoginPage = () => {
   const authData = useContext(AuthContext);
 
   const router = useRouter();
-  const { mutate } = useUserlogin();
+  const { mutate, isPending } = useUserlogin();
 
   const onFromSubmit = async (data: FieldValues) => {
     mutate(data, {
@@ -41,7 +41,11 @@ const LoginPage = () => {
             {" "}
             <CInput name="email" label="Email" type="email"></CInput>
             <CInput name="password" label="Password" type="password"></CInput>
-            <CButton text="Submit" type="submit"></CButton>
+            <CButton
+              isPending={isPending}
+              text="Submit"
+              type="submit"
+            ></CButton>
           </div>
         </CForm>{" "}
         <div className="flex justify-between items-center mt-2">

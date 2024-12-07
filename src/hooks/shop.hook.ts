@@ -19,7 +19,7 @@ export const useAddShop = () => {
     mutationFn: async (data: any) => await addVendorShop(data),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["vendorShop", "allVendorShop"],
+        queryKey: ["vendorShop"],
       });
     },
   });

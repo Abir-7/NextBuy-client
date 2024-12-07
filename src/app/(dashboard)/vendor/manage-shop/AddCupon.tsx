@@ -19,7 +19,7 @@ import { useCreateCupon } from "@/hooks/Cupon.hook";
 import { useVendorShop } from "@/hooks/shop.hook"; // Fetch vendor shops
 
 const AddCoupon = () => {
-  const { mutate } = useCreateCupon();
+  const { mutate, isPending } = useCreateCupon();
   const { data: shopData } = useVendorShop();
 
   const onFormSubmit = async (data: FieldValues) => {
@@ -83,7 +83,11 @@ const AddCoupon = () => {
             ></CSelect>
 
             {/* Submit Button */}
-            <CButton type="submit" text="Create Coupon"></CButton>
+            <CButton
+              isPending={isPending}
+              type="submit"
+              text="Create Coupon"
+            ></CButton>
           </div>
         </CForm>
       </CardContent>

@@ -17,7 +17,7 @@ import { toast } from "sonner";
 import { uploadImagesToCloudinary } from "@/lib/utils/uploadImageArray";
 import { useAddShop } from "@/hooks/shop.hook";
 const AddShop = () => {
-  const { mutate } = useAddShop();
+  const { mutate, isPending } = useAddShop();
   const onFromSubmit = async (data: FieldValues) => {
     const { images: imageFiles, ...otherData } = data;
     const imageUrl = await uploadImagesToCloudinary(imageFiles);
@@ -50,7 +50,11 @@ const AddShop = () => {
             <CInput label="Name" name="name"></CInput>
             <CInput label="Location" name="location"></CInput>
             <CImage name="images" label="Product Image"></CImage>
-            <CButton type="submit" text="Add Shop"></CButton>
+            <CButton
+              isPending={isPending}
+              type="submit"
+              text="Add Shop"
+            ></CButton>
           </div>
         </CForm>
       </CardContent>
