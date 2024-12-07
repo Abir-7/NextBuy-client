@@ -1,10 +1,13 @@
 "use client";
 import { useSingleOrder } from "@/hooks/order.hook";
 import Image from "next/image";
-import React from "react";
+import React, { useContext } from "react";
+import ReviewAction from "./ReviewAction";
+import { AuthContext } from "@/providers/AuthProvider";
 
 const OrderDetails = ({ id }: { id: string }) => {
   // Fetch the order details using the custom hook
+  const authData = useContext(AuthContext);
   const {
     data: { data: orderDetails } = {},
     isLoading,
@@ -118,6 +121,14 @@ const OrderDetails = ({ id }: { id: string }) => {
                     <span className="font-medium">Shop: {item.shop?.name}</span>
                   </p>
                 </div>
+                {authData?.user?.role == "CUSTOMER" && (
+                  <div className="mt-2 md:mt-0">
+                    <ReviewAction
+                      productId={item.productId}
+                      orderItemId={item.id}
+                    ></ReviewAction>
+                  </div>
+                )}
               </div>
             ))}
           </div>

@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IApiResponse } from "@/interface/apiResponse.interface";
 import { IDiscount, IProduct } from "@/interface/product.interface";
+import { queryClient } from "@/providers/Provider";
 import {
   addProduct,
   allProduct,
+  cloneProduct,
   deleteProduct,
   flashProduct,
   singleProduct,
@@ -15,30 +17,50 @@ import { FieldValues } from "react-hook-form";
 export const useAddProduct = () => {
   return useMutation<any, Error, FieldValues, unknown>({
     mutationFn: async (data: any) => await addProduct(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["vendorShopSingle"] });
+    },
   });
 };
+
+export const useCloneProduct = () => {
+  return useMutation<any, Error, FieldValues, unknown>({
+    mutationFn: async (data: any) => await cloneProduct(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["vendorShopSingle"] });
+    },
+  });
+};
+
 export const useUpdateProduct = () => {
   return useMutation<any, Error, { data: FieldValues; id: string }, unknown>({
     mutationFn: async (data: { data: FieldValues; id: string }) =>
       await updateProduct(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["vendorShopSingle"] });
+    },
   });
 };
 
 export const useDeleteProduct = () => {
   return useMutation<any, Error, string, unknown>({
     mutationFn: async (id) => await deleteProduct(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["vendorShopSingle"] });
+    },
   });
 };
 
 export const useAllProduct = (
   searchTerm: string,
   categoryId: string,
-  sortCriteria: string
+  sortCriteria: string,
+  page: number
 ) => {
   return useQuery<IApiResponse<IProduct[]>>({
-    queryKey: ["all-product", searchTerm, categoryId, sortCriteria],
+    queryKey: ["all-product", searchTerm, categoryId, sortCriteria, page],
     queryFn: async () =>
-      await allProduct({ searchTerm, categoryId, sortCriteria }),
+      await allProduct({ searchTerm, categoryId, sortCriteria, page }),
   });
 };
 

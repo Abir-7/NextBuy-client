@@ -9,7 +9,7 @@ export const cartItemCalculation = (
 
   // Calculate total price before any discount
   const totalPriceBeforeDiscount = cartItems.reduce(
-    (acc, item) => acc + item.quantity * item.price,
+    (acc, item) => acc + item?.quantity * item?.price,
     0
   );
 
@@ -22,26 +22,18 @@ export const cartItemCalculation = (
   // Total price after item-level discounts
   const totalPrice = totalPriceBeforeDiscount - itemLevelDiscount;
 
-  // Calculate initial discount (5% if totalPrice >= 600)
-  const initialDiscount = totalPrice >= 600 ? totalPrice * 0.05 : 0;
-
-  // Total price after initial discount
-  const discountedPrice = totalPrice - initialDiscount;
-
-  // Apply additional discount (percentage of the discounted price)
-  const additionalDiscountAmount = discountedPrice * (additionalDiscount / 100);
+  // Apply additional discount (percentage of the total price after item-level discounts)
+  const additionalDiscountAmount = totalPrice * (additionalDiscount / 100);
 
   // Final subtotal after all discounts
-  const subTotal = discountedPrice - additionalDiscountAmount;
+  const subTotal = totalPrice - additionalDiscountAmount;
 
-  // Total discount = item-level discounts + initial discount + additional discount
-  const totalDiscount =
-    itemLevelDiscount + initialDiscount + additionalDiscountAmount;
+  // Total discount = item-level discounts + additional discount
+  const totalDiscount = itemLevelDiscount + additionalDiscountAmount;
 
   return {
     totalPriceBeforeDiscount: roundToTwo(totalPriceBeforeDiscount),
     itemLevelDiscount: roundToTwo(itemLevelDiscount),
-    initialDiscount: roundToTwo(initialDiscount),
     additionalDiscount: roundToTwo(additionalDiscountAmount),
     totalDiscount: roundToTwo(totalDiscount),
     subTotal: roundToTwo(subTotal),

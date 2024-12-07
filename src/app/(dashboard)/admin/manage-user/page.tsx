@@ -5,18 +5,22 @@ import UserTable from "./UserTable";
 import SearchInput from "@/components/ui_component/common/searchSortFilter/SearchInput";
 import useDebounce from "@/lib/utils/useDebounce";
 import FilterSortSelect from "@/components/ui_component/common/searchSortFilter/FilterSortSelect";
+import { DynamicPagination } from "@/components/ui_component/common/Pagination/DynamicPagination";
 
 const ManageUser = () => {
+  const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [isBlocked, setIsblock] = useState("");
 
   const searchTermText = useDebounce(searchTerm, 500);
 
-  const { data } = useGetAllUser(searchTermText, isBlocked);
-
+  const { data } = useGetAllUser(searchTermText, isBlocked, currentPage);
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
   return (
     <div>
-      <div className="flex justify-between">
+      <div className="flex flex-wrap justify-between">
         <SearchInput
           placeholder="Search by Email"
           value={searchTerm}
@@ -34,7 +38,17 @@ const ManageUser = () => {
           ></FilterSortSelect>
         </div>
       </div>
-      {data?.data && <UserTable users={data?.data}></UserTable>}
+      <div className=" min-h-[78vh] lg:min-h-[80vh] mt-3">
+        {data?.data && <UserTable users={data?.data}></UserTable>}
+      </div>
+      <div className="flex justify-center mt-5">
+        {data?.meta && data && (
+          <DynamicPagination
+            meta={data.meta}
+            onPageChange={handlePageChange}
+          ></DynamicPagination>
+        )}
+      </div>
     </div>
   );
 };

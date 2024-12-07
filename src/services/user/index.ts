@@ -3,12 +3,17 @@
 
 import axiosInstance from "@/lib/axiosInstance/axiosInstance";
 
-export const getAllUser = async (searchTerm: string, isBlocked: string) => {
+export const getAllUser = async (
+  searchTerm: string,
+  isBlocked: string,
+  page: number
+) => {
   try {
     const res = await axiosInstance.get(`/user`, {
       params: {
         searchTerm,
         isBlocked,
+        page,
       },
     });
 

@@ -2,6 +2,7 @@ import React from "react";
 
 import AddShop from "./AddShop";
 import AddProduct from "./AddProduct";
+import AddCoupon from "./AddCupon";
 
 const ManageShop = () => {
   return (
@@ -11,6 +12,7 @@ const ManageShop = () => {
         <AddShop></AddShop>
         {/* Add Product Form */}
         <AddProduct></AddProduct>
+        <AddCoupon></AddCoupon>
       </div>
     </div>
   );

@@ -142,12 +142,12 @@ const NavbarUi = () => {
         </NavigationMenu>
 
         <div className="flex gap-9">
-          <Cart></Cart>
+          {userData?.user?.role == "CUSTOMER" && <Cart></Cart>}
           <Login></Login>
         </div>
       </div>
       <div className="md:hidden flex gap-9">
-        <Cart></Cart>
+        {userData?.user?.role == "CUSTOMER" && <Cart></Cart>}
         <DropdownMenu>
           <DropdownMenuTrigger className="outline-none flex h-full items-center ">
             <FaBars className="text-white" />

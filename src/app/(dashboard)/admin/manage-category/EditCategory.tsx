@@ -16,8 +16,7 @@ const EditCategory = ({ id }: { id: string }) => {
         onSuccess: () => {
           toast.success("Category updated.");
         },
-        onError: (err) => {
-          console.log(err.message, "dada");
+        onError: () => {
           toast.error("Something went wrong! Try again.");
         },
       }

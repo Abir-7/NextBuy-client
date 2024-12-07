@@ -19,7 +19,7 @@ const Page = () => {
       <div className="min-h-[85vh]">
         {data ? <OrderTable orderData={data.data}></OrderTable> : <></>}
       </div>
-      <div className="flex justify-center">
+      <div className="flex justify-center mt-5">
         {data?.meta && data && (
           <DynamicPagination
             meta={data.meta}

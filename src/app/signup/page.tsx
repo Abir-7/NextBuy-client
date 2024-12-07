@@ -5,24 +5,26 @@ import CInput from "@/components/ui_component/common/Form/CInput";
 import CSelect from "@/components/ui_component/common/Form/CSelect";
 import { useUserRegistration } from "@/hooks/auth.hook";
 import { IUserToken } from "@/interface/token.interface";
+import { AuthContext } from "@/providers/AuthProvider";
 import { jwtDecode } from "jwt-decode";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useContext } from "react";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 
 const SignupPage = () => {
   const router = useRouter();
   const { mutate } = useUserRegistration();
-
+  const auth = useContext(AuthContext);
   const onFromSubmit = async (data: FieldValues) => {
     mutate(data, {
       onSuccess: async (data) => {
         const decode = (await jwtDecode(data?.data as string)) as IUserToken;
         toast.success("User has been created");
         if (decode?.role === "VENDOR") {
+          auth?.setIsLoading(true);
           router.push(`/${(decode?.role as string).toLowerCase()}/manage-shop`);
         } else {
           router.push("/login");

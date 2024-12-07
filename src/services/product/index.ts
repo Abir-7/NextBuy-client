@@ -14,14 +14,26 @@ export const addProduct = async (data: FieldValues) => {
   }
 };
 
+export const cloneProduct = async (data: FieldValues) => {
+  try {
+    const res = await axiosInstance.post(`/product/clone-product`, data);
+
+    return res?.data;
+  } catch (error: any) {
+    throw new Error(error?.response?.data?.message || error?.message || error);
+  }
+};
+
 export const allProduct = async ({
   searchTerm,
   categoryId,
   sortCriteria: sort,
+  page,
 }: {
   searchTerm: string;
   categoryId: string;
   sortCriteria: string;
+  page: number;
 }) => {
   try {
     const res = await axiosInstance.get(`/product`, {
@@ -29,6 +41,8 @@ export const allProduct = async ({
         searchTerm,
         categoryId,
         sort,
+        page,
+        limit: 12,
       },
     });
 
@@ -73,7 +87,6 @@ export const deleteProduct = async (id: string) => {
 
 export const flashProduct = async () => {
   try {
-    console.log("object");
     const res = await axiosInstance.post(`/product/flash-sale`);
     return res?.data;
   } catch (error: any) {

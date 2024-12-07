@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useContext } from "react";
 import {
   Card,
   CardContent,
@@ -15,13 +15,17 @@ import Image from "next/image";
 import { FaCartPlus } from "react-icons/fa";
 import { useAppDispatch } from "@/redux/hooks";
 import { addItemToCart, ICartItem } from "@/redux/features/cartSlice/cartSlice";
+import AvarageRating from "../Rating/AvarageRating";
+
+import CartConflict from "../cartConfilct/CartConflict";
+import { AuthContext } from "@/providers/AuthProvider";
 
 const AllProduct = ({ data }: { data: IProduct[] }) => {
   const dispatch = useAppDispatch();
   const handleAddToCart = (data: ICartItem) => {
     dispatch(addItemToCart(data));
   };
-
+  const userData = useContext(AuthContext);
   return (
     <div className="container mx-auto mt-2">
       {" "}
@@ -44,17 +48,26 @@ const AllProduct = ({ data }: { data: IProduct[] }) => {
                   className="hover:underline underline-offset-2"
                   href={`/product/${option.productId}`}
                 >
-                  {option?.name}
+                  {option.name.length > 17 ? (
+                    <> {option?.name.slice(0, 18)}..</>
+                  ) : (
+                    option?.name
+                  )}
                 </Link>
               </CardTitle>
               <CardDescription>
-                {option.description.slice(0, 30)}...
+                {option?.description?.length > 40 ? (
+                  <>{option.description.slice(0, 39)}...</>
+                ) : (
+                  option.description
+                )}
               </CardDescription>
             </CardHeader>
             <CardContent className="text-sm mt-2 pb-1 ">
               <div className="flex justify-between items-center">
                 <p className="font-medium">{option.price}Tk</p>
                 <Button
+                  disabled={userData?.user?.role !== "CUSTOMER"}
                   onClick={() =>
                     handleAddToCart({
                       category: option?.category.name,
@@ -64,8 +77,8 @@ const AllProduct = ({ data }: { data: IProduct[] }) => {
                       quantity: 1,
                       title: option.name,
                       size: option.sizes.length > 0 ? option.sizes[0] : "",
-                      discount: option.flashSale
-                        ? option.flashSale[0].discount + option.discounts
+                      discount: !!option.flashSale?.length
+                        ? option.flashSale[0]?.discount + option.discounts
                         : option.discounts,
                       shopId: option.shopId,
                     })
@@ -77,15 +90,16 @@ const AllProduct = ({ data }: { data: IProduct[] }) => {
                 </Button>
               </div>
               <div className="flex justify-center">
-                <p className="font-medium">*****</p>
+                <AvarageRating
+                  rating={option?.averageRating ? option?.averageRating : 0}
+                  width={55}
+                ></AvarageRating>
               </div>
             </CardContent>
           </Card>
         ))}
       </div>
-      <div className="flex justify-center mb-5">
-        <Button type="button">Show More</Button>
-      </div>
+      <CartConflict></CartConflict>
     </div>
   );
 };

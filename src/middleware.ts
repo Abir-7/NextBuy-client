@@ -31,6 +31,12 @@ export async function middleware(request: NextRequest) {
   ) {
     return NextResponse.next();
   }
+  if (
+    user?.role == "CUSTOMER" &&
+    request.nextUrl.pathname.startsWith("/cart")
+  ) {
+    return NextResponse.next();
+  }
   //vendor route
   if (
     user?.role == "VENDOR" &&
@@ -56,5 +62,11 @@ export async function middleware(request: NextRequest) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ["/customer/:path*", "/admin/:path*", "/login", "/product/:path*"],
+  matcher: [
+    "/customer/:path*",
+    "/admin/:path*",
+    "/login",
+    "/cart",
+    "/product/:path*",
+  ],
 };

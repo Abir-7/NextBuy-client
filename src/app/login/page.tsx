@@ -10,6 +10,8 @@ import { useUserlogin } from "@/hooks/auth.hook";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { AuthContext } from "@/providers/AuthProvider";
+import { ResetPassModal } from "./ResetPassModal";
+import { Button } from "@/components/ui/button";
 
 const LoginPage = () => {
   const authData = useContext(AuthContext);
@@ -42,14 +44,19 @@ const LoginPage = () => {
             <CButton text="Submit" type="submit"></CButton>
           </div>
         </CForm>{" "}
-        <div className="flex justify-end">
-          <Link href={"/signup"} className=" flex font-medium w-fit mt-2">
+        <div className="flex justify-between items-center mt-2">
+          {" "}
+          <ResetPassModal></ResetPassModal>
+          <Link href={"/signup"} className=" flex font-medium w-fit text-sm">
             {" "}
-            <span className=" gap-2 ">Go to signup page </span>{" "}
-            <span className="mt-1">
+            <Button variant={"link"}>
               {" "}
-              <ArrowRight size={17} />
-            </span>
+              <span className=" gap-2 ">Go to signup page </span>{" "}
+              <span className="mt-1">
+                {" "}
+                <ArrowRight size={17} />
+              </span>
+            </Button>
           </Link>
         </div>
       </div>

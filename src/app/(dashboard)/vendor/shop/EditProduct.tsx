@@ -47,6 +47,8 @@ const EditProduct = ({ product }: { product: IProduct }) => {
   };
   return (
     <Modalbox
+      size="icon"
+      variant="outline"
       title="Edit Product Data"
       btncss="hover:text-green-500"
       btnIcon={

@@ -7,7 +7,14 @@ import { useFormContext } from "react-hook-form";
 interface InputProps {
   name: string;
   label: string;
-  type?: "text" | "email" | "password" | "number" | "date" | "file";
+  type?:
+    | "text"
+    | "email"
+    | "password"
+    | "number"
+    | "date"
+    | "file"
+    | "datetime-local";
   placeHolder?: string;
   required?: boolean;
 }

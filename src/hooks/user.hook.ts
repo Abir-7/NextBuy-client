@@ -11,10 +11,10 @@ import { queryClient } from "@/providers/Provider";
 import { blockUser, deleteUser, getAllUser } from "@/services/user";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
-export const useGetAllUser = (search: string, block: string) => {
+export const useGetAllUser = (search: string, block: string, page: number) => {
   return useQuery<IApiResponse<IUser[]>>({
-    queryKey: ["get-all-userdata", search, block],
-    queryFn: async () => await getAllUser(search, block),
+    queryKey: ["get-all-userdata", search, block, page],
+    queryFn: async () => await getAllUser(search, block, page),
   });
 };
 

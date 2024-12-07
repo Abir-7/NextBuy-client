@@ -12,6 +12,9 @@ import Link from "next/link";
 import React from "react";
 import EditProduct from "./EditProduct";
 import DeleteModal from "./DeleteModal";
+import { Info } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import CloneModal from "./CloneModal";
 
 const ShopDetails = ({ shop }: { shop: IShop }) => {
   return (
@@ -47,6 +50,17 @@ const ShopDetails = ({ shop }: { shop: IShop }) => {
             <div className="absolute w-full h-full  flex-col  gap-2 justify-center hidden group-hover:flex items-center bg-opacity-60  bg-black ">
               <EditProduct product={data}></EditProduct>
               <DeleteModal id={data?.productId}></DeleteModal>
+              <CloneModal data={data}></CloneModal>
+              <div className="">
+                {" "}
+                <Button size={"icon"} className="bg-white  hover:bg-white">
+                  {" "}
+                  <Link href={`/product/${data.productId}`}>
+                    {" "}
+                    <Info className=" text-green-600"></Info>
+                  </Link>
+                </Button>{" "}
+              </div>
             </div>
             <CardHeader className="pb-3">
               <div className="flex justify-center items-center">
@@ -60,9 +74,7 @@ const ShopDetails = ({ shop }: { shop: IShop }) => {
                   ></Image>
                 </div>
               </div>
-              <CardTitle>
-                <Link href={"/product/sdad"}>{data?.name}</Link>
-              </CardTitle>
+              <CardTitle>{data?.name}</CardTitle>
               <CardDescription className="">Card Description</CardDescription>
               <div className="flex items-center justify-between">
                 <p className="font-medium text-sm ">{data?.price}Tk</p>

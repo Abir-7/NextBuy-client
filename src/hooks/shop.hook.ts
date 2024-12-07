@@ -17,6 +17,11 @@ import { FieldValues } from "react-hook-form";
 export const useAddShop = () => {
   return useMutation<any, Error, FieldValues, unknown>({
     mutationFn: async (data: any) => await addVendorShop(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["vendorShop", "allVendorShop"],
+      });
+    },
   });
 };
 
@@ -35,10 +40,10 @@ export const useVendorSingleShop = (id: string | undefined) => {
   });
 };
 
-export const useAllVendorShop = () => {
+export const useAllVendorShop = (page: number) => {
   return useQuery<IApiResponse<IShop[]>>({
-    queryKey: ["allVendorShop"],
-    queryFn: async () => await getAllVendorShop(),
+    queryKey: ["allVendorShop", page],
+    queryFn: async () => await getAllVendorShop(page),
   });
 };
 

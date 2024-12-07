@@ -7,25 +7,27 @@ import { Button } from "@/components/ui/button";
 import {
   decreaseItem,
   increaseItem,
+  setAdditionalDiscount,
+  setCuponId,
 } from "@/redux/features/cartSlice/cartSlice";
 import { useMakeOrder } from "@/hooks/order.hook";
 import { toast } from "sonner";
+import { useGetShopCupon } from "@/hooks/Cupon.hook";
 
 const CartPage = () => {
   const dispatch = useAppDispatch();
   const { mutate } = useMakeOrder();
 
   const {
+    cuponId,
     cartItems,
-    initialDiscount,
-
     itemLevelDiscount,
     subTotal,
     totalDiscount,
     additionalDiscount,
     totalPriceBeforeDiscount,
   } = useAppSelector((state) => state.cartSlice);
-
+  const { data } = useGetShopCupon(cartItems[0]?.shopId || "");
   const handleIncrement = (id: string, size: string) => {
     dispatch(increaseItem({ id, size }));
   };
@@ -51,12 +53,12 @@ const CartPage = () => {
       total: totalPriceBeforeDiscount,
       discounts: totalDiscount,
       subTotal: subTotal,
+      couponId: cuponId,
     };
     mutate(orderRequest, {
       onSuccess: (res) => {
         toast.success("Redirecting to payment page...");
         const payLink = res?.data?.payLink;
-
         // If payLink exists, redirect the user to the payment page
         if (payLink) {
           window.location.href = payLink;
@@ -64,10 +66,19 @@ const CartPage = () => {
           toast.error("Failed to retrieve payment link.");
         }
       },
+      onError: () => {
+        toast.error("Failed to make order.");
+      },
     });
 
     // Send the orderRequest to your API or handle it as needed
   };
+
+  const applyCupon = (discount: number, cuponId: string) => {
+    dispatch(setAdditionalDiscount(discount));
+    dispatch(setCuponId(cuponId));
+  };
+
   return (
     <div className="container mx-auto px-4 py-6">
       <h1 className="text-2xl font-bold mb-4">Shopping Cart</h1>
@@ -124,31 +135,47 @@ const CartPage = () => {
         </div>
         {/* Cart Summary */}
         <div className="bg-white p-4 rounded shadow">
-          <h2 className="text-xl font-bold mb-4">Summary</h2>
-          <div className="flex justify-between mb-2">
-            <span>Total:</span>
-            <span>${totalPriceBeforeDiscount}</span>
+          <div>
+            <h2 className="text-xl font-bold mb-4">Summary</h2>
+            <div className="flex justify-between mb-2">
+              <span>Total:</span>
+              <span>${totalPriceBeforeDiscount}</span>
+            </div>
+
+            <div className="flex justify-between mb-2">
+              <span>Additional Discount:</span>
+              <span>-${additionalDiscount}</span>
+            </div>
+            <div className="flex justify-between mb-2">
+              <span>Total Discount:</span>
+              <span>-${totalDiscount}</span>
+            </div>
+            <hr className="my-4" />
+            <div className="flex justify-between text-lg font-bold">
+              <span>Total:</span>
+              <span>${subTotal}</span>
+            </div>
+            <Button onClick={handleCheckout} className="mt-2 w-full">
+              Checkout
+            </Button>
+            <div className="mt-4 grid justify-items-center">
+              <p className="mb-1 font-medium">Available Cupon</p>
+              {data?.data.map((code) => (
+                <>
+                  {cartItems.length > 0 && (
+                    <Button
+                      key={code.id}
+                      disabled={code.id === cuponId}
+                      onClick={() => applyCupon(code.discount, code.id)}
+                    >
+                      {" "}
+                      Code: &quot;{code.code}&quot; Discount: {code.discount}%{" "}
+                    </Button>
+                  )}
+                </>
+              ))}
+            </div>
           </div>
-          <div className="flex justify-between mb-2">
-            <span>Regular Discount:</span>
-            <span>-${initialDiscount}</span>
-          </div>
-          <div className="flex justify-between mb-2">
-            <span>Additional Discount:</span>
-            <span>-${additionalDiscount}</span>
-          </div>
-          <div className="flex justify-between mb-2">
-            <span>Total Discount:</span>
-            <span>-${totalDiscount}</span>
-          </div>
-          <hr className="my-4" />
-          <div className="flex justify-between text-lg font-bold">
-            <span>Total:</span>
-            <span>${subTotal}</span>
-          </div>
-          <Button onClick={handleCheckout} className="mt-2 w-full">
-            Checkout
-          </Button>
         </div>
       </div>
     </div>

@@ -15,22 +15,30 @@ export interface ICartItem {
 
 interface ICartState {
   cartItems: ICartItem[];
-  totalPriceBeforeDiscount: number; // Total price before any discount
-  itemLevelDiscount: number; // Total item-level discounts
-  initialDiscount: number; // Discount applied if total price >= 600
-  additionalDiscount: number; // User-applied additional discount
-  totalDiscount: number; // Total discount amount
-  subTotal: number; // Final total after all discounts
+  totalPriceBeforeDiscount: number;
+  itemLevelDiscount: number;
+
+  additionalDiscount: number;
+  totalDiscount: number;
+  subTotal: number;
+  categoryId: string; // use in product page
+  showVendorConflictDialog: boolean; // Flag to show the dialog
+  pendingItem?: ICartItem;
+  // Temporarily store the item for dialog actions
+  cuponId: string;
 }
 
 const initialState: ICartState = {
   cartItems: [],
   totalPriceBeforeDiscount: 0,
   itemLevelDiscount: 0,
-  initialDiscount: 0,
   additionalDiscount: 0,
   totalDiscount: 0,
   subTotal: 0,
+  categoryId: "",
+  showVendorConflictDialog: false,
+  pendingItem: undefined,
+  cuponId: "",
 };
 
 export const cartSlice = createSlice({
@@ -38,7 +46,15 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     addItemToCart: (state, action: PayloadAction<ICartItem>) => {
-      const { id, size, quantity } = action.payload;
+      const { shopId, id, size, quantity } = action.payload;
+
+      if (state.cartItems.length > 0 && state.cartItems[0].shopId !== shopId) {
+        // Show vendor conflict dialog
+        state.showVendorConflictDialog = true;
+        state.pendingItem = action.payload;
+        return;
+      }
+
       const itemIndex = state.cartItems.findIndex(
         (item) => item.id === id && item.size === size
       );
@@ -57,6 +73,28 @@ export const cartSlice = createSlice({
         state.additionalDiscount
       );
       Object.assign(state, priceData);
+    },
+
+    replaceCart: (state) => {
+      if (state.pendingItem) {
+        // Replace cart with the new item
+        state.cartItems = [state.pendingItem];
+        state.pendingItem = undefined;
+        state.showVendorConflictDialog = false;
+
+        // Recalculate prices
+        const priceData = cartItemCalculation(
+          state.cartItems,
+          state.additionalDiscount
+        );
+        Object.assign(state, priceData);
+      }
+    },
+
+    retainCart: (state) => {
+      // Retain current cart and close the dialog
+      state.pendingItem = undefined;
+      state.showVendorConflictDialog = false;
     },
 
     increaseItem: (
@@ -136,6 +174,15 @@ export const cartSlice = createSlice({
     },
 
     resetCart: () => initialState, // Reset the cart to its initial state
+
+    setCategoryId: (state, action: PayloadAction<string>) => {
+      // Reset the
+      state.categoryId = action.payload;
+    },
+    setCuponId: (state, action: PayloadAction<string>) => {
+      // Reset the
+      state.cuponId = action.payload;
+    },
   },
 });
 
@@ -147,6 +194,10 @@ export const {
   removeItemFromCart,
   setAdditionalDiscount,
   resetCart,
+  replaceCart,
+  retainCart,
+  setCategoryId,
+  setCuponId,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

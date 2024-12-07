@@ -8,7 +8,7 @@ const page = async () => {
     next: { tags: ["all-category"] },
   });
   const data = await res.json();
-  console.log(data);
+
   return (
     <div>
       {data && <CategorieAction categories={data.data}></CategorieAction>}

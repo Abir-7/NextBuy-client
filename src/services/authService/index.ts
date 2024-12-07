@@ -33,7 +33,7 @@ export const createUser = async (userData: any) => {
       userData
     );
 
-    (await cookies()).set("accessToken", data?.data?.token, {
+    (await cookies()).set("accessToken", data?.data, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       maxAge: 60 * 60 * 24 * 60, // 60 days
@@ -55,6 +55,36 @@ export const getCurrentUser = async () => {
   }
 
   return await decode;
+};
+
+export const setNewPass = async (passData: {
+  token: string;
+  password: string;
+}) => {
+  try {
+    const { data } = await axiosInstance.patch("/user/set-pass", passData);
+
+    return data;
+  } catch (error: any) {
+    if (error?.response?.data.message) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(error);
+    }
+  }
+};
+
+export const resetPass = async (userEmail: { email: string }) => {
+  try {
+    const { data } = await axiosInstance.post("/auth/reset", userEmail);
+    return data;
+  } catch (error: any) {
+    if (error?.response?.data.message) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error(error);
+    }
+  }
 };
 
 export const logout = async () => {

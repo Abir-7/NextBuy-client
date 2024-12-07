@@ -19,6 +19,8 @@ const DeleteModal = ({ id }: { id: string }) => {
   };
   return (
     <Modalbox
+      size="icon"
+      variant="outline"
       btncss="hover:text-red-500"
       title="Are you sure?"
       btnIcon={

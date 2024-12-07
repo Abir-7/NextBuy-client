@@ -8,8 +8,9 @@ const page = () => {
   return (
     <div>
       <Banner></Banner>
-      <Categories></Categories>
+
       <FlashSale></FlashSale>
+      <Categories></Categories>
       <VendorProducts></VendorProducts>
     </div>
   );

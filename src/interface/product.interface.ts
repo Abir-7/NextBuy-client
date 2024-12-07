@@ -1,3 +1,4 @@
+import { IReview } from "./review.interface";
 import { IShop } from "./shop.interface";
 
 interface IProductCategory {
@@ -22,6 +23,10 @@ export interface IProduct {
   category: IProductCategory;
   shop: IShop;
   flashSale?: IDiscount[];
+  averageRating?: number;
+  totalReview?: number;
+  Review?: IReview[];
+  relatedProduct: IProduct[];
 }
 
 export interface IDiscount {

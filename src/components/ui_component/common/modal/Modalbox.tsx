@@ -17,6 +17,9 @@ export function Modalbox({
   children,
   btnIcon,
   btnText,
+  isOpen = false,
+  variant = "default",
+  size = "default",
 }: {
   btncss?: string;
   btnText?: string;
@@ -24,11 +27,20 @@ export function Modalbox({
   title: string;
   children: ReactNode;
   btnIcon?: ReactNode;
+  isOpen?: boolean;
+  size?: "default" | "sm" | "lg" | "icon";
+  variant?:
+    | "link"
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost";
 }) {
   return (
-    <Dialog>
+    <Dialog defaultOpen={isOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" className={btncss}>
+        <Button size={size} variant={variant} className={btncss}>
           {btnIcon}
           {btnText}
         </Button>

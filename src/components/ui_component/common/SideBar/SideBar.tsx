@@ -22,6 +22,7 @@ import {
   ListOrdered,
   ShoppingCartIcon,
   ChartNoAxesGanttIcon,
+  MessageCircleHeartIcon,
 } from "lucide-react";
 import Link from "next/link";
 import { useContext } from "react";
@@ -74,6 +75,11 @@ const items = [
     roles: ["ADMIN", "SUPERADMIN"],
     child: [
       { url: "/admin/view-order", title: "All Order", icon: ListOrdered },
+      {
+        url: "/admin/pending-order",
+        title: "Pending Order",
+        icon: ListOrdered,
+      },
     ],
   },
 
@@ -97,9 +103,20 @@ const items = [
     roles: ["VENDOR"],
     child: [
       {
-        url: "/vendor/order-history",
+        url: "/vendor/view-orders",
         title: "All Order",
         icon: ListOrderedIcon,
+      },
+    ],
+  },
+  {
+    title: "Review Management",
+    roles: ["VENDOR"],
+    child: [
+      {
+        url: "/vendor/review-rating",
+        title: "User Reviews",
+        icon: MessageCircleHeartIcon,
       },
     ],
   },
@@ -141,7 +158,7 @@ export default function AppSidebar() {
           <SidebarGroup>
             <SidebarGroupLabel>NEXT MART</SidebarGroupLabel>
             <SidebarGroupContent>
-              <SidebarMenu className="ms-2">
+              <SidebarMenu className="ms-2 ">
                 {filteredItems.map((item) => (
                   <div key={item.title}>
                     {/* Parent Item */}
@@ -163,7 +180,7 @@ export default function AppSidebar() {
                         {item.child.map((child) => (
                           <SidebarMenuItem key={child.title}>
                             <SidebarMenuButton asChild>
-                              <Link href={child.url}>
+                              <Link className="" href={child.url}>
                                 <child.icon />
                                 <span>{child.title}</span>
                               </Link>

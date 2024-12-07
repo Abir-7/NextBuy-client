@@ -7,11 +7,13 @@ import { Pagination } from "swiper/modules";
 import "swiper/css";
 import { useAllCategory } from "@/hooks/category.hook";
 import Link from "next/link";
+import { useAppDispatch } from "@/redux/hooks";
+import { setCategoryId } from "@/redux/features/cartSlice/cartSlice";
 const Categories = () => {
   const { data } = useAllCategory();
-
+  const dispatch = useAppDispatch();
   return (
-    <div className="my-5 px-1">
+    <div className=" mb-8 px-1 mt-5 sm:mt-0">
       <Swiper
         className=""
         slidesPerView={2}
@@ -21,7 +23,7 @@ const Categories = () => {
         }}
         breakpoints={{
           440: {
-            slidesPerView: 2,
+            slidesPerView: 3,
             spaceBetween: 20,
           },
           550: {
@@ -46,10 +48,11 @@ const Categories = () => {
         {data?.data?.map((option) => (
           <SwiperSlide key={option.categoryId}>
             <Link
-              href={`/product?categoryId=${option.categoryId}`}
-              className="w-full flex justify-center"
+              onClick={() => dispatch(setCategoryId(option.categoryId))}
+              href={`/product`}
+              className="w-full hover:scale-95 duration-500 flex justify-center"
             >
-              <div className="min-w-40 flex  items-center justify-center rounded-full bg-black h-16 text-white font-medium">
+              <div className=" w-36 h-10 md:min-w-40 flex  items-center justify-center rounded-full bg-black md:h-14 text-white font-medium">
                 {option.name}
               </div>
             </Link>
