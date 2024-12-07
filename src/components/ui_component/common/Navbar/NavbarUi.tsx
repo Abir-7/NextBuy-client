@@ -28,7 +28,8 @@ import { FaBars } from "react-icons/fa";
 import { AuthContext } from "@/providers/AuthProvider";
 import { logout } from "@/services/authService";
 import { ShoppingBasket } from "lucide-react";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { resetCart } from "@/redux/features/cartSlice/cartSlice";
 
 interface INavLinkChild {
   name: string;
@@ -208,8 +209,10 @@ const Cart = () => {
 };
 
 const Login = () => {
+  const dispatch = useAppDispatch();
   const userData = useContext(AuthContext);
   const logoutUser = async () => {
+    dispatch(resetCart());
     await logout();
     userData?.setIsLoading(true);
   };
