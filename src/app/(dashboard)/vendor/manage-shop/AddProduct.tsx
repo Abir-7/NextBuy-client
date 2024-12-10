@@ -51,8 +51,8 @@ const AddProduct = () => {
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle>Create project</CardTitle>
-        <CardDescription>Deploy your new project in one-click.</CardDescription>
+        <CardTitle>Create Product</CardTitle>
+        <CardDescription>Give Product info.</CardDescription>
       </CardHeader>
 
       <CardContent className="">

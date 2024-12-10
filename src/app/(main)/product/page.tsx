@@ -27,7 +27,7 @@ const Products = () => {
   const userData = useContext(AuthContext);
   const { data: { data: category } = {} } = useAllCategory();
   const [page, setPage] = useState(1);
-  const { data } = useAllProduct(
+  const { data, isLoading } = useAllProduct(
     debouncedSearchTerm,
     categoryId,
     sortCriteria,
@@ -45,6 +45,14 @@ const Products = () => {
       setCategoryId(initialCategoryId);
     }
   }, [initialCategoryId, setCategoryId, dispatch, id]);
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-40">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-solid border-gray-900"></div>
+      </div>
+    );
+  }
 
   return (
     <div>

@@ -41,8 +41,8 @@ const AddShop = () => {
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle>Create project</CardTitle>
-        <CardDescription>Deploy your new project in one-click.</CardDescription>
+        <CardTitle>Create Shop</CardTitle>
+        <CardDescription>Give Shop Info</CardDescription>
       </CardHeader>
       <CardContent>
         <CForm onFromSubmit={onFromSubmit}>

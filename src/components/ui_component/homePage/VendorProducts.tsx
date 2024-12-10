@@ -7,6 +7,7 @@ import { useAllCategory } from "@/hooks/category.hook";
 import { useFilterSortSearch } from "@/lib/utils/hook/useFilterSortSearch";
 import SearchSortFilter from "@/components/ui_component/common/searchSortFilter/SearchSortFilter";
 import { IProduct } from "@/interface/product.interface";
+import { throttle } from "lodash";
 
 const Products = () => {
   const {
@@ -20,10 +21,10 @@ const Products = () => {
   } = useFilterSortSearch();
 
   const [page, setPage] = useState(1);
-  const [allProducts, setAllProducts] = useState<IProduct[]>([]); // State to accumulate all loaded products
-  const [hasMore, setHasMore] = useState(true); // Track if there are more products to load
+  const [allProducts, setAllProducts] = useState<IProduct[]>([]);
+  const [hasMore, setHasMore] = useState(true);
 
-  const { data: { data: category } = {} } = useAllCategory();
+  const { data: { data: categories } = {} } = useAllCategory();
   const { data, isLoading } = useAllProduct(
     debouncedSearchTerm,
     categoryId,
@@ -32,33 +33,33 @@ const Products = () => {
   );
 
   useEffect(() => {
-    if (data && data.data) {
-      setAllProducts((prevProducts) => {
-        const newProducts = data.data.filter(
+    setAllProducts([]);
+  }, [categoryId, sortCriteria]);
+
+  useEffect(() => {
+    if (data?.data) {
+      setAllProducts((prevProducts) => [
+        ...prevProducts,
+        ...data.data.filter(
           (newProduct) =>
             !prevProducts.some(
               (prevProduct) => prevProduct.productId === newProduct.productId
             )
-        );
-        return [...prevProducts, ...newProducts];
-      });
-      if ((data?.meta?.page as number) >= (data?.meta?.totalPage as number)) {
-        setHasMore(false);
-      }
+        ),
+      ]);
+      setHasMore((data?.meta?.page || 1) < (data?.meta?.totalPage || 1));
     }
   }, [data]);
 
-  const handleScroll = () => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop !==
-        document.documentElement.offsetHeight ||
-      isLoading ||
-      !hasMore
-    ) {
-      return;
+  const handleScroll = throttle(() => {
+    const nearBottom =
+      window.innerHeight + window.scrollY >=
+      document.documentElement.scrollHeight - 200;
+
+    if (nearBottom && !isLoading && hasMore) {
+      setPage((prevPage) => prevPage + 1);
     }
-    setPage((prevPage) => prevPage + 1);
-  };
+  }, 200);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
@@ -66,8 +67,8 @@ const Products = () => {
   }, [isLoading, hasMore]);
 
   return (
-    <div>
-      <p className="text-2xl font-medium ms-2">Products For You</p>
+    <div className="py-4">
+      <p className="text-2xl font-semibold ms-2">Products For You</p>
       <div className="sm:mt-0 px-2">
         <SearchSortFilter
           searchTerm={searchTerm}
@@ -76,14 +77,38 @@ const Products = () => {
           onSortChange={setSortCriteria}
           categoryId={categoryId}
           onCategoryChange={setCategoryId}
-          categoryOptions={category || []}
+          categoryOptions={categories || []}
         />
       </div>
 
       <div className="mt-4">
-        <AllProduct data={allProducts} />
-        {isLoading && <div className="loader">Loading more products...</div>}
-        {!hasMore && <div>No more products to load.</div>}
+        {isLoading && allProducts.length === 0 && (
+          <div className="flex justify-center items-center h-40">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-4  border-solid border-gray-900"></div>
+          </div>
+        )}
+
+        {allProducts.length > 0 ? (
+          <>
+            <AllProduct data={allProducts} />
+            {isLoading && (
+              <div className="flex justify-center items-center h-40">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-4  border-solid border-gray-900"></div>
+              </div>
+            )}
+            {!hasMore && !isLoading && (
+              <div className="text-center text-gray-500 mt-8">
+                No more products to load.
+              </div>
+            )}
+          </>
+        ) : (
+          !isLoading && (
+            <div className="text-center text-gray-500 mt-8">
+              No products found. Try adjusting your filters.
+            </div>
+          )
+        )}
       </div>
     </div>
   );
