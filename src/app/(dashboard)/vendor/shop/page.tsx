@@ -12,15 +12,17 @@ import {
 } from "@/components/ui/select";
 
 const Shop = () => {
-  const { data } = useVendorShop();
+  const { data, isLoading } = useVendorShop();
+  console.log(data);
   const [selected, setSelected] = useState(data?.data[0].shopId || "");
-  const { data: { data: singleShop } = {} } = useVendorSingleShop(selected);
+  const { data: { data: singleShop } = {}, isLoading: isShopDetailsLoading } =
+    useVendorSingleShop(selected);
 
   useEffect(() => {
     if (data?.data[0]?.shopId) {
-      setSelected(data?.data[0].shopId);
+      setSelected(data?.data[0]?.shopId);
     }
-  }, [data]);
+  }, [data, isLoading]);
 
   return (
     <div className="px-5">
@@ -43,7 +45,23 @@ const Shop = () => {
         </Select>
       </div>
 
-      <ShopDetails shop={singleShop!}></ShopDetails>
+      {isShopDetailsLoading || isLoading ? (
+        <div className="flex justify-center items-center h-40">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-solid border-gray-900"></div>
+        </div>
+      ) : (
+        <>
+          {singleShop ? (
+            <ShopDetails shop={singleShop!}></ShopDetails>
+          ) : (
+            <div className=" mt-2  h-10 flex justify-center shadow-inner">
+              <p className="font-medium text-zinc-500 mt-3">
+                No data available
+              </p>
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 };

@@ -53,7 +53,7 @@ const CartPage = () => {
       total: totalPriceBeforeDiscount,
       discounts: totalDiscount,
       subTotal: subTotal,
-      couponId: cuponId,
+      ...(!!cuponId && { couponId: cuponId }),
     };
     mutate(orderRequest, {
       onSuccess: (res) => {
@@ -66,7 +66,8 @@ const CartPage = () => {
           toast.error("Failed to retrieve payment link.");
         }
       },
-      onError: () => {
+      onError: (error) => {
+        console.log(error);
         toast.error("Failed to make order.");
       },
     });

@@ -1,5 +1,6 @@
 import Footer from "@/components/ui_component/common/Footer/Footer";
 import NavbarUi from "@/components/ui_component/common/Navbar/NavbarUi";
+import ScrollToTop from "@/components/ui_component/ScrollToTop/ScrolToTop";
 import React, { ReactNode } from "react";
 
 const layout = ({ children }: { children: ReactNode }) => {
@@ -9,6 +10,7 @@ const layout = ({ children }: { children: ReactNode }) => {
         <NavbarUi></NavbarUi>
       </div>
       <div className="min-h-[calc(100vh-192px)]">{children}</div>
+      <ScrollToTop></ScrollToTop>
       <Footer />
     </div>
   );

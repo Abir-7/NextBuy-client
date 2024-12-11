@@ -6,7 +6,7 @@ import { DynamicPagination } from "@/components/ui_component/common/Pagination/D
 
 const Page = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const { data } = useGetReviewByShop(currentPage);
+  const { data, isLoading } = useGetReviewByShop(currentPage);
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
 
@@ -15,7 +15,13 @@ const Page = () => {
   return (
     <div>
       <div className="min-h-[85vh]">
-        {data && <ReviewTable reviews={data?.data}></ReviewTable>}
+        {isLoading ? (
+          <div className="flex justify-center items-center h-40">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-solid border-gray-900"></div>
+          </div>
+        ) : (
+          <> {data && <ReviewTable reviews={data?.data}></ReviewTable>}</>
+        )}
       </div>
       <div className="flex justify-center mt-5">
         {data?.meta && data && (

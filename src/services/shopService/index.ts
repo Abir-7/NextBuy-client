@@ -36,11 +36,15 @@ export const getVendorSingleShop = async (id: string) => {
     throw new Error(error?.response?.data?.message || error?.message || error);
   }
 };
-export const getVendorSingleShopOrders = async (id: string, page: number) => {
+export const getVendorSingleShopOrders = async (
+  status: string,
+  page: number
+) => {
   try {
-    const res = await axiosInstance.get(`/order/shop-order/${id}`, {
+    const res = await axiosInstance.get(`/order/shop-order`, {
       params: {
         page,
+        status,
       },
     });
 

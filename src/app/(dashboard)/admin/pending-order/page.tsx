@@ -6,30 +6,37 @@ import React, { useState } from "react";
 
 const Page = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const { data } = usePendingOrder(currentPage);
+  const { data, isLoading } = usePendingOrder(currentPage);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
   return (
     <div>
-      {data?.data.length ? (
-        <div>
-          <div className="min-h-[85vh]">
-            <OrderTable orderData={data.data}></OrderTable>
-          </div>{" "}
-          <div className="flex justify-center mt-5">
-            {data?.meta && data && (
-              <DynamicPagination
-                meta={data.meta}
-                onPageChange={handlePageChange}
-              ></DynamicPagination>
-            )}
-          </div>
+      <div>
+        <div className="min-h-[85vh]">
+          {isLoading ? (
+            <div className="flex justify-center items-center h-40">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-solid border-gray-900"></div>
+            </div>
+          ) : (
+            <>
+              {" "}
+              {data?.data && (
+                <OrderTable action={true} orderData={data.data}></OrderTable>
+              )}
+            </>
+          )}
+        </div>{" "}
+        <div className="flex justify-center mt-5">
+          {data?.meta && data && (
+            <DynamicPagination
+              meta={data.meta}
+              onPageChange={handlePageChange}
+            ></DynamicPagination>
+          )}
         </div>
-      ) : (
-        <p className="text-xl font-medium text-center">No Data To Display</p>
-      )}
+      </div>
     </div>
   );
 };

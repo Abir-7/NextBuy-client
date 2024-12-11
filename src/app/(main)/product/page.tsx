@@ -78,16 +78,29 @@ const Products = () => {
         )}
       </div>
 
-      <div className="min-h-[79vh]">
-        {data?.data && <AllProduct data={data.data} />}
-      </div>
-
-      {data?.meta && (
-        <DynamicPagination
-          onPageChange={setPage}
-          meta={data?.meta}
-        ></DynamicPagination>
-      )}
+      <>
+        {!isLoading && data?.data.length == 0 ? (
+          <>
+            {" "}
+            <p className="font-medium text-zinc-500 text-center mt-10">
+              No Product to Display
+            </p>
+          </>
+        ) : (
+          <>
+            {" "}
+            <div className="min-h-[79vh]">
+              {data?.data && <AllProduct data={data.data} />}
+            </div>
+            {data?.meta && (
+              <DynamicPagination
+                onPageChange={setPage}
+                meta={data?.meta}
+              ></DynamicPagination>
+            )}
+          </>
+        )}
+      </>
     </div>
   );
 };

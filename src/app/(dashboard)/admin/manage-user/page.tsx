@@ -14,7 +14,11 @@ const ManageUser = () => {
 
   const searchTermText = useDebounce(searchTerm, 500);
 
-  const { data } = useGetAllUser(searchTermText, isBlocked, currentPage);
+  const { data, isLoading } = useGetAllUser(
+    searchTermText,
+    isBlocked,
+    currentPage
+  );
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
@@ -39,8 +43,15 @@ const ManageUser = () => {
         </div>
       </div>
       <div className=" min-h-[78vh] lg:min-h-[80vh] mt-3">
-        {data?.data && <UserTable users={data?.data}></UserTable>}
+        {isLoading ? (
+          <div className="flex justify-center items-center h-40">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-solid border-gray-900"></div>
+          </div>
+        ) : (
+          <> {data?.data && <UserTable users={data?.data}></UserTable>}</>
+        )}
       </div>
+
       <div className="flex justify-center mt-5">
         {data?.meta && data && (
           <DynamicPagination

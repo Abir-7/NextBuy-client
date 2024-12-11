@@ -20,10 +20,10 @@ export const useMakeOrder = () => {
   });
 };
 
-export const useSigleUserAllOrder = (currentPage: number) => {
+export const useSigleUserAllOrder = (currentPage: number, status: string) => {
   return useQuery<IApiResponse<IOrder[]>>({
-    queryKey: ["user-all-order", currentPage],
-    queryFn: async () => await getSigleUserAllOrder(currentPage),
+    queryKey: ["user-all-order", currentPage, status],
+    queryFn: async () => await getSigleUserAllOrder(currentPage, status),
   });
 };
 
@@ -55,11 +55,10 @@ export const useUpdateOrder = () => {
   });
 };
 
-export const useVendorSingleShopOrders = (id: string, page: number) => {
+export const useVendorSingleShopOrders = (status: string, page: number) => {
   return useQuery<IApiResponse<IOrder[]>>({
-    enabled: !!id,
-    queryKey: ["vendorSingleShopOrder", id, page],
-    queryFn: async () => await getVendorSingleShopOrders(id, page),
+    queryKey: ["vendorSingleShopOrder", status, page],
+    queryFn: async () => await getVendorSingleShopOrders(status, page),
   });
 };
 

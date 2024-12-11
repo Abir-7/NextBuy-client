@@ -53,6 +53,13 @@ const ShopDetailsPage = async ({ params }: { params: any }) => {
                 </span>
               </p>
             </div>
+            <p className="mt-2">
+              {data.isBlackListed && (
+                <span className="font-semibold text-red-500 px-2 py-1 rounded-full bg-zinc-950">
+                  Blacklisted
+                </span>
+              )}
+            </p>
           </div>
         </div>
         <div className="mt-4 flex justify-center sm:justify-end">
