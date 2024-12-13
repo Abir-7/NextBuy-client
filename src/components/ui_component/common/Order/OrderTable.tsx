@@ -47,7 +47,7 @@ const OrderTable = ({
       });
     }
   };
-  console.log(orderData);
+
   return (
     <Table>
       <TableHeader>

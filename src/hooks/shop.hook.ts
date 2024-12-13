@@ -8,6 +8,7 @@ import {
   addVendorShop,
   blockVendorShop,
   getAllVendorShop,
+  getSingleVendorWithAllProduct,
   getVendorShop,
   getVendorSingleShop,
 } from "@/services/shopService";
@@ -21,6 +22,9 @@ export const useAddShop = () => {
       queryClient.invalidateQueries({
         queryKey: ["vendorShop"],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["allVendorShop"],
+      });
     },
   });
 };
@@ -32,18 +36,26 @@ export const useVendorShop = () => {
   });
 };
 
-export const useVendorSingleShop = (id: string | undefined) => {
+export const useVendorSingleShop = (id: string | undefined, page: number) => {
   return useQuery<IApiResponse<IShop>>({
     enabled: !!id,
-    queryKey: ["vendorShopSingle", id],
-    queryFn: async () => await getVendorSingleShop(id as string),
+    queryKey: ["vendorShopSingle", id, page],
+    queryFn: async () =>
+      await getVendorSingleShop(id as string, page as number),
   });
 };
 
-export const useAllVendorShop = (page: number) => {
+export const useAllVendorShop = (page: number, searchTerm: string) => {
   return useQuery<IApiResponse<IShop[]>>({
-    queryKey: ["allVendorShop", page],
-    queryFn: async () => await getAllVendorShop(page),
+    queryKey: ["allVendorShop", page, searchTerm],
+    queryFn: async () => await getAllVendorShop(page, searchTerm),
+  });
+};
+
+export const useSingleVendorShopWithAllProduct = (id: string, page: number) => {
+  return useQuery<IApiResponse<IShop>>({
+    queryKey: ["singleVendorWithAllProduct", page, id],
+    queryFn: async () => await getSingleVendorWithAllProduct(id, page),
   });
 };
 
@@ -52,6 +64,13 @@ export const useBlockShop = () => {
     mutationFn: async (id: any) => await blockVendorShop(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["allVendorShop"] });
+      queryClient.invalidateQueries({ queryKey: ["all-product"] });
+      queryClient.invalidateQueries({
+        queryKey: ["singleVendorWithAllProduct"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["allVendorShop"],
+      });
     },
   });
 };

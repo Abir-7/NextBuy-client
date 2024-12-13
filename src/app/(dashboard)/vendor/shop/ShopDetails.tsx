@@ -26,7 +26,7 @@ const ShopDetails = ({ shop }: { shop: IShop }) => {
             <Image
               width={200}
               height={100}
-              src={shop?.images[0]}
+              src={shop?.images[0] || "#"}
               alt={shop?.name}
               className="w-32 h-32 object-cover rounded-md"
             />
@@ -55,7 +55,7 @@ const ShopDetails = ({ shop }: { shop: IShop }) => {
                 {" "}
                 <Button size={"icon"} className="bg-white  hover:bg-white">
                   {" "}
-                  <Link href={`/product/${data.productId}`}>
+                  <Link href={`/product/${data?.productId}`}>
                     {" "}
                     <Info className=" text-green-600"></Info>
                   </Link>
@@ -69,12 +69,17 @@ const ShopDetails = ({ shop }: { shop: IShop }) => {
                     className="w-24 h-28 lg:w-32 lg:h-32 object-cover"
                     width={200}
                     height={200}
-                    src={data?.images[0]}
+                    src={data?.images[0] || ""}
                     alt=""
                   ></Image>
                 </div>
               </div>
-              <CardTitle>{data?.name}</CardTitle>
+              <CardTitle>
+                {" "}
+                {data.name.length > 11
+                  ? `${data.name.slice(0, 11)}...`
+                  : data.name}
+              </CardTitle>
               <CardDescription className="">Card Description</CardDescription>
               <div className="flex items-center justify-between">
                 <p className="font-medium text-sm ">{data?.price}Tk</p>

@@ -8,19 +8,30 @@ import Link from "next/link";
 import { User2 } from "lucide-react";
 import { useAllVendorShop } from "@/hooks/shop.hook";
 import { DynamicPagination } from "@/components/ui_component/common/Pagination/DynamicPagination";
+import SearchInput from "@/components/ui_component/common/searchSortFilter/SearchInput";
+import useDebounce from "@/lib/utils/useDebounce";
 
 const ShopList = () => {
   // const res = await fetch(`${config.backendApi}/shop/get-all-shop`, {
   //   cache: "no-store",
   // });
   // const { data } = await res.json();
+
+  const [searchText, setSearchText] = useState("");
+
+  const searchTerm = useDebounce(searchText, 500);
+
   const [currentPage, setCurrentPage] = useState(1);
-  const { data, isLoading } = useAllVendorShop(currentPage);
+  const { data, isLoading } = useAllVendorShop(currentPage, searchTerm);
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
+
   return (
     <>
+      <div className="px-4 mt-4">
+        <SearchInput value={searchText} onChange={setSearchText}></SearchInput>
+      </div>
       {isLoading ? (
         <>
           {" "}
@@ -32,7 +43,7 @@ const ShopList = () => {
         <>
           {" "}
           {!!data?.data?.length ? (
-            <div className="container mx-auto px-4 py-6">
+            <div className="container mx-auto px-4 pb-6 pt-2">
               <h1 className="text-2xl font-bold mb-6">Shop List</h1>
               <div className="min-h-[77vh]">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

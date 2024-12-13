@@ -15,6 +15,15 @@ export async function middleware(request: NextRequest) {
   ) {
     return NextResponse.next();
   }
+
+  if (
+    user &&
+    (request.nextUrl.pathname === "/login" ||
+      request.nextUrl.pathname === "/signup")
+  ) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
+
   //admin route
   if (
     user?.role == "ADMIN" ||
@@ -56,7 +65,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
   //default
-  return NextResponse.redirect(new URL("/", request.url));
+  return NextResponse.redirect(new URL("/login", request.url));
 }
 
 // See "Matching Paths" below to learn more

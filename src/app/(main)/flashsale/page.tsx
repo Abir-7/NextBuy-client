@@ -33,18 +33,22 @@ const FlashSale = () => {
               </div>
               <CardTitle className="text-sm px-2">
                 <Link href={`/product/${productData.productId}`}>
-                  {" "}
-                  {productData.product.name}
+                  {productData.product.name.length > 11
+                    ? `${productData.product.name.slice(0, 11)}...`
+                    : productData.product.name}
                 </Link>
               </CardTitle>
             </CardHeader>
             <CardContent className="text-xs pt-0 mt-0 px-2 pb-2 ">
               <p className="text-base font-medium">
                 {productData.product.price -
-                  (productData.product.price * productData.discount) / 100}
+                  (productData.product.price * productData.discount) / 100}{" "}
+                Tk
               </p>
-              <p className="flex gap-4">
-                <span>{productData.product.price}</span>
+              <p className="flex gap-4 ">
+                <span className="line-through">
+                  {productData.product.price} Tk
+                </span>
                 <span>{productData.discount}%</span>
               </p>
             </CardContent>

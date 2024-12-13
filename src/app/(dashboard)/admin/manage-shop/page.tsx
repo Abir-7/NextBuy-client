@@ -6,7 +6,7 @@ import { DynamicPagination } from "@/components/ui_component/common/Pagination/D
 
 const ManageShop = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const { data, isLoading } = useAllVendorShop(currentPage);
+  const { data, isLoading } = useAllVendorShop(currentPage, "");
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };

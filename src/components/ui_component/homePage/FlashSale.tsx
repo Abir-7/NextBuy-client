@@ -69,11 +69,12 @@ const FlashSale = () => {
                 {(
                   productData.product.price -
                   (productData.product.price * productData.discount) / 100
-                ).toFixed(2)}
+                ).toFixed(2)}{" "}
+                Tk
               </p>
               <p className="flex gap-4">
                 <span className="line-through text-gray-500">
-                  ${productData.product.price}
+                  ${productData.product.price} Tk
                 </span>
                 <span className="text-green-500">
                   {productData.discount}% off

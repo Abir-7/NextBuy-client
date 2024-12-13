@@ -17,13 +17,10 @@ const Page = () => {
   const [page, setPage] = useState(1);
   const [delivaryStatus, setDelivaryStatus] = useState("PENDING");
   const { data, isLoading } = useVendorSingleShopOrders(delivaryStatus, page);
-  console.log(data, "gg");
 
   const handlePageChange = (page: number) => {
-    console.log(page);
     setPage(page);
   };
-  console.log(data);
 
   return (
     <div className="">

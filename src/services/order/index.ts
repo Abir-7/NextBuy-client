@@ -4,7 +4,6 @@ import axiosInstance from "@/lib/axiosInstance/axiosInstance";
 
 export const makePayment = async (data: any) => {
   try {
-    console.log(data);
     const res = await axiosInstance.post(`/order/make-payment`, data);
 
     return res?.data;

@@ -17,6 +17,17 @@ export const useMakeOrder = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return useMutation<any, Error, any, unknown>({
     mutationFn: (data: any) => makePayment(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["user-all-order"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["all-order"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["pending-order"],
+      });
+    },
   });
 };
 
@@ -49,7 +60,13 @@ export const useUpdateOrder = () => {
     onSuccess: () => {
       // Invalidate the "get-all-userdata" query to revalidate it
       queryClient.invalidateQueries({
-        queryKey: ["all-order", "pending-order"],
+        queryKey: ["user-all-order"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["all-order"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["pending-order"],
       });
     },
   });

@@ -19,6 +19,10 @@ export const useAddProduct = () => {
     mutationFn: async (data: any) => await addProduct(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["vendorShopSingle"] });
+      queryClient.invalidateQueries({ queryKey: ["all-product"] });
+      queryClient.invalidateQueries({
+        queryKey: ["singleVendorWithAllProduct"],
+      });
     },
   });
 };
