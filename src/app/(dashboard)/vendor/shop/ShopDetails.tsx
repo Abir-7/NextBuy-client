@@ -37,6 +37,12 @@ const ShopDetails = ({ shop }: { shop: IShop }) => {
             <h1 className="text-2xl font-bold text-gray-800">{shop?.name}</h1>
             <p className="text-gray-600">{shop?.location}</p>
             <p className="text-sm text-gray-500">Shop ID: {shop?.shopId}</p>
+            <p className="text-sm text-gray-500">
+              Followers:{" "}
+              {(shop?.followers?.length as number) > 0
+                ? shop?.followers?.length
+                : 0}
+            </p>
           </div>
         </div>
       )}

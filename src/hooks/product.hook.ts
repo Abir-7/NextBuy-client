@@ -5,6 +5,7 @@ import { queryClient } from "@/providers/Provider";
 import {
   addProduct,
   allProduct,
+  allProduct2,
   cloneProduct,
   deleteProduct,
   flashProduct,
@@ -20,6 +21,7 @@ export const useAddProduct = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["vendorShopSingle"] });
       queryClient.invalidateQueries({ queryKey: ["all-product"] });
+      queryClient.invalidateQueries({ queryKey: ["all-products"] });
       queryClient.invalidateQueries({
         queryKey: ["singleVendorWithAllProduct"],
       });
@@ -65,6 +67,19 @@ export const useAllProduct = (
     queryKey: ["all-product", searchTerm, categoryId, sortCriteria, page],
     queryFn: async () =>
       await allProduct({ searchTerm, categoryId, sortCriteria, page }),
+  });
+};
+
+export const useAllProduct2 = (
+  searchTerm: string,
+  categoryId: string,
+  sortCriteria: string,
+  page: number
+) => {
+  return useQuery<IApiResponse<IProduct[]>>({
+    queryKey: ["all-products", searchTerm, categoryId, sortCriteria, page],
+    queryFn: async () =>
+      await allProduct2({ searchTerm, categoryId, sortCriteria, page }),
   });
 };
 

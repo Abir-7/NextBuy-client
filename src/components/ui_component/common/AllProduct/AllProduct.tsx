@@ -97,21 +97,29 @@ const AllProduct = ({ data }: { data: IProduct[] }) => {
                   <FaCartPlus></FaCartPlus>
                 </Button>
               </div>
-              <div className="flex justify-between items-center">
-                <Button
-                  onClick={() => handleCompare(option)}
-                  disabled={selectedProducts
-                    .map((o) => o.productId)
-                    .includes(option.productId)}
-                  size="sm"
-                  className="mt-2 mb-1"
-                >
-                  {selectedProducts
-                    .map((o) => o.productId)
-                    .includes(option.productId)
-                    ? "Selected"
-                    : "Compare"}
-                </Button>
+              <div
+                className={
+                  userData?.user
+                    ? "flex justify-between items-center"
+                    : "flex justify-center items-center"
+                }
+              >
+                {userData?.user && (
+                  <Button
+                    onClick={() => handleCompare(option)}
+                    disabled={selectedProducts
+                      .map((o) => o.productId)
+                      .includes(option.productId)}
+                    size="sm"
+                    className="mt-2 mb-1"
+                  >
+                    {selectedProducts
+                      .map((o) => o.productId)
+                      .includes(option.productId)
+                      ? "Selected"
+                      : "Compare"}
+                  </Button>
+                )}
                 <AvarageRating
                   rating={option?.averageRating ? option?.averageRating : 0}
                   width={85}

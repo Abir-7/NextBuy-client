@@ -26,10 +26,10 @@ const Products = () => {
 
   const { data: { data: categories } = {} } = useAllCategory();
   const { data, isLoading } = useAllProduct(
-    debouncedSearchTerm,
-    categoryId,
-    sortCriteria,
-    page
+    debouncedSearchTerm || "",
+    categoryId || "",
+    sortCriteria || "",
+    page || 1
   );
 
   useEffect(() => {

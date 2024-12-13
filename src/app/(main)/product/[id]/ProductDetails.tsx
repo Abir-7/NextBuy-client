@@ -65,8 +65,8 @@ const ProductDetails = ({ id }: { id: string }) => {
                   <Image
                     width={400}
                     height={300}
-                    src={product?.images[index] || ""}
-                    alt={"ddgdg"}
+                    src={product?.images[index]}
+                    alt={""}
                     className=" lg:w-full h-80 sm:h-96 md:h-[400px] lg:h-[500px] object-cover rounded-lg border"
                   />
                 )}

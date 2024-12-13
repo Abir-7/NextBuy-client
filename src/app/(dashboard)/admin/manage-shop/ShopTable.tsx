@@ -20,7 +20,7 @@ const ShopTable = ({ shopData }: { shopData: IShop[] }) => {
   const blockShop = (id: string) => {
     mutate(id, {
       onSuccess: () => {
-        toast.success("User Account Status Changed");
+        toast.success("User Shop Status Changed");
       },
       onError: () => {
         toast.error("Something went wrong! Try again.");

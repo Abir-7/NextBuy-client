@@ -1,12 +1,10 @@
 "use client";
 import React, { useContext, useEffect, useState } from "react";
 import AllProduct from "../../../components/ui_component/common/AllProduct/AllProduct";
-
-import { useAllProduct } from "@/hooks/product.hook";
-import { useAllCategory } from "@/hooks/category.hook";
+import { useAllProduct2 } from "@/hooks/product.hook";
+import { useAllCategory2 } from "@/hooks/category.hook";
 import { useFilterSortSearch } from "@/lib/utils/hook/useFilterSortSearch";
 import SearchSortFilter from "@/components/ui_component/common/searchSortFilter/SearchSortFilter";
-
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -14,7 +12,7 @@ import { setCategoryId as setCId } from "@/redux/features/cartSlice/cartSlice";
 import { AuthContext } from "@/providers/AuthProvider";
 import { DynamicPagination } from "@/components/ui_component/common/Pagination/DynamicPagination";
 
-const Products = () => {
+const Page = () => {
   const {
     searchTerm,
     setSearchTerm,
@@ -24,29 +22,33 @@ const Products = () => {
     setCategoryId,
     debouncedSearchTerm,
   } = useFilterSortSearch();
+
   const userData = useContext(AuthContext);
-  const { data: { data: category } = {} } = useAllCategory();
+  const { data: { data: category } = {} } = useAllCategory2();
   const [page, setPage] = useState(1);
-  const { data, isLoading } = useAllProduct(
-    debouncedSearchTerm,
-    categoryId,
-    sortCriteria,
-    page
+
+  const { data, isLoading, isFetching } = useAllProduct2(
+    debouncedSearchTerm || "",
+    categoryId || "",
+    sortCriteria || "",
+    page || 1
   );
+
   const dispatch = useAppDispatch();
-  const { categoryId: id } = useAppSelector((state) => state.cartSlice);
-  const initialCategoryId = id;
+  const { categoryId: storedCategoryId } = useAppSelector(
+    (state) => state.cartSlice
+  );
+  const { selectedProducts } = useAppSelector((state) => state.compareSlice);
 
   useEffect(() => {
-    if (id) {
+    if (storedCategoryId) {
       dispatch(setCId(""));
+      setCategoryId(storedCategoryId);
     }
-    if (initialCategoryId) {
-      setCategoryId(initialCategoryId);
-    }
-  }, [initialCategoryId, setCategoryId, dispatch, id]);
+  }, [storedCategoryId, setCategoryId, dispatch]);
 
-  if (isLoading) {
+  console.log(isFetching, isLoading);
+  if (isFetching) {
     return (
       <div className="flex justify-center items-center h-40">
         <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-solid border-gray-900"></div>
@@ -66,43 +68,49 @@ const Products = () => {
           onCategoryChange={setCategoryId}
           categoryOptions={category || []}
         />
-        {userData?.user?.role === "CUSTOMER" && (
-          <div className="flex mb-5 justify-end me-4">
-            <Link
-              href={"/recent-products"}
-              className="text-sm flex items-center gap-1 hover:underline underline-offset-2"
-            >
-              <span> Recently Viewed</span> <ArrowRight size={15} />
-            </Link>
-          </div>
-        )}
+        <div className="flex gap-2 justify-between  mb-5 ">
+          {userData?.user?.role === "CUSTOMER" &&
+            selectedProducts.length > 0 && (
+              <div className="flex  justify-end me-4">
+                <Link
+                  href="/compare-product"
+                  className="text-sm flex items-center gap-1 hover:underline underline-offset-2"
+                >
+                  <span>Compared Product</span>
+                  <ArrowRight size={15} />
+                </Link>
+              </div>
+            )}
+          {userData?.user?.role === "CUSTOMER" && (
+            <div className="flex  justify-end me-4">
+              <Link
+                href="/recent-products"
+                className="text-sm flex items-center gap-1 hover:underline underline-offset-2"
+              >
+                <span>Recently Viewed</span>
+                <ArrowRight size={15} />
+              </Link>
+            </div>
+          )}
+        </div>
       </div>
 
-      <>
-        {!isLoading && data?.data.length == 0 ? (
+      <div className="min-h-[79vh]">
+        {data?.data?.length ? (
           <>
-            {" "}
-            <p className="font-medium text-zinc-500 text-center mt-10">
-              No Product to Display
-            </p>
-          </>
-        ) : (
-          <>
-            {" "}
-            <div className="min-h-[79vh]">
-              {data?.data && <AllProduct data={data.data} />}
-            </div>
+            <AllProduct data={data.data} />
             {data?.meta && (
-              <DynamicPagination
-                onPageChange={setPage}
-                meta={data?.meta}
-              ></DynamicPagination>
+              <DynamicPagination onPageChange={setPage} meta={data.meta} />
             )}
           </>
+        ) : (
+          <p className="font-medium text-zinc-500 text-center mt-10">
+            No Product to Display
+          </p>
         )}
-      </>
+      </div>
     </div>
   );
 };
 
-export default Products;
+export default Page;

@@ -15,7 +15,7 @@ import CButton from "@/components/ui_component/common/Form/CButton";
 import CInput from "@/components/ui_component/common/Form/CInput";
 import CSelect from "@/components/ui_component/common/Form/CSelect";
 
-import { useAllCategory } from "@/hooks/category.hook";
+import { useAllCategoryDashboard } from "@/hooks/category.hook";
 import { useVendorShop } from "@/hooks/shop.hook";
 import { uploadImagesToCloudinary } from "@/lib/utils/uploadImageArray";
 import { toast } from "sonner";
@@ -23,7 +23,7 @@ import { useAddProduct } from "@/hooks/product.hook";
 import CImageInput from "@/components/ui_component/common/Form/CImage";
 
 const AddProduct = () => {
-  const { data } = useAllCategory();
+  const { data } = useAllCategoryDashboard();
   const { mutate, isPending } = useAddProduct();
   const { data: shopData } = useVendorShop();
 

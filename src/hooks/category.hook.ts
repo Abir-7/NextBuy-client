@@ -13,6 +13,20 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 export const useAllCategory = () => {
   return useQuery<IApiResponse<ICategory[]>>({
     queryKey: ["allCategory"],
+
+    queryFn: async () => await getAllCategory(),
+  });
+};
+export const useAllCategory2 = () => {
+  return useQuery<IApiResponse<ICategory[]>>({
+    queryKey: ["allCategorys"],
+    queryFn: () => getAllCategory(),
+  });
+};
+
+export const useAllCategoryDashboard = () => {
+  return useQuery<IApiResponse<ICategory[]>>({
+    queryKey: ["allCategoryDashboard"],
     queryFn: () => getAllCategory(),
   });
 };
@@ -24,6 +38,12 @@ export const useAddCategory = () => {
       // Invalidate the "get-all-userdata" query to revalidate it
       queryClient.invalidateQueries({
         queryKey: ["allCategory"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["allCategorys"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["allCategoryDashboard"],
       });
     },
   });
@@ -38,6 +58,12 @@ export const useUpdateCategory = () => {
       queryClient.invalidateQueries({
         queryKey: ["allCategory"],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["allCategorys"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["allCategoryDashboard"],
+      });
     },
   });
 };
@@ -49,6 +75,12 @@ export const useDeleteCategory = () => {
       // Invalidate the "get-all-userdata" query to revalidate it
       queryClient.invalidateQueries({
         queryKey: ["allCategory"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["allCategorys"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["allCategoryDashboard"],
       });
     },
   });

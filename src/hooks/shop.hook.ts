@@ -63,13 +63,11 @@ export const useBlockShop = () => {
   return useMutation<any, Error, string, unknown>({
     mutationFn: async (id: any) => await blockVendorShop(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["allVendorShop"] });
       queryClient.invalidateQueries({ queryKey: ["all-product"] });
+      queryClient.invalidateQueries({ queryKey: ["all-products"] });
+      queryClient.invalidateQueries({ queryKey: ["allVendorShop"] });
       queryClient.invalidateQueries({
         queryKey: ["singleVendorWithAllProduct"],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["allVendorShop"],
       });
     },
   });
