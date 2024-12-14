@@ -76,8 +76,9 @@ const AllProduct = ({ data }: { data: IProduct[] }) => {
                 <p className="font-medium flex items-center gap-2">
                   <span>{option.price}Tk</span>
                   <span className="text-xs flex items-center text-orange-400">
-                    {!!option?.flashSale && option?.flashSale[0].discount}%{" "}
-                    <FaFire></FaFire>
+                    {!!option?.flashSale?.length &&
+                      option?.flashSale[0].discount}
+                    % <FaFire></FaFire>
                   </span>
                 </p>
                 <Button

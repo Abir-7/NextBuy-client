@@ -13,7 +13,7 @@ import {
 
 const Page = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [delivaryStatus, setDelivaryStatus] = useState("PENDING");
+  const [delivaryStatus, setDelivaryStatus] = useState("");
   const { data, isLoading } = useSigleUserAllOrder(currentPage, delivaryStatus);
 
   const handlePageChange = (page: number) => {

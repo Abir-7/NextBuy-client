@@ -95,10 +95,12 @@ const Page = () => {
         </div>
       </div>
 
-      <div className="min-h-[79vh]">
+      <div>
         {data?.data?.length ? (
           <>
-            <AllProduct data={data.data} />
+            <div className="min-h-[75vh]">
+              <AllProduct data={data.data} />
+            </div>
             {data?.meta && (
               <DynamicPagination onPageChange={setPage} meta={data.meta} />
             )}

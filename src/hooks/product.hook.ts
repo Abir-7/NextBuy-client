@@ -67,6 +67,8 @@ export const useAllProduct = (
     queryKey: ["all-product", searchTerm, categoryId, sortCriteria, page],
     queryFn: async () =>
       await allProduct({ searchTerm, categoryId, sortCriteria, page }),
+    refetchOnMount: true, // Refetch data when the component mounts
+    refetchOnWindowFocus: true, // Optional: Refetch when the window regains focus
   });
 };
 

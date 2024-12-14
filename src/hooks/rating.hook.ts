@@ -13,6 +13,9 @@ import { FieldValues } from "react-hook-form";
 export const useAddRating = () => {
   return useMutation<any, Error, FieldValues, unknown>({
     mutationFn: async (data: any) => await addReview(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["user-single-order"] });
+    },
   });
 };
 export const useReplyRating = () => {

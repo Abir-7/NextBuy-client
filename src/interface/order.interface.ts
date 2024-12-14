@@ -1,4 +1,5 @@
 import { IProduct } from "./product.interface";
+import { IReview } from "./review.interface";
 import { IShop } from "./shop.interface";
 import { ICustomer } from "./user.interface";
 export interface IOrder {
@@ -30,4 +31,5 @@ export interface IOrderItem {
   product: IProduct;
   shop?: IShop;
   order?: IOrder;
+  Review: IReview[];
 }
