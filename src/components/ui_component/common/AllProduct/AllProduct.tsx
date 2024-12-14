@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { IProduct } from "@/interface/product.interface";
 import Image from "next/image";
-import { FaCartPlus } from "react-icons/fa";
+import { FaCartPlus, FaFire } from "react-icons/fa";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { addItemToCart, ICartItem } from "@/redux/features/cartSlice/cartSlice";
 import AvarageRating from "../Rating/AvarageRating";
@@ -73,7 +73,13 @@ const AllProduct = ({ data }: { data: IProduct[] }) => {
             </CardHeader>
             <CardContent className="text-sm mt-2 pb-1 ">
               <div className="flex justify-between items-center">
-                <p className="font-medium">{option.price}Tk</p>
+                <p className="font-medium flex items-center gap-2">
+                  <span>{option.price}Tk</span>
+                  <span className="text-xs flex items-center text-orange-400">
+                    {!!option?.flashSale && option?.flashSale[0].discount}%{" "}
+                    <FaFire></FaFire>
+                  </span>
+                </p>
                 <Button
                   disabled={userData?.user?.role !== "CUSTOMER"}
                   onClick={() =>

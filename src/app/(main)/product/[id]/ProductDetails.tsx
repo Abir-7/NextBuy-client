@@ -12,6 +12,7 @@ import React, { useContext, useEffect, useState } from "react";
 import RelatedProducts from "./RelatedProducts";
 import Link from "next/link";
 import { AuthContext } from "@/providers/AuthProvider";
+import { FaFire } from "react-icons/fa";
 
 const ProductDetails = ({ id }: { id: string }) => {
   const userData = useContext(AuthContext);
@@ -115,12 +116,17 @@ const ProductDetails = ({ id }: { id: string }) => {
                 )}
               </p>
               {!!product?.flashSale?.length && (
-                <p className="text-sm font-semibold  mt-2">
+                <p className="text-sm font-semibold flex items-center mt-2">
                   <span> ${product?.price}</span>{" "}
-                  <span className="text-xs ms-3  text-orange-500">
+                  <span className="text-xs flex items-center ms-3  text-orange-500">
                     {" "}
-                    {product?.flashSale[0].discount}%
+                    {product?.flashSale[0].discount}% <FaFire></FaFire>
                   </span>
+                  {!!product?.discounts && (
+                    <span className="text-xs ms-3  text-green-500">
+                      {product?.discounts}%
+                    </span>
+                  )}
                 </p>
               )}
 
