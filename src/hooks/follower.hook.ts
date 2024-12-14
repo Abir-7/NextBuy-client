@@ -8,6 +8,9 @@ export const useFollowShop = () => {
     mutationFn: async (id: string) => await newFollow(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["vendorShopSingle"] });
+      queryClient.invalidateQueries({
+        queryKey: ["singleVendorWithAllProduct"],
+      });
     },
   });
 };
@@ -17,6 +20,9 @@ export const useUnfollowShop = () => {
     mutationFn: async (id: string) => await removeFollow(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["vendorShopSingle"] });
+      queryClient.invalidateQueries({
+        queryKey: ["singleVendorWithAllProduct"],
+      });
     },
   });
 };
