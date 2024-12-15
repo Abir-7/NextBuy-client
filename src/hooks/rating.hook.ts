@@ -1,3 +1,4 @@
+"use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IApiResponse } from "@/interface/apiResponse.interface";
 import { IReview } from "@/interface/review.interface";

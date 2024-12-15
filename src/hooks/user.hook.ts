@@ -1,3 +1,4 @@
+"use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // export const useAddShop = () => {
 //     return useMutation<any, Error, FieldValues, unknown>({

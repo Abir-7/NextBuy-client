@@ -1,3 +1,4 @@
+"use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IApiResponse } from "@/interface/apiResponse.interface";
 import { IDiscount, IProduct } from "@/interface/product.interface";
