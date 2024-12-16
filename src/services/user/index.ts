@@ -3,6 +3,10 @@
 
 import axiosInstance from "@/lib/axiosInstance/axiosInstance";
 
+const handleError = (error: any) => {
+  throw new Error(error?.response?.data?.message || error?.message || error);
+};
+
 export const getAllUser = async (
   searchTerm: string,
   isBlocked: string,
@@ -19,7 +23,7 @@ export const getAllUser = async (
 
     return res?.data;
   } catch (error: any) {
-    throw new Error(error?.response?.data?.message || error?.message || error);
+    handleError(error);
   }
 };
 
@@ -28,7 +32,7 @@ export const blockUser = async (id: string) => {
     const res = await axiosInstance.patch(`/user/block/${id}`);
     return res?.data;
   } catch (error: any) {
-    throw new Error(error?.response?.data?.message || error?.message || error);
+    handleError(error);
   }
 };
 
@@ -37,7 +41,7 @@ export const deleteUser = async (id: string) => {
     const res = await axiosInstance.patch(`/user/delete/${id}`);
     return res?.data;
   } catch (error: any) {
-    throw new Error(error?.response?.data?.message || error?.message || error);
+    handleError(error);
   }
 };
 
@@ -46,6 +50,6 @@ export const updatePass = async (data: { password: string }) => {
     const res = await axiosInstance.patch(`/user/update-pass`, data);
     return res?.data;
   } catch (error: any) {
-    throw new Error(error?.response?.data?.message || error?.message || error);
+    handleError(error);
   }
 };

@@ -14,75 +14,67 @@ import {
 import { getVendorSingleShopOrders } from "@/services/shopService";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
-export const useMakeOrder = () => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return useMutation<any, Error, any, unknown>({
-    mutationFn: (data: any) => makePayment(data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["user-all-order"],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["all-order"],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["pending-order"],
-      });
-    },
-  });
+// Helper function to invalidate multiple queries
+const invalidateQueries = (queryKeys: string[]) => {
+  queryKeys.forEach((key) =>
+    queryClient.invalidateQueries({ queryKey: [key] })
+  );
 };
 
-export const useSigleUserAllOrder = (currentPage: number, status: string) => {
-  return useQuery<IApiResponse<IOrder[]>>({
+// Mutation for making an order
+export const useMakeOrder = () =>
+  useMutation<any, Error, any>({
+    mutationFn: makePayment,
+    onSuccess: () =>
+      invalidateQueries(["user-all-order", "all-order", "pending-order"]),
+  });
+
+// Query for fetching a single user's all orders with filters
+export const useSigleUserAllOrder = (currentPage: number, status: string) =>
+  useQuery<IApiResponse<IOrder[]>>({
     queryKey: ["user-all-order", currentPage, status],
-    queryFn: async () => await getSigleUserAllOrder(currentPage, status),
+    queryFn: () => getSigleUserAllOrder(currentPage, status),
   });
-};
 
-export const useSingleOrder = (id: string) => {
-  return useQuery<IApiResponse<IOrder>>({
+// Query for fetching a single order
+export const useSingleOrder = (id: string) =>
+  useQuery<IApiResponse<IOrder>>({
     enabled: !!id,
     queryKey: ["user-single-order", id],
-    queryFn: async () => await getSigleOrder(id),
+    queryFn: () => getSigleOrder(id),
   });
-};
 
-export const useAllOrder = (page: number) => {
-  return useQuery<IApiResponse<IOrder[]>>({
+// Query for fetching all orders
+export const useAllOrder = (page: number) =>
+  useQuery<IApiResponse<IOrder[]>>({
     queryKey: ["all-order", page],
-    queryFn: async () => await getAllOrder(page),
+    queryFn: () => getAllOrder(page),
   });
-};
 
-export const useUpdateOrder = () => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return useMutation<any, Error, string, unknown>({
-    mutationFn: async (id: string) => await updateOrder(id),
-    onSuccess: () => {
-      // Invalidate the "get-all-userdata" query to revalidate it
-      queryClient.invalidateQueries({
-        queryKey: ["user-all-order"],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["all-order"],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["pending-order"],
-      });
-    },
+// Mutation for updating an order
+export const useUpdateOrder = () =>
+  useMutation<any, Error, string>({
+    mutationFn: updateOrder,
+    onSuccess: () =>
+      invalidateQueries([
+        "user-all-order",
+        "all-order",
+        "pending-order",
+        "vendorSingleShopOrder",
+        "getUserDashboard",
+      ]),
   });
-};
 
-export const useVendorSingleShopOrders = (status: string, page: number) => {
-  return useQuery<IApiResponse<IOrder[]>>({
+// Query for fetching vendor's single shop orders with filters
+export const useVendorSingleShopOrders = (status: string, page: number) =>
+  useQuery<IApiResponse<IOrder[]>>({
     queryKey: ["vendorSingleShopOrder", status, page],
-    queryFn: async () => await getVendorSingleShopOrders(status, page),
+    queryFn: () => getVendorSingleShopOrders(status, page),
   });
-};
 
-export const usePendingOrder = (page: number) => {
-  return useQuery<IApiResponse<IOrder[]>>({
+// Query for fetching pending orders
+export const usePendingOrder = (page: number) =>
+  useQuery<IApiResponse<IOrder[]>>({
     queryKey: ["pending-order", page],
-    queryFn: async () => await getPendingOrder(page),
+    queryFn: () => getPendingOrder(page),
   });
-};
