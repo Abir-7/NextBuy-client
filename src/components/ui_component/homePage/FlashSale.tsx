@@ -43,7 +43,7 @@ const FlashSale = () => {
         </Button>
       </div>
 
-      <div className="grid mt-2 justify-items-center xxs:grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 xl:grid-cols-9 2xl:grid-cols-10 gap-2 container mx-auto overflow-hidden max-h-[430px] gap-y-5 sm:h-[239px]">
+      <div className="grid mt-2 justify-items-center xxs:grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 xl:grid-cols-9 2xl:grid-cols-10 gap-2 container mx-auto overflow-hidden max-h-[430px] gap-y-5 sm:h-[220px]">
         {dataToDisplay.map((productData, i) => (
           <Card key={i} className="w-32 h-fit m-0 p-0">
             <CardHeader className="mb-0 pb-0 px-0 py-0">
@@ -74,7 +74,7 @@ const FlashSale = () => {
               </p>
               <p className="flex gap-4">
                 <span className="line-through text-gray-500">
-                  ${productData.product.price} Tk
+                  ${productData.product.price.toFixed(2)} Tk
                 </span>
                 <span className="text-green-500">
                   {productData.discount}% off

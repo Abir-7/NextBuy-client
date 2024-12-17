@@ -80,8 +80,8 @@ export const useAllProduct = (
 ) => {
   return useQuery<IApiResponse<IProduct[]>>({
     queryKey: ["all-product", searchTerm, categoryId, sortCriteria, page],
-    queryFn: () => allProduct({ searchTerm, categoryId, sortCriteria, page }),
-    retry: true,
+    queryFn: async () =>
+      await allProduct({ searchTerm, categoryId, sortCriteria, page }),
   });
 };
 

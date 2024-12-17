@@ -25,6 +25,7 @@ const Products = () => {
   const [hasMore, setHasMore] = useState(true);
 
   const { data: { data: categories } = {} } = useAllCategory();
+
   const { data, isLoading, promise } = useAllProduct(
     debouncedSearchTerm || "",
     categoryId || "",
@@ -32,6 +33,7 @@ const Products = () => {
     page || 1
   );
   console.log(promise);
+
   useEffect(() => {
     setAllProducts([]);
   }, [categoryId, sortCriteria]);

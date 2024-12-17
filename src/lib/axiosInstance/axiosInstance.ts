@@ -3,32 +3,36 @@ import { logout } from "@/services/authService";
 import axios from "axios";
 import { cookies } from "next/headers";
 
+// Create Axios instance with base configuration
 const axiosInstance = axios.create({
   baseURL: config.backendApi,
 });
 
+// Request interceptor to attach Authorization token
 axiosInstance.interceptors.request.use(
-  async function (config) {
+  async (config) => {
     const accessToken = (await cookies()).get("accessToken")?.value;
     if (accessToken) {
-      config.headers.Authorization = accessToken;
+      config.headers = config.headers || {}; // Ensure headers object exists
+      config.headers.Authorization = `Bearer ${accessToken}`;
     }
     return config;
   },
-  function (error) {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error) // Forward request errors
 );
 
+// Response interceptor to handle 401 errors
 axiosInstance.interceptors.response.use(
-  function (response) {
-    return response;
-  },
-  async function (error) {
-    if (error.response && error.response.status === 401) {
-      await logout();
+  (response) => response, // Simply return response if successful
+  async (error) => {
+    if (error.response?.status === 401) {
+      try {
+        await logout(); // Perform logout on 401 Unauthorized
+      } catch (logoutError) {
+        console.error("Error during logout:", logoutError);
+      }
     }
-    return Promise.reject(error);
+    return Promise.reject(error); // Forward error for further handling
   }
 );
 

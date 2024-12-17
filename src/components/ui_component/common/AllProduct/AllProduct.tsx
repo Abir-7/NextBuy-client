@@ -38,13 +38,16 @@ const AllProduct = ({ data }: { data: IProduct[] }) => {
     <div className="container mx-auto mt-2">
       {" "}
       {/* product section */}
-      <div className="grid gap-3 gap-y-5 justify-items-center  xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 mb-5  2xl:grid-cols-6">
+      <div className="grid gap-3 gap-y-5 justify-items-center  xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 mb-5  2xl:grid-cols-6 mx-1 ">
         {data?.map((option) => (
-          <Card key={option?.productId} className=" xs:w-48 sm:w-64 md:w-60">
+          <Card
+            key={option?.productId}
+            className=" w-full xs:w-48 sm:w-64 md:w-60"
+          >
             <CardHeader className="pb-0">
               <div className="w-full h-36 sm:h-44 md:h-48 overflow-hidden">
                 <Image
-                  className="object-cover h-full"
+                  className="object-cover w-full h-full"
                   width={200}
                   height={200}
                   src={option.images[0]}
