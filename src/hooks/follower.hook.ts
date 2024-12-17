@@ -13,13 +13,13 @@ const invalidateFollowQueries = () => {
 // Mutation for following a shop
 export const useFollowShop = () =>
   useMutation<any, Error, string>({
-    mutationFn: newFollow,
+    mutationFn: async (id: string) => await newFollow(id),
     onSuccess: invalidateFollowQueries,
   });
 
 // Mutation for unfollowing a shop
 export const useUnfollowShop = () =>
   useMutation<any, Error, string>({
-    mutationFn: removeFollow,
+    mutationFn: async (id: string) => await removeFollow(id),
     onSuccess: invalidateFollowQueries,
   });

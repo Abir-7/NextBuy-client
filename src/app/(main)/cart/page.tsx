@@ -16,7 +16,8 @@ import { useGetShopCupon } from "@/hooks/Cupon.hook";
 
 const CartPage = () => {
   const dispatch = useAppDispatch();
-  const { mutate, isPending } = useMakeOrder();
+  const { mutate, isPending, error } = useMakeOrder();
+  console.log(error);
 
   const {
     cuponId,
@@ -57,6 +58,7 @@ const CartPage = () => {
     };
     mutate(orderRequest, {
       onSuccess: (res) => {
+        console.log(res, "cart");
         toast.success("Redirecting to payment page...");
         const payLink = res?.data?.payLink;
         // If payLink exists, redirect the user to the payment page

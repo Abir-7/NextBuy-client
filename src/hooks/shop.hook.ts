@@ -23,7 +23,7 @@ const invalidateQueries = (queryKeys: string[]) => {
 
 export const useAddShop = () =>
   useMutation<any, Error, FieldValues>({
-    mutationFn: addVendorShop,
+    mutationFn: async (data) => await addVendorShop(data),
     onSuccess: () => {
       invalidateQueries(["vendorShop", "allVendorShop"]);
     },
@@ -32,31 +32,31 @@ export const useAddShop = () =>
 export const useVendorShop = () =>
   useQuery<IApiResponse<IShop[]>>({
     queryKey: ["vendorShop"],
-    queryFn: getVendorShop,
+    queryFn: async () => await getVendorShop(),
   });
 
 export const useVendorSingleShop = (id?: string, page?: number) =>
   useQuery<IApiResponse<IShop>>({
     enabled: !!id,
     queryKey: ["vendorShopSingle", id, page],
-    queryFn: () => getVendorSingleShop(id!, page!),
+    queryFn: async () => await getVendorSingleShop(id!, page!),
   });
 
 export const useAllVendorShop = (page: number, searchTerm: string) =>
   useQuery<IApiResponse<IShop[]>>({
     queryKey: ["allVendorShop", page, searchTerm],
-    queryFn: () => getAllVendorShop(page, searchTerm),
+    queryFn: async () => await getAllVendorShop(page, searchTerm),
   });
 
 export const useSingleVendorShopWithAllProduct = (id: string, page: number) =>
   useQuery<IApiResponse<IShop>>({
     queryKey: ["singleVendorWithAllProduct", id, page],
-    queryFn: () => getSingleVendorWithAllProduct(id, page),
+    queryFn: async () => await getSingleVendorWithAllProduct(id, page),
   });
 
 export const useBlockShop = () =>
   useMutation<any, Error, string>({
-    mutationFn: blockVendorShop,
+    mutationFn: async (id) => await blockVendorShop(id),
     onSuccess: () => {
       invalidateQueries([
         "all-product",

@@ -38,14 +38,14 @@ export const useAllCategory2 = () => {
 export const useAllCategoryDashboard = () => {
   return useQuery<IApiResponse<ICategory[]>>({
     queryKey: ["allCategoryDashboard"],
-    queryFn: getAllCategory,
+    queryFn: async () => await getAllCategory(),
   });
 };
 
 // Mutation hook for adding a category
 export const useAddCategory = () => {
   return useMutation<any, Error, string, void>({
-    mutationFn: addCategory,
+    mutationFn: async (data) => await addCategory(data),
     onSuccess: invalidateCategoryQueries,
   });
 };
@@ -53,7 +53,7 @@ export const useAddCategory = () => {
 // Mutation hook for updating a category
 export const useUpdateCategory = () => {
   return useMutation<any, Error, { id: string; name: string }, void>({
-    mutationFn: ({ id, name }) => updateCategory(id, name),
+    mutationFn: async ({ id, name }) => await updateCategory(id, name),
     onSuccess: invalidateCategoryQueries,
   });
 };
@@ -61,7 +61,7 @@ export const useUpdateCategory = () => {
 // Mutation hook for deleting a category
 export const useDeleteCategory = () => {
   return useMutation<any, Error, string, void>({
-    mutationFn: deleteCategory,
+    mutationFn: async (id: string) => await deleteCategory(id),
     onSuccess: invalidateCategoryQueries,
   });
 };

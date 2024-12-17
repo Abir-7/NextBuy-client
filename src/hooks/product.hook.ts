@@ -23,7 +23,7 @@ const invalidateQueries = (keys: string[]) => {
 // Add Product Mutation
 export const useAddProduct = () => {
   return useMutation<any, Error, FieldValues>({
-    mutationFn: addProduct,
+    mutationFn: async (data: FieldValues) => await addProduct(data),
     onSuccess: () => {
       invalidateQueries([
         "vendorShopSingle",
@@ -38,7 +38,7 @@ export const useAddProduct = () => {
 // Clone Product Mutation
 export const useCloneProduct = () => {
   return useMutation<any, Error, FieldValues>({
-    mutationFn: cloneProduct,
+    mutationFn: async (data: FieldValues) => await cloneProduct(data),
     onSuccess: () =>
       invalidateQueries([
         "vendorShopSingle",
@@ -52,7 +52,7 @@ export const useCloneProduct = () => {
 // Update Product Mutation
 export const useUpdateProduct = () => {
   return useMutation<any, Error, { data: FieldValues; id: string }>({
-    mutationFn: ({ data, id }) => updateProduct({ data, id }),
+    mutationFn: async ({ data, id }) => await updateProduct({ data, id }),
     onSuccess: () =>
       invalidateQueries([
         "vendorShopSingle",
@@ -66,7 +66,7 @@ export const useUpdateProduct = () => {
 // Delete Product Mutation
 export const useDeleteProduct = () => {
   return useMutation<any, Error, string>({
-    mutationFn: deleteProduct,
+    mutationFn: async (id) => await deleteProduct(id),
     onSuccess: () => invalidateQueries(["vendorShopSingle"]),
   });
 };
@@ -94,7 +94,8 @@ export const useAllProduct2 = (
 ) => {
   return useQuery<IApiResponse<IProduct[]>>({
     queryKey: ["all-products", searchTerm, categoryId, sortCriteria, page],
-    queryFn: () => allProduct({ searchTerm, categoryId, sortCriteria, page }),
+    queryFn: async () =>
+      await allProduct({ searchTerm, categoryId, sortCriteria, page }),
   });
 };
 
@@ -103,7 +104,7 @@ export const useSingleProduct = (id: string) => {
   return useQuery<IApiResponse<IProduct>>({
     enabled: !!id, // Ensure query runs only if id is provided
     queryKey: ["single-product", id],
-    queryFn: () => singleProduct(id),
+    queryFn: async () => await singleProduct(id),
   });
 };
 
@@ -111,6 +112,6 @@ export const useSingleProduct = (id: string) => {
 export const useFlashProduct = () => {
   return useQuery<IApiResponse<IDiscount[]>>({
     queryKey: ["flash-product"],
-    queryFn: flashProduct,
+    queryFn: async () => await flashProduct(),
   });
 };

@@ -7,7 +7,7 @@ import { FieldValues } from "react-hook-form";
 
 export const useCreateCupon = () => {
   return useMutation<any, Error, FieldValues, unknown>({
-    mutationFn: (data: any) => createCupon(data),
+    mutationFn: async (data: any) => await createCupon(data),
   });
 };
 
@@ -15,6 +15,6 @@ export const useGetShopCupon = (id: string) => {
   return useQuery<IApiResponse<any[]>>({
     enabled: !!id,
     queryKey: ["getShopCupon"],
-    queryFn: () => getShopCupon(id),
+    queryFn: async () => await getShopCupon(id),
   });
 };

@@ -20,18 +20,18 @@ const invalidateQueries = (queryKeys: string[]) => {
 
 export const useAddRating = () =>
   useMutation<any, Error, FieldValues>({
-    mutationFn: addReview,
+    mutationFn: async (data) => await addReview(data),
     onSuccess: () => invalidateQueries(["user-single-order"]),
   });
 
 export const useReplyRating = () =>
   useMutation<any, Error, { id: string; vendorReply: string }>({
-    mutationFn: replyReview,
+    mutationFn: async (data) => await replyReview(data),
     onSuccess: () => invalidateQueries(["get-rating-by-shop"]),
   });
 
 export const useGetReviewByShop = (page: number) =>
   useQuery<IApiResponse<IReview[]>>({
     queryKey: ["get-rating-by-shop", page],
-    queryFn: () => getReviewbyShop(page),
+    queryFn: async () => await getReviewbyShop(page),
   });

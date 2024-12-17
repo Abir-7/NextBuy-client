@@ -11,13 +11,13 @@ import { FieldValues } from "react-hook-form";
 
 export const useUserRegistration = () => {
   return useMutation<any, Error, FieldValues, unknown>({
-    mutationFn: (data: any) => createUser(data),
+    mutationFn: async (data: any) => await createUser(data),
   });
 };
 
 export const useUserlogin = () => {
   return useMutation<any, Error, FieldValues, unknown>({
-    mutationFn: (data: any) => loginUser(data),
+    mutationFn: async (data: any) => await loginUser(data),
   });
 };
 
