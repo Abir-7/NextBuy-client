@@ -12,20 +12,20 @@ import { useQuery } from "@tanstack/react-query";
 export const useGetUserDashboard = () => {
   return useQuery<IApiResponse<IUserDashboardData>>({
     queryKey: ["getUserDashboard"],
-    queryFn: async () => await getUserDashboar(),
+    queryFn: () => getUserDashboar(),
   });
 };
 
 export const useGetVendorDashboard = () => {
   return useQuery<IApiResponse<any>>({
     queryKey: ["getVendorDashboard"],
-    queryFn: async () => await getVendorDashboar(),
+    queryFn: () => getVendorDashboar(),
   });
 };
 
 export const useGetAdminDashboard = () => {
   return useQuery<IApiResponse<any>>({
     queryKey: ["getAdminDashboard"],
-    queryFn: async () => await getAdminDashboar(),
+    queryFn: () => getAdminDashboar(),
   });
 };

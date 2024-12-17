@@ -11,13 +11,13 @@ import { FieldValues } from "react-hook-form";
 
 export const useUserRegistration = () => {
   return useMutation<any, Error, FieldValues, unknown>({
-    mutationFn: async (data: any) => await createUser(data),
+    mutationFn: (data: any) => createUser(data),
   });
 };
 
 export const useUserlogin = () => {
   return useMutation<any, Error, FieldValues, unknown>({
-    mutationFn: async (data: any) => await loginUser(data),
+    mutationFn: (data: any) => loginUser(data),
   });
 };
 
@@ -34,3 +34,16 @@ export const useSetNewPass = () => {
     mutationFn: async (data) => await setNewPass(data),
   });
 };
+
+// export const useUpdatePass = () => {
+//   return useMutation<any, Error, { oldPass: string; newPass: string }>({
+//     mutationKey: ["UPDATE_PASS"],
+//     mutationFn: async (pass) => await changePassword(pass),
+//     onSuccess: () => {
+//       toast.success("Password changed successfuly.");
+//     },
+//     onError: (error) => {
+//       throw new Error(error.message);
+//     },
+//   });
+// };
