@@ -51,7 +51,9 @@ const FlashSale = () => {
                 <span className="line-through">
                   {productData.product.price.toFixed(2)} Tk
                 </span>
-                <span>{productData.discount}%</span>
+                <span className="text-xs text-green-500">
+                  {productData.discount}%
+                </span>
               </p>
             </CardContent>
           </Card>
