@@ -89,7 +89,7 @@ const NavbarUi = () => {
   return (
     <div className="flex  justify-between w-full px-2">
       <div className="text-xl text-white font-bold">
-        <Link href={"/"}>NextBuy</Link>
+        <Link href={"/"}>NextMart</Link>
       </div>
       <div className=" gap-6 hidden md:flex">
         <NavigationMenu>
