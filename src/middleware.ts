@@ -54,16 +54,16 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  //protect product details page
-  if (request.nextUrl.pathname === "/product") {
-    return NextResponse.next();
-  }
+  // //protect product details page
+  // if (request.nextUrl.pathname === "/product") {
+  //   return NextResponse.next();
+  // }
 
-  const productDetailsPattern = /^\/product\/[^/]+$/;
+  // const productDetailsPattern = /^\/product\/[^/]+$/;
 
-  if (user && productDetailsPattern.test(request.nextUrl.pathname)) {
-    return NextResponse.next();
-  }
+  // if (user && productDetailsPattern.test(request.nextUrl.pathname)) {
+  //   return NextResponse.next();
+  // }
   //default
   return NextResponse.redirect(new URL("/login", request.url));
 }
@@ -75,6 +75,6 @@ export const config = {
     "/admin/:path*",
     "/login",
     "/cart",
-    "/product/:path*",
+    // "/product/:path*",
   ],
 };
