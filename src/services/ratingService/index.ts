@@ -4,10 +4,6 @@
 import axiosInstance from "@/lib/axiosInstance/axiosInstance";
 import { FieldValues } from "react-hook-form";
 
-const handleError = (error: any) => {
-  throw new Error(error?.response?.data?.message || error?.message || error);
-};
-
 export const addReview = async (data: FieldValues) => {
   try {
     const res = await axiosInstance.post(`/rating/add-rating`, {
@@ -15,7 +11,7 @@ export const addReview = async (data: FieldValues) => {
     });
     return res?.data;
   } catch (error: any) {
-    handleError(error);
+    throw new Error(error?.response?.data?.message || error?.message || error);
   }
 };
 
@@ -27,7 +23,11 @@ export const replyReview = async (data: {
     const res = await axiosInstance.patch(`/rating/reply`, data); // Adjusted payload structure
     return res?.data;
   } catch (error: any) {
-    handleError(error);
+    throw new Error(
+      error?.response?.data?.message ||
+        error?.message ||
+        "Unknown error occurred"
+    );
   }
 };
 
@@ -38,6 +38,6 @@ export const getReviewbyShop = async (page: number) => {
     });
     return res?.data;
   } catch (error: any) {
-    handleError(error);
+    throw new Error(error?.response?.data?.message || error?.message || error);
   }
 };

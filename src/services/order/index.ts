@@ -2,17 +2,14 @@
 "use server";
 import axiosInstance from "@/lib/axiosInstance/axiosInstance";
 
-const handleError = (error: any) => {
-  throw new Error(error?.response?.data?.message || error?.message || error);
-};
-
 export const makePayment = async (data: any) => {
   try {
     const res = await axiosInstance.post(`/order/make-payment`, data);
 
     return res?.data;
   } catch (error: any) {
-    handleError(error);
+    console.log(error);
+    throw new Error(error?.response?.data?.message || error?.message || error);
   }
 };
 
@@ -30,7 +27,7 @@ export const getSigleUserAllOrder = async (
 
     return res?.data;
   } catch (error: any) {
-    handleError(error);
+    throw new Error(error?.response?.data?.message || error?.message || error);
   }
 };
 
@@ -40,7 +37,7 @@ export const getSigleOrder = async (id: string) => {
 
     return res?.data;
   } catch (error: any) {
-    handleError(error);
+    throw new Error(error?.response?.data?.message || error?.message || error);
   }
 };
 
@@ -54,7 +51,7 @@ export const getAllOrder = async (page: number) => {
 
     return res?.data;
   } catch (error: any) {
-    handleError(error);
+    throw new Error(error?.response?.data?.message || error?.message || error);
   }
 };
 export const getPendingOrder = async (page: number) => {
@@ -67,7 +64,7 @@ export const getPendingOrder = async (page: number) => {
 
     return res?.data;
   } catch (error: any) {
-    handleError(error);
+    throw new Error(error?.response?.data?.message || error?.message || error);
   }
 };
 
@@ -77,6 +74,6 @@ export const updateOrder = async (id: string) => {
 
     return res?.data;
   } catch (error: any) {
-    handleError(error);
+    throw new Error(error?.response?.data?.message || error?.message || error);
   }
 };

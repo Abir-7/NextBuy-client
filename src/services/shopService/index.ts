@@ -4,10 +4,6 @@
 import axiosInstance from "@/lib/axiosInstance/axiosInstance";
 import { FieldValues } from "react-hook-form";
 
-const handleError = (error: any) => {
-  throw new Error(error?.response?.data?.message || error?.message || error);
-};
-
 export const getAllVendorShop = async (page: number, searchTerm: string) => {
   try {
     const res = await axiosInstance.get(`/shop/get-all-shop`, {
@@ -19,7 +15,7 @@ export const getAllVendorShop = async (page: number, searchTerm: string) => {
 
     return res?.data;
   } catch (error: any) {
-    handleError(error);
+    throw new Error(error?.response?.data?.message || error?.message || error);
   }
 };
 export const getSingleVendorWithAllProduct = async (
@@ -36,7 +32,7 @@ export const getSingleVendorWithAllProduct = async (
 
     return res?.data;
   } catch (error: any) {
-    handleError(error);
+    throw new Error(error?.response?.data?.message || error?.message || error);
   }
 };
 
@@ -46,7 +42,7 @@ export const getVendorShop = async () => {
 
     return res?.data;
   } catch (error: any) {
-    handleError(error);
+    throw new Error(error?.response?.data?.message || error?.message || error);
   }
 };
 export const getVendorSingleShop = async (id: string, page: number) => {
@@ -59,7 +55,7 @@ export const getVendorSingleShop = async (id: string, page: number) => {
 
     return res?.data;
   } catch (error: any) {
-    handleError(error);
+    throw new Error(error?.response?.data?.message || error?.message || error);
   }
 };
 export const getVendorSingleShopOrders = async (
@@ -76,7 +72,7 @@ export const getVendorSingleShopOrders = async (
 
     return res?.data;
   } catch (error: any) {
-    handleError(error);
+    throw new Error(error?.response?.data?.message || error?.message || error);
   }
 };
 
@@ -86,7 +82,7 @@ export const addVendorShop = async (data: FieldValues) => {
 
     return res?.data;
   } catch (error: any) {
-    handleError(error);
+    throw new Error(error?.response?.data?.message || error?.message || error);
   }
 };
 
@@ -95,6 +91,6 @@ export const blockVendorShop = async (id: string) => {
     const res = await axiosInstance.patch(`/shop/block-shop/${id}`);
     return res?.data;
   } catch (error: any) {
-    handleError(error);
+    throw new Error(error?.response?.data?.message || error?.message || error);
   }
 };
