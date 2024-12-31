@@ -1,3 +1,4 @@
+"use client";
 import UserProfile from "@/components/ui_component/common/UserProfile/UserProfile";
 import { useGetUserInfo } from "@/hooks/user.hook";
 import React from "react";
