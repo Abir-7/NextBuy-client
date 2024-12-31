@@ -23,6 +23,7 @@ const SignupPage = () => {
       onSuccess: async (data) => {
         const decode = (await jwtDecode(data?.data as string)) as IUserToken;
         toast.success("User has been created");
+        auth?.setIsLoading(true);
         if (decode?.role === "VENDOR") {
           auth?.setIsLoading(true);
           router.push(`/${(decode?.role as string).toLowerCase()}/manage-shop`);
@@ -30,8 +31,7 @@ const SignupPage = () => {
           router.push("/login");
         }
       },
-      onError: (error) => {
-        console.log(error);
+      onError: () => {
         toast.success("Something Went Wrong");
       },
     });

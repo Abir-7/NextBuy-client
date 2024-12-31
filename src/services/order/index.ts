@@ -8,7 +8,6 @@ export const makePayment = async (data: any) => {
 
     return res?.data;
   } catch (error: any) {
-    console.log(error);
     throw new Error(error?.response?.data?.message || error?.message || error);
   }
 };

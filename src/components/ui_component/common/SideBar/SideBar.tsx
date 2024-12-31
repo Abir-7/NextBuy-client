@@ -23,6 +23,7 @@ import {
   ShoppingCartIcon,
   ChartNoAxesGanttIcon,
   MessageCircleHeartIcon,
+  UserCircle2,
 } from "lucide-react";
 import Link from "next/link";
 import { useContext } from "react";
@@ -47,6 +48,12 @@ const items = [
     child: [
       { url: "/admin/manage-user", title: "Manage User", icon: Settings },
     ],
+  },
+  {
+    title: "My Profile",
+    url: "/admin/my-profile",
+    icon: UserCircle2,
+    roles: ["ADMIN", "SUPERADMIN"],
   },
   {
     title: "Shop Management",
@@ -91,6 +98,13 @@ const items = [
     roles: ["VENDOR"],
   },
   {
+    title: "My Profile",
+    url: "/vendor/my-profile",
+    icon: UserCircle2,
+    roles: ["VENDOR"],
+  },
+
+  {
     title: "Shop Management",
     roles: ["VENDOR"],
     child: [
@@ -125,6 +139,12 @@ const items = [
     title: "Dashboard",
     url: "/customer/dashboard",
     icon: Database,
+    roles: ["CUSTOMER"],
+  },
+  {
+    title: "My Profile",
+    url: "/customer/my-profile",
+    icon: UserCircle2,
     roles: ["CUSTOMER"],
   },
   {

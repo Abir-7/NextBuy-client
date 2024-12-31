@@ -15,7 +15,8 @@ const Page = () => {
 
   return (
     <div>
-      <AllProduct data={recentProducts} />
+      <h1 className="text-xl font-semibold px-2 my-2">Recently Viewed</h1>
+      {recentProducts.length > 0 ? <AllProduct data={recentProducts} /> : <></>}
     </div>
   );
 };

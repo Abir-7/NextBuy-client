@@ -22,6 +22,14 @@ export const getAllUser = async (
     throw new Error(error?.response?.data?.message || error?.message || error);
   }
 };
+export const getUserInfo = async () => {
+  try {
+    const res = await axiosInstance.get(`/user/user-image`);
+    return res?.data;
+  } catch (error: any) {
+    throw new Error(error?.response?.data?.message || error?.message || error);
+  }
+};
 
 export const blockUser = async (id: string) => {
   try {

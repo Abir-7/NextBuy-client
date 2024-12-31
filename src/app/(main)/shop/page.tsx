@@ -10,7 +10,7 @@ import { useAllVendorShop } from "@/hooks/shop.hook";
 import { DynamicPagination } from "@/components/ui_component/common/Pagination/DynamicPagination";
 import SearchInput from "@/components/ui_component/common/searchSortFilter/SearchInput";
 import useDebounce from "@/lib/utils/useDebounce";
-
+import { format } from "date-fns";
 const ShopList = () => {
   // const res = await fetch(`${config.backendApi}/shop/get-all-shop`, {
   //   cache: "no-store",
@@ -66,7 +66,15 @@ const ShopList = () => {
                       <div className="p-4">
                         <h2 className="text-lg font-semibold">{shop.name}</h2>
                         <p className="text-sm text-gray-500">{shop.location}</p>
-                        <div className="flex justify-end">
+                        <p className="text-sm text-gray-500">
+                          Joined:{" "}
+                          {format(new Date(shop.createdAt), "MMMM dd, yyyy")}
+                        </p>
+                        <div className="flex justify-between">
+                          <p className="text-sm gap-1 flex items-center font-medium">
+                            <span> Products: </span>{" "}
+                            <span>{shop.products?.length}</span>
+                          </p>
                           <p className="text-sm flex items-center font-medium">
                             <span>
                               {!!shop.followers?.length

@@ -27,9 +27,9 @@ const Page = () => {
   const { data: { data: category } = {} } = useAllCategory2();
   const [page, setPage] = useState(1);
 
-  const { data, isLoading, isFetching } = useAllProduct2(
+  const { data, isFetching } = useAllProduct2(
     debouncedSearchTerm || "",
-    categoryId || "",
+    categoryId == "reset" ? "" : categoryId || "",
     sortCriteria || "",
     page || 1
   );
@@ -47,7 +47,6 @@ const Page = () => {
     }
   }, [storedCategoryId, setCategoryId, dispatch]);
 
-  console.log(isFetching, isLoading);
   if (isFetching) {
     return (
       <div className="flex justify-center items-center h-40">

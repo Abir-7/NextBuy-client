@@ -48,6 +48,17 @@ export const allProduct = async ({
     handleError(error);
   }
 };
+// Fetch seatch Products
+export const searchProduct = async ({ searchTerm }: { searchTerm: string }) => {
+  try {
+    const res = await axiosInstance.get(`/product/search`, {
+      params: { searchTerm },
+    });
+    return res.data;
+  } catch (error) {
+    handleError(error);
+  }
+};
 
 // Fetch Single Product
 export const singleProduct = async (id: string) => {

@@ -11,7 +11,6 @@ import { useUpdatePass } from "@/hooks/user.hook";
 const ChangePass = () => {
   const { mutate, isPending } = useUpdatePass();
   const onFromSubmit = async (data: FieldValues) => {
-    console.log(data);
     if (data.password !== data.cPassword) {
       toast.error("Password not matched.");
     } else {

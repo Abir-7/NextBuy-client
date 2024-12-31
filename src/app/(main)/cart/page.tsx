@@ -16,8 +16,7 @@ import { useGetShopCupon } from "@/hooks/Cupon.hook";
 
 const CartPage = () => {
   const dispatch = useAppDispatch();
-  const { mutate, isPending, error } = useMakeOrder();
-  console.log(error);
+  const { mutate, isPending } = useMakeOrder();
 
   const {
     cuponId,
@@ -58,7 +57,6 @@ const CartPage = () => {
     };
     mutate(orderRequest, {
       onSuccess: (res) => {
-        console.log(res, "cart");
         toast.success("Redirecting to payment page...");
         const payLink = res?.data?.payLink;
         // If payLink exists, redirect the user to the payment page
@@ -68,8 +66,7 @@ const CartPage = () => {
           toast.error("Failed to retrieve payment link.");
         }
       },
-      onError: (error) => {
-        console.log(error);
+      onError: () => {
         toast.error("Failed to make order.");
       },
     });
@@ -167,20 +164,22 @@ const CartPage = () => {
             </Button>
             <div className="mt-4 grid justify-items-center">
               <p className="mb-1 font-medium">Available Cupon</p>
-              {data?.data.map((code) => (
-                <>
-                  {cartItems.length > 0 && (
-                    <Button
-                      key={code.id}
-                      disabled={code.id === cuponId}
-                      onClick={() => applyCupon(code.discount, code.id)}
-                    >
-                      {" "}
-                      Code: &quot;{code.code}&quot; Discount: {code.discount}%{" "}
-                    </Button>
-                  )}
-                </>
-              ))}
+              <div className="grid gap-2">
+                {" "}
+                {data?.data.map((code) => (
+                  <div key={code.id}>
+                    {cartItems.length > 0 && (
+                      <Button
+                        disabled={code.id === cuponId}
+                        onClick={() => applyCupon(code.discount, code.id)}
+                      >
+                        {" "}
+                        Code: &quot;{code.code}&quot; Discount: {code.discount}%{" "}
+                      </Button>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

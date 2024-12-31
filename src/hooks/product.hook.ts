@@ -9,6 +9,7 @@ import {
   cloneProduct,
   deleteProduct,
   flashProduct,
+  searchProduct,
   singleProduct,
   updateProduct,
 } from "@/services/product";
@@ -69,6 +70,12 @@ export const useAllProduct = (
       await allProduct({ searchTerm, categoryId, sortCriteria, page }),
     refetchOnMount: true, // Refetch data when the component mounts
     refetchOnWindowFocus: true, // Optional: Refetch when the window regains focus
+  });
+};
+export const useAllProductNavsearch = (searchTerm: string) => {
+  return useQuery<IApiResponse<IProduct[]>>({
+    queryKey: [searchTerm],
+    queryFn: async () => await searchProduct({ searchTerm }),
   });
 };
 

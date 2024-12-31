@@ -7,15 +7,28 @@
 //   };
 
 import { IApiResponse } from "@/interface/apiResponse.interface";
-import { IUser } from "@/interface/user.interface";
+import { ICustomer, IUser } from "@/interface/user.interface";
 import { queryClient } from "@/providers/Provider";
-import { blockUser, deleteUser, getAllUser, updatePass } from "@/services/user";
+import {
+  blockUser,
+  deleteUser,
+  getAllUser,
+  getUserInfo,
+  updatePass,
+} from "@/services/user";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 export const useGetAllUser = (search: string, block: string, page: number) => {
   return useQuery<IApiResponse<IUser[]>>({
     queryKey: ["get-all-userdata", search, block, page],
     queryFn: async () => await getAllUser(search, block, page),
+  });
+};
+
+export const useGetUserInfo = () => {
+  return useQuery<IApiResponse<ICustomer & { user: { role: string } }>>({
+    queryKey: ["user-data"],
+    queryFn: async () => await getUserInfo(),
   });
 };
 

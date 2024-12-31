@@ -26,13 +26,12 @@ const Products = () => {
 
   const { data: { data: categories } = {} } = useAllCategory();
 
-  const { data, isLoading, promise } = useAllProduct(
+  const { data, isLoading } = useAllProduct(
     debouncedSearchTerm || "",
     categoryId || "",
     sortCriteria || "",
     page || 1
   );
-  console.log(promise);
 
   useEffect(() => {
     setAllProducts([]);
