@@ -28,7 +28,7 @@ const ChangePass = () => {
     }
   };
   return (
-    <div className="flex p-4">
+    <div className="flex ">
       {" "}
       <Modalbox title="Change Password" btnText="Change Password">
         <CForm onFromSubmit={onFromSubmit}>

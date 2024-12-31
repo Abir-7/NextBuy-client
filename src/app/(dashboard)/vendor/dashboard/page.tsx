@@ -1,6 +1,5 @@
 "use client";
 
-import ChangePass from "@/components/ui_component/common/ChangePassword/ChangePass";
 import { useGetVendorDashboard } from "@/hooks/dashboard";
 import React from "react";
 
@@ -65,7 +64,6 @@ const Dashboard = () => {
           <p className="text-2xl font-bold">{totalEarnings} Tk</p>
         </div>
       </div>
-      <ChangePass></ChangePass>
     </div>
   );
 };

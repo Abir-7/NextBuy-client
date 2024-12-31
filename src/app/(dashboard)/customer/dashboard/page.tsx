@@ -1,6 +1,5 @@
 "use client";
 
-import ChangePass from "@/components/ui_component/common/ChangePassword/ChangePass";
 import { useGetUserDashboard } from "@/hooks/dashboard"; // Assuming you have this hook implemented
 import React from "react";
 import {
@@ -40,7 +39,7 @@ const Dashboard = () => {
 
   return (
     <div>
-      <div className="dashboard-container p-6 bg-gray-100 min-h-screen">
+      <div className="dashboard-container p-6  ">
         <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
           Customer Dashboard
         </h1>
@@ -144,9 +143,6 @@ const Dashboard = () => {
             </p>
           </div>
         </div>
-      </div>
-      <div>
-        <ChangePass></ChangePass>
       </div>
     </div>
   );

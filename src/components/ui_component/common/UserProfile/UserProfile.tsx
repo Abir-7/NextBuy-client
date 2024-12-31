@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import React from "react";
 import { FaEnvelope, FaMapMarkerAlt, FaPhone } from "react-icons/fa";
+import ChangePass from "../ChangePassword/ChangePass";
 
 const UserProfile = ({ userInfo }: { userInfo: any }) => {
   const { name, email, address, mobile, image, user } = userInfo;
@@ -35,7 +36,8 @@ const UserProfile = ({ userInfo }: { userInfo: any }) => {
           <span className="text-gray-700">{address || "N/A"}</span>
         </div>
       </div>
-      <div className="flex justify-end p-6 border-t">
+      <div className="flex justify-end p-6 gap-2 border-t">
+        <ChangePass></ChangePass>
         <Button variant="outline" className="mr-2">
           Edit Profile
         </Button>
