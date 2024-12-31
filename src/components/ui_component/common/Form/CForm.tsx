@@ -1,19 +1,30 @@
 "use client";
 import React, { ReactNode } from "react";
-import { useForm, FormProvider, FieldValues } from "react-hook-form";
+import {
+  useForm,
+  FormProvider,
+  FieldValues,
+  DefaultValues,
+} from "react-hook-form";
 
-interface FormProps {
+interface FormProps<T extends FieldValues> {
   children: ReactNode;
-  onFromSubmit: (data: FieldValues) => Promise<void>;
+  onFromSubmit: (data: T) => Promise<void>;
+  defaultValues?: DefaultValues<T>;
 }
 
-const CForm = ({ children, onFromSubmit }: FormProps) => {
-  const methods = useForm();
-  const onSubmit = async (data: FieldValues) => {
-    await onFromSubmit(data);
+const CForm = <T extends FieldValues>({
+  children,
+  onFromSubmit,
+  defaultValues,
+}: FormProps<T>) => {
+  const methods = useForm<T>({ defaultValues });
 
-    methods.reset();
+  const onSubmit = async (data: T) => {
+    await onFromSubmit(data);
+    methods.reset(defaultValues); // Reset form to default values after submission
   };
+
   return (
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onSubmit)}>{children}</form>

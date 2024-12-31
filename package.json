@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+ "clean:export": "rimraf .next/export",
+  "export": "npm run clean:export && next export"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.2",
